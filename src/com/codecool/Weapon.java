@@ -1,13 +1,12 @@
 package com.codecool;
 
-public class Weapon{
-    protected String name;
+public class Weapon extends Items{
     protected int strength;
     protected int durability;
 
 
     public Weapon(String name, int strength, int durability){
-        this.name = name;
+        super(name);
         this.strength = strength;
         this.durability = durability;
     }
