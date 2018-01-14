@@ -1,4 +1,5 @@
 package com.codecool;
+import java.util.Random;
 
 public class School extends Location {
     protected Items[] scarvangable;
