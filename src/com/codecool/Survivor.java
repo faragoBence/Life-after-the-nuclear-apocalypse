@@ -1,46 +1,66 @@
 package com.codecool;
 
-public class Survivor{
+public class Survivor {
     protected String name;
     protected int actionPoints;
     protected int hungerLevel;
     protected int health;
     protected int radiationLevel;
-    
-    public Survivor(String name,int actionPoints,int hungerLevel,int health, int radiationLevel){
+    protected String currentLocation;
+
+    public Survivor(String name, int actionPoints, int hungerLevel, int health, int radiationLevel,
+            String currentLocation) {
         this.name = name;
         this.actionPoints = actionPoints;
-        this.hungerLevel= hungerLevel;
+        this.hungerLevel = hungerLevel;
         this.health = health;
         this.radiationLevel = radiationLevel;
+        this.currentLocation = currentLocation;
     }
-    public String getName(){
+
+    public String getName() {
         return name;
     }
-    public int getActionPoints(){
+
+    public int getActionPoints() {
         return actionPoints;
     }
-    public void setActionPoints(int value){
+
+    public void setActionPoints(int value) {
         actionPoints += value;
     }
-    public int getHungerLevel(){
+
+    public int getHungerLevel() {
         return hungerLevel;
     }
-    public void setHungerLevel(int value){
+
+    public void setHungerLevel(int value) {
         hungerLevel += value;
     }
-    public int getHealth(){
+
+    public int getHealth() {
         return health;
     }
-    public void setHealth(int value){
+
+    public void setHealth(int value) {
         health += value;
     }
-    public int getRadiationLevel(){
+
+    public int getRadiationLevel() {
         return radiationLevel;
     }
-    public void setRadiationLevel(int value){
+
+    public void setRadiationLevel(int value) {
         radiationLevel += value;
     }
 
+    public String getCurrentLocation() {
+        return currentLocation;
+    }
 
+    public void setCurrentLocation(String loc) {
+        currentLocation = loc;
+    }
+
+    
 }
