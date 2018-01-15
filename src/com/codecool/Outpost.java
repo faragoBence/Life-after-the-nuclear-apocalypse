@@ -1,36 +1,37 @@
 package com.codecool;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
 public class Outpost {
     Survivor[] survivors;
-    Food[] foods;
-    Medicine[] medicines;
-    Weapon[] weapons;
+    Items[] inventory;
 
-    public Outpost(Survivor[] survivors, Food[] foods, Medicine[] medicines, Weapon[] weapons) {
+    public Outpost(Survivor[] survivors, Items[] inventory) {
         this.survivors = survivors;
-        this.foods = foods;
-        this.medicines = medicines;
-        this.weapons = weapons;
+        this.inventory = inventory;
     }
 
-    public Outpost(String survivorsPath, String foodsPath, String medicinesPath, String weaponsPath)
-            throws FileNotFoundException {
+    public Outpost(String survivorsPath, String[] paths) throws FileNotFoundException {
         this.survivors = SurvivorReading(survivorsPath);
-        this.foods = FoodReading(foodsPath);
-        this.medicines = MedicineReading(medicinesPath);
-        this.weapons = WeaponReading(weaponsPath);
+        this.inventory = ItemReading(paths);
     }
 
-    static Outpost createOutpost() {
-        return Outpost("../data/survivors.csv", "../data/foods.csv", "../data/medicines.csv", "../data/weapons.csv");
+    static Outpost createOutpost() throws FileNotFoundException {
+        String[] paths = new String[] { "../data/foods.csv", "../data/medicines.csv", "../data/weapons.csv" };
+        return new Outpost("../data/survivors.csv", paths);
 
     }
 
     public int lineCounter(String CSVPath) {
         int cnt = 0;
-        String line = null;
         try (BufferedReader reader = new BufferedReader(new FileReader(CSVPath))) {
-            while ((line = reader.readLine()) != null) {
+            while ((reader.readLine()) != null) {
                 cnt++;
             }
             reader.close();
@@ -38,8 +39,8 @@ public class Outpost {
             ioe.printStackTrace();
         }
         return cnt;
-
     }
+    //Create the Survivors and items for file reading.
 
     public Survivor createSurvivor(String[] attrib) {
         return new Survivor(attrib[0], Integer.parseInt(attrib[1]), Integer.parseInt(attrib[2]),
@@ -57,6 +58,8 @@ public class Outpost {
     public Weapon createWeapon(String[] attrib) {
         return new Weapon(attrib[0], Integer.parseInt(attrib[1]), Integer.parseInt(attrib[2]));
     }
+
+    //Reads the datas from file
 
     public Survivor[] SurvivorReading(String CSVPath) throws FileNotFoundException {
         int numOFLines = lineCounter(CSVPath);
@@ -76,103 +79,101 @@ public class Outpost {
         return survivors;
     }
 
-    public Food[] FoodReading(String CSVPath) throws FileNotFoundException {
-        int numOFLines = lineCounter(CSVPath);
+    public Items[] ItemReading(String[] path) throws FileNotFoundException {
+        int numOFLines = 0;
+        for (String csv : path) {
+            numOFLines += lineCounter(csv);
+        }
+        Items[] items = new Items[numOFLines];
         int lineNumber = 0;
-        String line = "";
-        Food[] foods = new Food[numOFLines];
-        try (BufferedReader foodReader = new BufferedReader(new FileReader(CSVPath))) {
-            while ((line = foodReader.readLine()) != null) {
-                String[] attributes = line.split(",");
-                foods[lineNumber] = createFood(attributes);
-                lineNumber++;
+        String line;
+        for (String csv : path) {
+            line = "";
+            try (BufferedReader reader = new BufferedReader(new FileReader(csv))) {
+                while ((line = reader.readLine()) != null) {
+                    String[] attributes = line.split(",");
+                    if (csv.equals(path[0])) {
+                        items[lineNumber] = createFood(attributes);
+                    } else if (csv.equals(path[1])) {
+                        items[lineNumber] = createMedicine(attributes);
+                    } else {
+                        items[lineNumber] = createWeapon(attributes);
+                    }
+
+                    lineNumber++;
+                }
+                reader.close();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
             }
-            foodReader.close();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
         }
-        return foods;
+        return items;
     }
 
-    public Medicine[] MedicineReading(String CSVPath) throws FileNotFoundException {
-        int numOFLines = lineCounter(CSVPath);
-        int lineNumber = 0;
-        String line = "";
-        Medicine[] medicines = new Medicine[numOFLines];
-        try (BufferedReader medicineReader = new BufferedReader(new FileReader(CSVPath))) {
-            while ((line = medicineReader.readLine()) != null) {
-                String[] attributes = line.split(",");
-                medicines[lineNumber] = createMedicine(attributes);
-                lineNumber++;
-            }
-            medicineReader.close();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-        return medicines;
-    }
+    //Add items to the specific arrays.
 
-    public Weapon[] WeaponReading(String CSVPath) throws FileNotFoundException {
-        int numOFLines = lineCounter(CSVPath);
-        int lineNumber = 0;
-        String line = "";
-        Weapon[] weapons = new Weapon[numOFLines];
-        try (BufferedReader weaponReader = new BufferedReader(new FileReader(CSVPath))) {
-            while ((line = weaponReader.readLine()) != null) {
-                String[] attributes = line.split(",");
-                weapons[lineNumber] = createWeapon(attributes);
-                lineNumber++;
-            }
-            weaponReader.close();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+    public void addTo(Items item) {
+        Items[] tempArray = new Items[inventory.length + 1];
+        for (int i = 0; i < inventory.length; i++) {
+            tempArray[i] = inventory[i];
         }
-        return weapons;
-    }
-
-    public void addTo(Food food) {
-        Food[] tempArray = new Food[foods.length + 1];
-        for (int i = 0; i < foods.length; i++) {
-            tempArray[i] = foods[i];
-        }
-        tempArray[tempArray.length - 1] = food;
-        foods = tempArray;
-    }
-
-    public void addTo(Medicine medicine) {
-        Medicine[] tempArray = new Medicine[medicines.length + 1];
-        for (int i = 0; i < medicines.length; i++) {
-            tempArray[i] = medicines[i];
-        }
-        tempArray[tempArray.length - 1] = medicine;
-        medicines = tempArray;
-    }
-
-    public void addTo(Weapon weapon) {
-        Weapon[] tempArray = new Weapon[weapons.length + 1];
-        for (int i = 0; i < weapons.length; i++) {
-            tempArray[i] = weapons[i];
-        }
-        tempArray[tempArray.length - 1] = weapon;
-        weapons = tempArray;
+        tempArray[tempArray.length - 1] = item;
+        inventory = tempArray;
     }
 
     public void addTo(Survivor survivor) {
-        Survivor[] tempArray = Survivor[survivors.length + 1];
+        Survivor[] tempArray = new Survivor[survivors.length + 1];
         for (int i = 0; i < survivors.length; i++) {
             tempArray[i] = survivors[i];
         }
         tempArray[tempArray.length - 1] = survivor;
-        characters = tempArray;
+        survivors = tempArray;
     }
 
-    public Survivor find(String name) {
+    public Survivor findSurvivor(String name) {
         for (Survivor survivor : survivors) {
             if (survivor.getName().equals(name)) {
-                return character;
+                return survivor;
             }
         }
         return null;
+    }
+
+    public Items findItems(String name) {
+        for (int i = 0; i < inventory.length; i++) {
+            if (inventory[i].getName().equals(name)) {
+                return inventory[i];
+            }
+        }
+        return null;
+    }
+
+    public void List(String type) {
+        if (type.equals("Survivor")) {
+            for (int i = 0; i < survivors.length; i++) {
+                System.out.println(survivors[i].getName());
+            }
+        } else {
+            for (int i = 0; i < inventory.length; i++) {
+                System.out.println(inventory[i].getName());
+            }
+        }
+    }
+
+    public void removeItem(String name) {
+        int cnt = 0;
+        for (int i = 0; i < inventory.length; i++) {
+            if (inventory[i].getName().equals(name)) {
+                Items[] copy = new Items[inventory.length - 1];
+                System.arraycopy(inventory, 0, copy, 0, i);
+                System.arraycopy(inventory, i + 1, copy, i, inventory.length - i - 1);
+                inventory = copy;
+                cnt++;
+            }
+        }
+        if (cnt == 0) {
+            System.out.println("No such element in the inventory");
+        }
     }
 
 }
