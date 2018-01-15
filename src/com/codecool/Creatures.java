@@ -5,26 +5,25 @@ public class Creatures {
     protected int health;
     protected int strength;
 
-
-    public Creature(String name, int health, int strength){
+    public Creatures(String name, int health, int strength) {
         this.name = name;
         this.health = health;
         this.strength = strength;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
-    public int getHealth(){
+
+    public int getHealth() {
         return health;
     }
-    public void setHealth(int value){
+
+    public void setHealth(int value) {
         health += value;
     }
-    public int getStrength(){
+
+    public int getStrength() {
         return strength;
     }
 }
-
-
-    
