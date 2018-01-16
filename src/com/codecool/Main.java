@@ -7,16 +7,19 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         Outpost myOutpost = Outpost.createOutpost();
+        Survivor mySurvivor = new Survivor("Jani", 2, 100, 100, 0, 5, "Outpost");
         myOutpost.addTo(new Food("sajt", 20, 35));
-        myOutpost.List("Kecske");
-        if (myOutpost.findItems("sajt") instanceof Food) {
-            System.out.println("Ja fasza");
-        }
+        myOutpost.addTo(new Food("sajt", 20, 35));
+        myOutpost.List("Food");
+
+        myOutpost.List("Inventory");
+
         myOutpost.removeItem("sajt");
-        myOutpost.List("Kecske");
-        int a = (myOutpost.inventory).length;
-        System.out.println(a);
+        myOutpost.List("Food");
+        System.out.println((myOutpost.inventory).length);
         School mySchool = School.createSchool();
         mySchool.listCreatures();
+        mySchool.search(mySurvivor, myOutpost);
+        myOutpost.List("Inventory");
     }
 }
