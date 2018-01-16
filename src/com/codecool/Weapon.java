@@ -20,5 +20,5 @@ public class Weapon extends Items {
 
     public void setDurabillity(int value) {
         durability += value;
-    }
+        }
 }
