@@ -10,6 +10,7 @@ public class Main {
         Survivor mySurvivor = new Survivor("Jani", 2, 100, 100, 0, 5, "Outpost");
         myOutpost.addTo(new Food("sajt", 20, 35));
         myOutpost.addTo(new Food("sajt", 20, 35));
+        myOutpost.addTo(new Weapon("reszelo", 5, 2));
         myOutpost.List("Food");
 
         myOutpost.List("Inventory");

@@ -7,8 +7,9 @@ public class Fight {
     private static Scanner scanner = new Scanner(System.in);
 
     static boolean fighting(Survivor survivor, Creatures enemy, Outpost outpost) {
-        System.out.println("\n"+enemy.getName() + "attacked you");
-        System.out.println("\nhealth: " + enemy.getHealth() + " strength: " + enemy.getStrength());
+        System.out.println("\n"+enemy.getName() + " attacked you");
+        System.out.println("health: " + enemy.getHealth() + " strength: " + enemy.getStrength());
+        System.out.println("\n your health: "+ survivor.getHealth() + "your strength: "+survivor.getStrength());
         boolean won;
         int yourStrength = survivor.getStrength();
         Weapon yourWeapon;
