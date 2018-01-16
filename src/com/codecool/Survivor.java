@@ -6,15 +6,17 @@ public class Survivor {
     protected int hungerLevel;
     protected int health;
     protected int radiationLevel;
+    protected int strength;
     protected String currentLocation;
 
-    public Survivor(String name, int actionPoints, int hungerLevel, int health, int radiationLevel,
+    public Survivor(String name, int actionPoints, int hungerLevel, int health, int radiationLevel,int strength,
             String currentLocation) {
         this.name = name;
         this.actionPoints = actionPoints;
         this.hungerLevel = hungerLevel;
         this.health = health;
         this.radiationLevel = radiationLevel;
+        this.strength = strength;
         this.currentLocation = currentLocation;
     }
 
@@ -36,6 +38,9 @@ public class Survivor {
 
     public void setHungerLevel(int value) {
         hungerLevel += value;
+        if (hungerLevel<1){
+            System.out.println("You are dead");
+        }
     }
 
     public int getHealth() {
@@ -44,6 +49,9 @@ public class Survivor {
 
     public void setHealth(int value) {
         health += value;
+        if (health<1){
+            System.out.println("You are dead");
+        }
     }
 
     public int getRadiationLevel() {
@@ -52,6 +60,9 @@ public class Survivor {
 
     public void setRadiationLevel(int value) {
         radiationLevel += value;
+        if (radiationLevel<1){
+            System.out.println("You are dead");
+        }
     }
 
     public String getCurrentLocation() {
@@ -60,6 +71,9 @@ public class Survivor {
 
     public void setCurrentLocation(String loc) {
         currentLocation = loc;
+    }
+    public int getStrength(){
+        return strength;
     }
 
 }

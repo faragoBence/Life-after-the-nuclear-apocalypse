@@ -44,7 +44,7 @@ public class Outpost {
 
     public Survivor createSurvivor(String[] attrib) {
         return new Survivor(attrib[0], Integer.parseInt(attrib[1]), Integer.parseInt(attrib[2]),
-                Integer.parseInt(attrib[3]), Integer.parseInt(attrib[4]), attrib[5]);
+                Integer.parseInt(attrib[3]), Integer.parseInt(attrib[4]), Integer.parseInt(attrib[5]), attrib[6]);
     }
 
     public Food createFood(String[] attrib) {
@@ -119,6 +119,7 @@ public class Outpost {
         }
         tempArray[tempArray.length - 1] = item;
         inventory = tempArray;
+        System.out.println("\n"+item.getName()+" added to your inventory");
     }
 
     public void addTo(Survivor survivor) {
@@ -128,6 +129,7 @@ public class Outpost {
         }
         tempArray[tempArray.length - 1] = survivor;
         survivors = tempArray;
+        System.out.println("\n" +survivor.getName()+" joined to your outpost");
     }
 
     public Survivor findSurvivor(String name) {
@@ -148,17 +150,64 @@ public class Outpost {
         return null;
     }
 
+    public Food findFood(String name) {
+        for (int i = 0; i < inventory.length; i++) {
+            if (inventory[i].getName().equals(name)&& inventory[i] instanceof Food) {
+                return (Food)inventory[i];
+            }
+        }
+        return null;
+    }
+    public Weapon findWeapon(String name) {
+        for (int i = 0; i < inventory.length; i++) {
+            if (inventory[i].getName().equals(name)&& inventory[i] instanceof Weapon) {
+                return (Weapon)inventory[i];
+            }
+        }
+        return null;
+    }
+    public Medicine findMedicine(String name) {
+        for (int i = 0; i < inventory.length; i++) {
+            if (inventory[i].getName().equals(name) && inventory[i] instanceof Medicine) {
+                return (Medicine)inventory[i];
+            }
+        }
+        return null;
+    }
+
     public void List(String type) {
         if (type.equals("Survivor")) {
             for (int i = 0; i < survivors.length; i++) {
                 System.out.println(survivors[i].getName());
             }
-        } else {
+        } else if  (type.equals("Inventory")){
             for (int i = 0; i < inventory.length; i++) {
                 System.out.println(inventory[i].getName());
             }
+        } else if (type.equals("Weapon")){
+            for (int i = 0; i < inventory.length; i++) {
+                if (inventory[i] instanceof Weapon){
+                    System.out.println(inventory[i].getName());
+                }
+            }
+        } else if (type.equals("Food")){
+            for (int i = 0; i < inventory.length; i++) {
+                if (inventory[i] instanceof Food){
+                    System.out.println(inventory[i].getName());
+                }
+            }
+        } else if (type.equals("Medicine")){
+            for (int i = 0; i < inventory.length; i++) {
+                if (inventory[i] instanceof Medicine){
+                    System.out.println(inventory[i].getName());
+                }
+            }
+        } else {
+            System.out.println("\nWrong input, enter something from the list below");
+            System.out.println("\nSurvivor, Inventory, Weapon, Food, Medicine");
         }
     }
+
 
     public void removeItem(String name) {
         int cnt = 0;
@@ -169,10 +218,11 @@ public class Outpost {
                 System.arraycopy(inventory, i + 1, copy, i, inventory.length - i - 1);
                 inventory = copy;
                 cnt++;
+                System.out.println("\n" +name + "removed from your inventory");
             }
         }
         if (cnt == 0) {
-            System.out.println("No such element in the inventory");
+            System.out.println("\nNo such element in the inventory");
         }
     }
 
