@@ -9,7 +9,7 @@ public class Fight {
     static boolean fighting(Survivor survivor, Creatures enemy, Outpost outpost) {
         System.out.println("\n"+enemy.getName() + " attacked you");
         System.out.println("health: " + enemy.getHealth() + " strength: " + enemy.getStrength());
-        System.out.println("\n your health: "+ survivor.getHealth() + "your strength: "+survivor.getStrength());
+        System.out.println("\nyour health: "+ survivor.getHealth() + " your strength: "+survivor.getStrength());
         boolean won;
         int yourStrength = survivor.getStrength();
         Weapon yourWeapon;
@@ -45,6 +45,7 @@ public class Fight {
             enemy.setHealth(0 - yourStrength);
             if (enemy.getHealth() < 1) {
                 System.out.println("\nCongratulations, you won the fight");
+                System.out.println("\nyour health: "+ survivor.getHealth() + " your strength: "+survivor.getStrength());
                 won = true;
                 break;
             }
