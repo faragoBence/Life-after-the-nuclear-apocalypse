@@ -76,4 +76,15 @@ public class Survivor {
         return strength;
     }
 
+    public void printAttributes(){
+        System.out.println("name = "+getName());
+        System.out.println("action points = "+getActionPoints());
+        System.out.println("hunger = "+getHungerLevel());
+        System.out.println("health = "+getHealth());
+        System.out.println("radiation level = "+getRadiationLevel());
+        System.out.println("strength = "+getStrength());
+        System.out.println("current location = "+getCurrentLocation());
+
+    }
+
 }
