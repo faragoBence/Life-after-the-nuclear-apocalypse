@@ -9,27 +9,29 @@ public class School extends Location {
     }
 
     static Items[] createLootableList() {
-        Medicine firstAidKit = new Medicine("first aid kit", 80, 50);
-        Medicine radX = new Medicine("rad-x", 25, 60);
-        Food apple = new Food("apple", 10, -2);
-        Food corn = new Food("corn", 15, -5);
-        Food langos = new Food("langos", 25, -10);
-        Food chili = new Food("chili", 50, -20);
-        Weapon knife = new Weapon("knife", 10, 3);
-        Weapon chainsaw = new Weapon("chainsaw", 20, 5);
+        Items[] items = new Items[8];
+        items[0] = new Medicine("first aid kit", 80, 50);
+        items[1] = new Medicine("rad-x", 25, 60);
+        items[2] = new Food("apple", 10, -2);
+        items[3] = new Food("corn", 15, -5);
+        items[4] = new Food("langos", 25, -10);
+        items[5] = new Food("chili", 50, -20);
+        items[6] = new Weapon("knife", 10, 3);
+        items[7] = new Weapon("chainsaw", 20, 5);
 
-        return new Items[] { firstAidKit, radX, apple, corn, langos, chili, knife, chainsaw };
+        return items;
 
     }
 
     static public Creatures[] createCreaturesList() {
-        Creatures ghoul = new Creatures("ghoul", 25, 5);
-        Creatures bandit = new Creatures("bandit", 25, 7);
-        Creatures scarvanger = new Creatures("scarvanger", 20, 5);
-        Creatures infestedHound = new Creatures("infested hound", 30, 10);
-        Creatures zombie = new Creatures("zombie", 20, 7);
+        Creatures[] creatures = new Creatures[5];
+        creatures[0]= new Creatures("ghoul", 25, 5);
+        creatures[1] = new Creatures("bandit", 25, 7);
+        creatures[2] = new Creatures("scarvanger", 20, 5);
+        creatures[3] = new Creatures("infested hound", 30, 10);
+        creatures[4] = new Creatures("zombie", 20, 7);
 
-        return new Creatures[] { ghoul, bandit, scarvanger, infestedHound, zombie };
+        return creatures;
     }
 
     static School createSchool() {
@@ -45,11 +47,10 @@ public class School extends Location {
     public void search(Survivor survivor, Outpost outpost) {
         if (survivor.getActionPoints() > 0) {
 
-            
+            survivor.setRadiationLevel(getRadiationLevel());
             Random random = new Random();
             int lootPercent = random.nextInt(100) + 1;
             int enemyPercent = random.nextInt(100) + 1;
-            survivor.setActionPoints(-1);
             Items loot;
             Creatures enemy;
             if (lootPercent < 16) {
