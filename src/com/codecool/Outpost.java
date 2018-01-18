@@ -225,5 +225,14 @@ public class Outpost {
             System.out.println("\nNo such element in the inventory");
         }
     }
+    public void printMenu(){
+        System.out.println("What's your next move?");
+        System.out.println(":create = create new Survivor");
+        System.out.println(":list = List your inentory");
+        System.out.println(":eat = Consume a food");
+        System.out.println(":heal = Use a medicine to heal your wounds");
+        System.out.println(":rest = Action points go to max and you go to the next day");
+
+    }
 
 }
