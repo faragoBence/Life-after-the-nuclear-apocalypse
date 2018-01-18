@@ -7,10 +7,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.util.Scanner;
 
 public class Outpost {
     Survivor[] survivors;
     Items[] inventory;
+    private static Scanner scanner = new Scanner(System.in);
 
     public Outpost(Survivor[] survivors, Items[] inventory) {
         this.survivors = survivors;
@@ -119,7 +121,7 @@ public class Outpost {
         }
         tempArray[tempArray.length - 1] = item;
         inventory = tempArray;
-        System.out.println("\n"+item.getName()+" added to your inventory");
+        System.out.println("\n" + item.getName() + " added to your inventory");
     }
 
     public void addTo(Survivor survivor) {
@@ -129,7 +131,7 @@ public class Outpost {
         }
         tempArray[tempArray.length - 1] = survivor;
         survivors = tempArray;
-        System.out.println("\n" +survivor.getName()+" joined to your outpost");
+        System.out.println("\n" + survivor.getName() + " joined to your outpost");
     }
 
     public Survivor findSurvivor(String name) {
@@ -152,24 +154,26 @@ public class Outpost {
 
     public Food findFood(String name) {
         for (int i = 0; i < inventory.length; i++) {
-            if (inventory[i].getName().equals(name)&& inventory[i] instanceof Food) {
-                return (Food)inventory[i];
+            if (inventory[i].getName().equals(name) && inventory[i] instanceof Food) {
+                return (Food) inventory[i];
             }
         }
         return null;
     }
+
     public Weapon findWeapon(String name) {
         for (int i = 0; i < inventory.length; i++) {
-            if (inventory[i].getName().equals(name)&& inventory[i] instanceof Weapon) {
-                return (Weapon)inventory[i];
+            if (inventory[i].getName().equals(name) && inventory[i] instanceof Weapon) {
+                return (Weapon) inventory[i];
             }
         }
         return null;
     }
+
     public Medicine findMedicine(String name) {
         for (int i = 0; i < inventory.length; i++) {
             if (inventory[i].getName().equals(name) && inventory[i] instanceof Medicine) {
-                return (Medicine)inventory[i];
+                return (Medicine) inventory[i];
             }
         }
         return null;
@@ -180,25 +184,25 @@ public class Outpost {
             for (int i = 0; i < survivors.length; i++) {
                 System.out.println(survivors[i].getName());
             }
-        } else if  (type.equals("Inventory")){
+        } else if (type.equals("Inventory")) {
             for (int i = 0; i < inventory.length; i++) {
                 System.out.println(inventory[i].getName());
             }
-        } else if (type.equals("Weapon")){
+        } else if (type.equals("Weapon")) {
             for (int i = 0; i < inventory.length; i++) {
-                if (inventory[i] instanceof Weapon){
+                if (inventory[i] instanceof Weapon) {
                     System.out.println(inventory[i].getName());
                 }
             }
-        } else if (type.equals("Food")){
+        } else if (type.equals("Food")) {
             for (int i = 0; i < inventory.length; i++) {
-                if (inventory[i] instanceof Food){
+                if (inventory[i] instanceof Food) {
                     System.out.println(inventory[i].getName());
                 }
             }
-        } else if (type.equals("Medicine")){
+        } else if (type.equals("Medicine")) {
             for (int i = 0; i < inventory.length; i++) {
-                if (inventory[i] instanceof Medicine){
+                if (inventory[i] instanceof Medicine) {
                     System.out.println(inventory[i].getName());
                 }
             }
@@ -207,7 +211,6 @@ public class Outpost {
             System.out.println("\nSurvivor, Inventory, Weapon, Food, Medicine");
         }
     }
-
 
     public void removeItem(String name) {
         int cnt = 0;
@@ -218,20 +221,74 @@ public class Outpost {
                 System.arraycopy(inventory, i + 1, copy, i, inventory.length - i - 1);
                 inventory = copy;
                 cnt++;
-                System.out.println("\n" +name + "removed from your inventory");
+                System.out.println("\n" + name + "removed from your inventory");
             }
         }
         if (cnt == 0) {
             System.out.println("\nNo such element in the inventory");
         }
     }
-    public void printMenu(){
+
+    public void printMenu() {
         System.out.println("What's your next move?");
         System.out.println(":create = create new Survivor");
-        System.out.println(":list = List your inentory");
+        System.out.println(":list = List your inventory");
         System.out.println(":eat = Consume a food");
         System.out.println(":heal = Use a medicine to heal your wounds");
         System.out.println(":rest = Action points go to max and you go to the next day");
+
+    }
+
+    public void destinationList() {
+        for (Places places : Places.values()) {
+            System.out.println(places);
+        }
+
+    }
+
+    public void travel(Survivor survivor){
+        Places places = Places.OUTPOST;
+        while(true){
+            destinationList();
+            System.out.println("Where do you want to travel");
+            String destination = scanner.next().toUpperCase();
+            if(destination.equals("0")){
+                break;
+            }
+            else if(destination.equals(survivor.getCurrentLocation().toUpperCase())){
+                System.out.println("You are already here -_-");
+                break;
+            }
+            try{
+                places = Places.valueOf(destination);
+                break;
+            }catch(IllegalArgumentException iae){
+                System.out.println("You entered wrong destination, pls enter a valid one or enter 0 to stay here!");
+            }
+            
+        }
+        switch (places){
+            case OUTPOST:
+                survivor.setCurrentLocation("Outpost");
+                break;
+            case GASSTATION:
+                survivor.setCurrentLocation("GasStation");
+                break;
+            case HOSPITAL:
+                survivor.setCurrentLocation("Hospital");
+                break;
+            case MILITARYBASE:
+                survivor.setCurrentLocation("MilitaryBase");
+                break;
+            case SCHOOL:
+                survivor.setCurrentLocation("School");
+                break;
+            default:
+                throw new IllegalArgumentException();
+
+        }
+
+        
 
     }
 
