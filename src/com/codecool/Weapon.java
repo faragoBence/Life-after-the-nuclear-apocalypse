@@ -20,5 +20,9 @@ public class Weapon extends Items {
 
     public void setDurabillity(int value) {
         durability += value;
-        }
+    }
+
+    public void printAttributes(){
+        System.out.println("name = "+getName()+"\tstrength modifier = "+getStrength()+"\tdurability = "+getDurabillity());
+    }
 }

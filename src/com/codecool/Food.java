@@ -17,5 +17,7 @@ public class Food extends Items {
     public int getRadiation() {
         return radiation;
     }
-
+    public void printAttributes(){
+        System.out.println("name = "+getName()+"\tfood value = "+getFoodValue()+"\tradiation = "+getRadiation());
+    }
 }

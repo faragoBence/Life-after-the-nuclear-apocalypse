@@ -18,4 +18,8 @@ public class Medicine extends Items {
         return radiationHealingFactor;
     }
 
+    public void printAttributes(){
+        System.out.println("name = "+getName()+"\thealing factor = "+getHealingFactor()+"\tradiation healing factor = "+getRadiationHealingFactor());
+    }
+
 }
