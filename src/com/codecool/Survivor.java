@@ -9,7 +9,7 @@ public class Survivor {
     protected int strength;
     protected String currentLocation;
 
-    public Survivor(String name, int actionPoints, int hungerLevel, int health, int radiationLevel,int strength,
+    public Survivor(String name, int actionPoints, int hungerLevel, int health, int radiationLevel, int strength,
             String currentLocation) {
         this.name = name;
         this.actionPoints = actionPoints;
@@ -30,6 +30,9 @@ public class Survivor {
 
     public void setActionPoints(int value) {
         actionPoints += value;
+        if (hungerLevel > 2) {
+            actionPoints = 2;
+        }
     }
 
     public int getHungerLevel() {
@@ -38,7 +41,7 @@ public class Survivor {
 
     public void setHungerLevel(int value) {
         hungerLevel += value;
-        if (hungerLevel<1){
+        if (hungerLevel < 1) {
             System.out.println("You are dead");
         }
     }
@@ -49,7 +52,7 @@ public class Survivor {
 
     public void setHealth(int value) {
         health += value;
-        if (health<1){
+        if (health < 1) {
             System.out.println("You are dead");
         }
     }
@@ -60,7 +63,7 @@ public class Survivor {
 
     public void setRadiationLevel(int value) {
         radiationLevel += value;
-        if (radiationLevel<1){
+        if (radiationLevel < 1) {
             System.out.println("You are dead");
         }
     }
@@ -72,18 +75,19 @@ public class Survivor {
     public void setCurrentLocation(String loc) {
         currentLocation = loc;
     }
-    public int getStrength(){
+
+    public int getStrength() {
         return strength;
     }
 
-    public void printAttributes(){
-        System.out.println("name = "+getName());
-        System.out.println("action points = "+getActionPoints());
-        System.out.println("hunger = "+getHungerLevel());
-        System.out.println("health = "+getHealth());
-        System.out.println("radiation level = "+getRadiationLevel());
-        System.out.println("strength = "+getStrength());
-        System.out.println("current location = "+getCurrentLocation());
+    public void printAttributes() {
+        System.out.println("name = " + getName());
+        System.out.println("action points = " + getActionPoints());
+        System.out.println("hunger = " + getHungerLevel());
+        System.out.println("health = " + getHealth());
+        System.out.println("radiation level = " + getRadiationLevel());
+        System.out.println("strength = " + getStrength());
+        System.out.println("current location = " + getCurrentLocation());
 
     }
 
