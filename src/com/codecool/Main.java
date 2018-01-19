@@ -19,10 +19,7 @@ public class Main {
             System.out.println("\t(1) New Game\n\t(2) Load Game\n\t(0) Quit Game");
             String line = scanner.next();
             if (line.equals("1")) {
-
-                System.out.print("You must create a Survivor first. Enter his name!\n");
-                String name = scanner.next();
-                mySurvivor = new Survivor(name, 2, 100, 100, 100, 5, "Outpost");
+                mySurvivor = myOutpost.survivorcreating();
                 myOutpost.addTo(mySurvivor);
                 break;
             } else if (line.equals("2")) {
@@ -30,7 +27,7 @@ public class Main {
                 myOutpost.List("Survivor");
                 System.out.println("Choose a survivor from the list above!");
                 String name = scanner.next();
-                mySurvivor =myOutpost.findSurvivor(name);
+                mySurvivor = myOutpost.findSurvivor(name);
                 break;
             } else if (line.equals("0")) {
                 System.exit(0);
@@ -43,36 +40,24 @@ public class Main {
             myOutpost.printMenu();
             String menuChoose = scanner.next();
             if (menuChoose.equals(":create")) {
-                System.out.print("Enter the name of your new survivor!\n");
-                String name = scanner.next();
-                mySurvivor = new Survivor(name, 2, 100, 100, 100, 5, "Outpost");
+                mySurvivor = myOutpost.survivorcreating();
                 myOutpost.addTo(mySurvivor);
             } else if (menuChoose.equals(":list")) {
-                System.out.println("Choose from the listing options\n");
-                System.out.println("\t(1) Survivors\n\t(2) Item names\n\t(3) Foods\n\t(4) Medicines\n\t(5) Weapons");
-                String listingOption = scanner.next();
-                if (listingOption.equals("1")) {
-                    myOutpost.List("Survivor");
-                } else if (listingOption.equals("2")) {
-                    myOutpost.List("Inventory");
-                } else if (listingOption.equals("3")) {
-                    myOutpost.List("Food");
-                } else if (listingOption.equals("4")) {
-                    myOutpost.List("Medicine");
-                } else if (listingOption.equals("5")) {
-                    myOutpost.List("Weapon");
-                } else {
-                    System.out.println("You entered wrong input!\n");
-                }
+                myOutpost.listing();
+            } else if (menuChoose.equals(":eat")) {
+                myOutpost.eating(mySurvivor);
+            } else if (menuChoose.equals(":heal")) {
+                myOutpost.healing(mySurvivor);
+            } else if (menuChoose.equals(":rest")) {
+                myOutpost.rest(mySurvivor);
+            } else if (menuChoose.equals(":travel")) {
+                myOutpost.travel(mySurvivor);
+            } else if (menuChoose.equals(":save")) {
+                myOutpost.saving();
+            } else if (menuChoose.equals(":exit")) {
+                myOutpost.quit();
 
             }
-
         }
     }
-
-    //myOutpost.writeToSurvivorFile();
-    //myOutpost.writeToItemsFile("../data/savedweapons.csv", "Weapon");
-    //myOutpost.writeToItemsFile("../data/savedfoods.csv", "Food");
-    //myOutpost.writeToItemsFile("../data/savedmedicines.csv", "Medicine");
-
 }

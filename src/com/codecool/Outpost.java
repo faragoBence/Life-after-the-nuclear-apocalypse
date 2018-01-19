@@ -29,8 +29,10 @@ public class Outpost {
         return new Outpost("../data/survivors.csv", paths);
 
     }
+
     static Outpost loadOutpost() throws FileNotFoundException {
-        String[] paths = new String[] { "../data/savedfoods.csv", "../data/savedmedicines.csv", "../data/savedweapons.csv" };
+        String[] paths = new String[] { "../data/savedfoods.csv", "../data/savedmedicines.csv",
+                "../data/savedweapons.csv" };
         return new Outpost("../data/savedsurvivors.csv", paths);
     }
 
@@ -231,6 +233,7 @@ public class Outpost {
         System.out.println("\t:eat = Consume a food");
         System.out.println("\t:heal = Use a medicine to heal your wounds");
         System.out.println("\t:rest = Action points go to max and you go to the next day");
+        System.out.println("\t:travel = Travel to a specific location");
         System.out.println("\t:save = Save the game");
         System.out.println("\t:exit = Quit from the game.");
 
@@ -324,100 +327,190 @@ public class Outpost {
 
     public void writeToSurvivorFile() {
         String[] attributes = null;
-        try{
+        try {
 
             BufferedWriter bw = new BufferedWriter(new FileWriter("../data/savedsurvivors.csv"));
             StringBuilder sb = new StringBuilder();
-            for (Survivor survivor:survivors) {
-                int collCnt=0;
+            for (Survivor survivor : survivors) {
+                int collCnt = 0;
                 attributes = decompressSurvivor(survivor);
-                for(String att:attributes){
+                for (String att : attributes) {
                     sb.append(att);
                     collCnt++;
-                    if (collCnt != 7){
+                    if (collCnt != 7) {
                         sb.append(",");
                     }
-                    
+
                 }
-                    sb.append("\n");
+                sb.append("\n");
             }
-            String mystr=sb.toString();
-            mystr = mystr.substring(0, mystr.length()-1);
-            bw.write (mystr);
+            String mystr = sb.toString();
+            mystr = mystr.substring(0, mystr.length() - 1);
+            bw.write(mystr);
             bw.close();
-            }catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
     public void writeToItemsFile(String path, String type) {
         String[] attributes = null;
-        try{
-            BufferedWriter bw = new BufferedWriter(new FileWriter(path));
-            StringBuilder sb = new StringBuilder();
-            if (type.equals("Weapon")){
-                for (int i = 0; i < inventory.length; i++) {
-                    if (inventory[i] instanceof Weapon) {
-                        Weapon weapon = (Weapon) inventory[i];
-                        int collCnt=0;
-                        attributes = decompressWeapon(weapon);
-                        for(String att:attributes){
-                            sb.append(att);
-                            collCnt++;
-                            if (collCnt != 3){
-                                sb.append(",");
-                            }
-                            
-                        }
-                            sb.append("\n");
-                    }
-                }
-            }
-            else if (type.equals("Food")){
-                for (int i = 0; i < inventory.length; i++) {
-                    if (inventory[i] instanceof Food) {
-                        Food food = (Food) inventory[i];
-                        int collCnt=0;
-                        attributes = decompressFood(food);
-                        for(String att:attributes){
-                            sb.append(att);
-                            collCnt++;
-                            if (collCnt != 3){
-                                sb.append(",");
-                            }
-                            
-                        }
-                            sb.append("\n");
-                    }
-                }
-            }
-            else if (type.equals("Medicine")){
-                for (int i = 0; i < inventory.length; i++) {
-                    if (inventory[i] instanceof Medicine) {
-                        Medicine medicine = (Medicine) inventory[i];
-                        int collCnt=0;
-                        attributes = decompressMedicine(medicine);
-                        for(String att:attributes){
-                            sb.append(att);
-                            collCnt++;
-                            if (collCnt != 3){
-                                sb.append(",");
-                            }
-                            
-                        }
-                            sb.append("\n");
-                    }
-                }
-            }
+        if (inventory.length != 0) {
+            try {
+                BufferedWriter bw = new BufferedWriter(new FileWriter(path));
+                StringBuilder sb = new StringBuilder();
+                if (type.equals("Weapon")) {
+                    for (int i = 0; i < inventory.length; i++) {
+                        if (inventory[i] instanceof Weapon) {
+                            Weapon weapon = (Weapon) inventory[i];
+                            int collCnt = 0;
+                            attributes = decompressWeapon(weapon);
+                            for (String att : attributes) {
+                                sb.append(att);
+                                collCnt++;
+                                if (collCnt != 3) {
+                                    sb.append(",");
+                                }
 
-            String mystr=sb.toString();
-            mystr = mystr.substring(0, mystr.length()-1);
-            bw.write (mystr);
-            bw.close();
-            }catch (IOException ioe) {
+                            }
+                            sb.append("\n");
+                        }
+                    }
+                } else if (type.equals("Food")) {
+                    for (int i = 0; i < inventory.length; i++) {
+                        if (inventory[i] instanceof Food) {
+                            Food food = (Food) inventory[i];
+                            int collCnt = 0;
+                            attributes = decompressFood(food);
+                            for (String att : attributes) {
+                                sb.append(att);
+                                collCnt++;
+                                if (collCnt != 3) {
+                                    sb.append(",");
+                                }
+
+                            }
+                            sb.append("\n");
+                        }
+                    }
+                } else if (type.equals("Medicine")) {
+                    for (int i = 0; i < inventory.length; i++) {
+                        if (inventory[i] instanceof Medicine) {
+                            Medicine medicine = (Medicine) inventory[i];
+                            int collCnt = 0;
+                            attributes = decompressMedicine(medicine);
+                            for (String att : attributes) {
+                                sb.append(att);
+                                collCnt++;
+                                if (collCnt != 3) {
+                                    sb.append(",");
+                                }
+
+                            }
+                            sb.append("\n");
+                        }
+                    }
+                }
+
+                String mystr = sb.toString();
+                mystr = mystr.substring(0, mystr.length() - 1);
+                bw.write(mystr);
+                bw.close();
+            } catch (IOException ioe) {
                 ioe.printStackTrace();
             }
+        }
     }
 
+    public Survivor survivorcreating() {
+        System.out.print("Enter the name of your new survivor!\n");
+        String name = scanner.next();
+        return new Survivor(name, 2, 100, 100, 100, 5, "Outpost");
+    }
+
+    public void listing() {
+        System.out.println("Choose from the listing options\n");
+        System.out.println("\t(1) Survivors\n\t(2) Item names\n\t(3) Foods\n\t(4) Medicines\n\t(5) Weapons");
+        String listingOption = scanner.next();
+        if (listingOption.equals("1")) {
+            List("Survivor");
+        } else if (listingOption.equals("2")) {
+            List("Inventory");
+        } else if (listingOption.equals("3")) {
+            List("Food");
+        } else if (listingOption.equals("4")) {
+            List("Medicine");
+        } else if (listingOption.equals("5")) {
+            List("Weapon");
+        } else {
+            System.out.println("\nYou entered wrong input!\n");
+        }
+    }
+
+    public void eating(Survivor survivor) {
+        List("Food");
+        System.out.println("\n Please choose a food, that you want to eat");
+        String foodString = scanner.next();
+        Food myFood = findFood(foodString);
+        if (myFood != null) {
+            survivor.setHungerLevel(myFood.getFoodValue());
+            survivor.setRadiationLevel(0 - myFood.getRadiation());
+            removeItem(myFood.getName());
+        } else {
+            System.out.println("\nYou entered wrong food name!\n");
+        }
+    }
+
+    public void healing(Survivor survivor) {
+        List("Medicine");
+        System.out.println("\n Please choose a medicine, that you want to use");
+        String medicineString = scanner.next();
+        Medicine myMedicine = findMedicine(medicineString);
+        if (myMedicine != null) {
+            survivor.setHealth(myMedicine.getHealingFactor());
+            survivor.setRadiationLevel(myMedicine.getRadiationHealingFactor());
+            removeItem(myMedicine.getName());
+        } else {
+            System.out.println("\nYou entered wrong medicine name!\n");
+        }
+    }
+
+    public void rest(Survivor survivor) {
+        survivor.setActionPoints(2);
+        survivor.setHungerLevel(-35);
+        survivor.setRadiationLevel(-10);
+    }
+
+    public void saving() {
+        while (true) {
+            System.out.println("\nWarning! Your previous save will be lost!\n");
+            System.out.println("Do you want to continue? (Y)es or (N)o?");
+            String saveoption = scanner.next();
+            if (saveoption.equals("Y")) {
+                writeToSurvivorFile();
+                writeToItemsFile("../data/savedweapons.csv", "Weapon");
+                writeToItemsFile("../data/savedfoods.csv", "Food");
+                writeToItemsFile("../data/savedmedicines.csv", "Medicine");
+                break;
+            } else if (saveoption.equals("N")) {
+                break;
+            } else {
+                System.out.println("Please enter a valid input!");
+            }
+        }
+    }
+
+    public void quit() {
+        System.out.println("Do you want to save before quit? (Y)es or (N)o?");
+        String exitoption = scanner.next();
+        if (exitoption.equals("Y")) {
+            saving();
+            System.exit(0);
+        } else if (exitoption.equals("N")) {
+            System.exit(0);
+        } else {
+            System.out.println("Please enter a valid input!");
+        }
+    }
 
 }
