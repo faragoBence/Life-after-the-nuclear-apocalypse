@@ -8,7 +8,7 @@ public class Fight {
 
     static boolean fighting(Survivor survivor, Creatures enemy, Outpost outpost) {
         System.out.println("\n"+enemy.getName() + " attacked you");
-        System.out.println("health: " + enemy.getHealth() + " strength: " + enemy.getStrength());
+        enemy.printAttributes();
         System.out.println("\nyour health: "+ survivor.getHealth() + " your strength: "+survivor.getStrength());
         boolean won;
         int yourStrength = survivor.getStrength();
