@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class School extends Location {
 
-    public School(int radiationLevel, Items[] lootable, Creatures[] enemies) {
-        super(radiationLevel, lootable, enemies);
+    public School(int radiationLevel, Items[] lootable, Creatures[] enemies, int[] enemyPercent, int[] lootPercent) {
+        super(radiationLevel, lootable, enemies, enemyPercent, lootPercent);
     }
 
     static Items[] createLootableList() {
@@ -34,61 +34,14 @@ public class School extends Location {
         return creatures;
     }
 
+    static public int[] createEnemyPercentList(){
+        return new int[]{26,46,61,81,101};
+    }
+    static public int[] createLootPercentList(){
+        return new int[]{16,26,41,56,76,86,96,101};
+    }
+
     static School createSchool() {
-        return new School(5, createLootableList(), createCreaturesList());
-    }
-
-    public void listCreatures() {
-        for (Creatures creature : enemies) {
-            System.out.println(creature.getName());
-        }
-    }
-
-    public void search(Survivor survivor, Outpost outpost) {
-        if (survivor.getActionPoints() > 0) {
-
-            survivor.setRadiationLevel(getRadiationLevel());
-            Random random = new Random();
-            int lootPercent = random.nextInt(100) + 1;
-            int enemyPercent = random.nextInt(100) + 1;
-            Items loot;
-            Creatures enemy;
-            if (lootPercent < 16) {
-                loot = lootable[0];
-            } else if (lootPercent < 26) {
-                loot = lootable[1];
-            } else if (lootPercent < 41) {
-                loot = lootable[2];
-            } else if (lootPercent < 56) {
-                loot = lootable[3];
-            } else if (lootPercent < 76) {
-                loot = lootable[4];
-            } else if (lootPercent < 86) {
-                loot = lootable[5];
-            } else if (lootPercent < 96) {
-                loot = lootable[6];
-            } else {
-                loot = lootable[7];
-            }
-
-            if (enemyPercent < 26) {
-                enemy = enemies[0];
-            } else if (enemyPercent < 46) {
-                enemy = enemies[1];
-            } else if (enemyPercent < 61) {
-                enemy = enemies[2];
-            } else if (enemyPercent < 81) {
-                enemy = enemies[3];
-            } else {
-                enemy = enemies[4];
-            }
-            if(Fight.fighting(survivor, enemy, outpost)){
-                outpost.addTo(loot);
-            }
-        }else {
-            System.out.println("\nYou don't have enough action points! You should rest at the outpost");
-        }
-        
-
+        return new School(5, createLootableList(), createCreaturesList(),createEnemyPercentList(),createLootPercentList());
     }
 }

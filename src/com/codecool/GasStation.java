@@ -6,8 +6,8 @@ public class GasStation extends Location {
     protected Items[] scarvangable;
     protected Creatures[] enemies;
 
-    public GasStation(int radiationLevel, Items[] lootable, Creatures[] enemies) {
-        super(radiationLevel, lootable, enemies);
+    public GasStation(int radiationLevel, Items[] lootable, Creatures[] enemies, int[] enemyPercent, int[] lootPercent) {
+        super(radiationLevel, lootable, enemies, enemyPercent, lootPercent);
     }
 
     static Items[] createLootableList() {
@@ -37,56 +37,14 @@ public class GasStation extends Location {
         return creatures;
     }
 
-    static GasStation createGasStation() {
-        return new GasStation(10, createLootableList(), createCreaturesList());
+    static public int[] createEnemyPercentList(){
+        return new int[]{26,51,71,91,101};
+    }
+    static public int[] createLootPercentList(){
+        return new int[]{11,21,31,51,66,81,91,96,101};
     }
 
-    public void search(Survivor survivor, Outpost outpost) {
-        if (survivor.getActionPoints() > 0) {
-
-            survivor.setRadiationLevel(getRadiationLevel());
-            Random random = new Random();
-            int lootPercent = random.nextInt(100) + 1;
-            int enemyPercent = random.nextInt(100) + 1;
-            Items loot;
-            Creatures enemy;
-            if (lootPercent < 11) {
-                loot = lootable[0];
-            } else if (lootPercent < 21) {
-                loot = lootable[1];
-            } else if (lootPercent < 31) {
-                loot = lootable[2];
-            } else if (lootPercent < 51) {
-                loot = lootable[3];
-            } else if (lootPercent < 66) {
-                loot = lootable[4];
-            } else if (lootPercent < 81) {
-                loot = lootable[5];
-            } else if (lootPercent < 91) {
-                loot = lootable[6];
-            } else if (lootPercent < 96) {
-                loot = lootable[7];
-            } else {
-                loot = lootable[8];
-            }
-
-            if (enemyPercent < 26) {
-                enemy = enemies[0];
-            } else if (enemyPercent < 51) {
-                enemy = enemies[1];
-            } else if (enemyPercent < 71) {
-                enemy = enemies[2];
-            } else if (enemyPercent < 91) {
-                enemy = enemies[3];
-            } else {
-                enemy = enemies[4];
-            }
-            if (Fight.fighting(survivor, enemy, outpost)) {
-                outpost.addTo(loot);
-            }
-        } else {
-            System.out.println("\nYou don't have enough action points! You should rest at the outpost");
-        }
-
+    static GasStation createGasStation() {
+        return new GasStation(10, createLootableList(), createCreaturesList(), createEnemyPercentList(), createLootPercentList());
     }
 }

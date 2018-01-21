@@ -5,8 +5,8 @@ import java.util.Random;
 
 public class Hospital extends Location {
 
-    public Hospital(int radiationLevel, Items[] lootable, Creatures[] enemies) {
-        super(radiationLevel, lootable, enemies);
+    public Hospital(int radiationLevel, Items[] lootable, Creatures[] enemies, int[] enemyPercent, int[] lootPercent) {
+        super(radiationLevel, lootable, enemies, enemyPercent, lootPercent);
     }
 
     static Items[] createLootableList() {
@@ -36,56 +36,14 @@ public class Hospital extends Location {
         return creatures;
     }
 
-    static Hospital createHospital() {
-        return new Hospital(15, createLootableList(), createCreaturesList());
+    static public int[] createEnemyPercentList(){
+        return new int[]{11,26,36,51,76,101};
+    }
+    static public int[] createLootPercentList(){
+        return new int[]{16,31,46,61,71,91,96,101};
     }
 
-    public void search(Survivor survivor, Outpost outpost) {
-        if (survivor.getActionPoints() > 0) {
-
-            survivor.setRadiationLevel(getRadiationLevel());
-            Random random = new Random();
-            int lootPercent = random.nextInt(100) + 1;
-            int enemyPercent = random.nextInt(100) + 1;
-            Items loot;
-            Creatures enemy;
-            if (lootPercent < 16) {
-                loot = lootable[0];
-            } else if (lootPercent < 31) {
-                loot = lootable[1];
-            } else if (lootPercent < 46) {
-                loot = lootable[2];
-            } else if (lootPercent < 61) {
-                loot = lootable[3];
-            } else if (lootPercent < 71) {
-                loot = lootable[4];
-            } else if (lootPercent < 91) {
-                loot = lootable[5];
-            } else if (lootPercent < 96) {
-                loot = lootable[6];
-            } else {
-                loot = lootable[7];
-            }
-
-            if (enemyPercent < 11) {
-                enemy = enemies[0];
-            } else if (enemyPercent < 26) {
-                enemy = enemies[1];
-            } else if (enemyPercent < 36) {
-                enemy = enemies[2];
-            } else if (enemyPercent < 51) {
-                enemy = enemies[3];
-            } else if (enemyPercent < 76) {
-                enemy = enemies[4];
-            } else {
-                enemy = enemies[5];
-            }
-            if (Fight.fighting(survivor, enemy, outpost)) {
-                outpost.addTo(loot);
-            }
-        } else {
-            System.out.println("\nYou don't have enough action points! You should rest at the outpost");
-        }
-
+    static Hospital createHospital() {
+        return new Hospital(15, createLootableList(), createCreaturesList(), createEnemyPercentList(), createLootPercentList());
     }
 }

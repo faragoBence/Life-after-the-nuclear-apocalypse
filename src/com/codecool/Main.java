@@ -17,7 +17,7 @@ public class Main {
 
         while (true) {
             System.out.println("\t(1) New Game\n\t(2) Load Game\n\t(0) Quit Game");
-            String line = scanner.next();
+            String line = scanner.nextLine();
             if (line.equals("1")) {
                 mySurvivor = myOutpost.survivorcreating();
                 myOutpost.addTo(mySurvivor);
@@ -26,7 +26,7 @@ public class Main {
                 myOutpost = Outpost.loadOutpost();
                 myOutpost.List("Survivor");
                 System.out.println("Choose a survivor from the list above!");
-                String name = scanner.next();
+                String name = scanner.nextLine();
                 mySurvivor = myOutpost.findSurvivor(name);
                 break;
             } else if (line.equals("0")) {
@@ -38,7 +38,7 @@ public class Main {
         while (true) {
             mySurvivor.printAttributes();
             myOutpost.printMenu();
-            String menuChoose = scanner.next();
+            String menuChoose = scanner.nextLine();
             if (menuChoose.equals(":create")) {
                 mySurvivor = myOutpost.survivorcreating();
                 myOutpost.addTo(mySurvivor);
@@ -51,7 +51,28 @@ public class Main {
             } else if (menuChoose.equals(":rest")) {
                 myOutpost.rest(mySurvivor);
             } else if (menuChoose.equals(":travel")) {
-                myOutpost.travel(mySurvivor);
+                myOutpost.travel(mySurvivor,myGasStation,myHospital,mySchool,myMilitaryBase);
+            } else if (menuChoose.equals(":search")) {
+                switch (mySurvivor.getCurrentLocation()) {
+                    case "Outpost":
+                        System.out.println("You can't scarvange your outpost!");
+                        break;
+                    case "GasStation":
+                        myGasStation.search(mySurvivor, myOutpost);
+                        break;
+                    case "Hospital":
+                        myHospital.search(mySurvivor, myOutpost);
+                        break;
+                    case "MilitaryBase":
+                        myMilitaryBase.search(mySurvivor, myOutpost);
+                        break;
+                    case "School":
+                        mySchool.search(mySurvivor, myOutpost);
+                        break;
+                    default:
+                        throw new IllegalArgumentException();
+            
+                    }
             } else if (menuChoose.equals(":save")) {
                 myOutpost.saving();
             } else if (menuChoose.equals(":exit")) {

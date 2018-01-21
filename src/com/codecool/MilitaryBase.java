@@ -1,11 +1,9 @@
 package com.codecool;
 
-import java.util.Random;
-
 public class MilitaryBase extends Location {
 
-    public MilitaryBase(int radiationLevel, Items[] lootable, Creatures[] enemies) {
-        super(radiationLevel, lootable, enemies);
+    public MilitaryBase(int radiationLevel, Items[] lootable, Creatures[] enemies, int[] enemyPercent, int[] lootPercent) {
+        super(radiationLevel, lootable, enemies, enemyPercent, lootPercent);
     }
 
     static Items[] createLootableList() {
@@ -35,56 +33,14 @@ public class MilitaryBase extends Location {
         return creatures;
     }
 
-    static MilitaryBase createMilitaryBase() {
-        return new MilitaryBase(20, createLootableList(), createCreaturesList());
+    static public int[] createEnemyPercentList(){
+        return new int[]{11,21,46,71,76,101};
+    }
+    static public int[] createLootPercentList(){
+        return new int[]{6,16,21,36,46,71,96,101};
     }
 
-    public void search(Survivor survivor, Outpost outpost) {
-        if (survivor.getActionPoints() > 0) {
-
-            survivor.setRadiationLevel(getRadiationLevel());
-            Random random = new Random();
-            int lootPercent = random.nextInt(100) + 1;
-            int enemyPercent = random.nextInt(100) + 1;
-            Items loot;
-            Creatures enemy;
-            if (lootPercent < 6) {
-                loot = lootable[0];
-            } else if (lootPercent < 16) {
-                loot = lootable[1];
-            } else if (lootPercent < 21) {
-                loot = lootable[2];
-            } else if (lootPercent < 36) {
-                loot = lootable[3];
-            } else if (lootPercent < 46) {
-                loot = lootable[4];
-            } else if (lootPercent < 71) {
-                loot = lootable[5];
-            } else if (lootPercent < 96) {
-                loot = lootable[6];
-            } else {
-                loot = lootable[7];
-            }
-
-            if (enemyPercent < 11) {
-                enemy = enemies[0];
-            } else if (enemyPercent < 21) {
-                enemy = enemies[1];
-            } else if (enemyPercent < 46) {
-                enemy = enemies[2];
-            } else if (enemyPercent < 71) {
-                enemy = enemies[3];
-            } else if (enemyPercent < 76) {
-                enemy = enemies[4];
-            } else {
-                enemy = enemies[5];
-            }
-            if (Fight.fighting(survivor, enemy, outpost)) {
-                outpost.addTo(loot);
-            }
-        } else {
-            System.out.println("\nYou don't have enough action points! You should rest at the outpost");
-        }
-
+    static MilitaryBase createMilitaryBase() {
+        return new MilitaryBase(20, createLootableList(), createCreaturesList(), createEnemyPercentList(), createLootPercentList());
     }
 }

@@ -234,6 +234,7 @@ public class Outpost {
         System.out.println("\t:heal = Use a medicine to heal your wounds");
         System.out.println("\t:rest = Action points go to max and you go to the next day");
         System.out.println("\t:travel = Travel to a specific location");
+        System.out.println("\t:search = Search for items in your current location");
         System.out.println("\t:save = Save the game");
         System.out.println("\t:exit = Quit from the game.");
 
@@ -241,17 +242,17 @@ public class Outpost {
 
     public void destinationList() {
         for (Places places : Places.values()) {
-            System.out.println("\t" + places + "\n");
+            System.out.println("\t" + places);
         }
 
     }
 
-    public void travel(Survivor survivor) {
+    public void travel(Survivor survivor, GasStation myGasStation, Hospital myHospital, School mySchool, MilitaryBase myMilitaryBase) {
         Places places = Places.OUTPOST;
         while (true) {
             destinationList();
             System.out.println("\nWhere do you want to travel");
-            String destination = scanner.next().toUpperCase();
+            String destination = scanner.nextLine().toUpperCase();
             if (destination.equals("0")) {
                 break;
             } else if (destination.equals(survivor.getCurrentLocation().toUpperCase())) {
@@ -424,14 +425,14 @@ public class Outpost {
 
     public Survivor survivorcreating() {
         System.out.print("Enter the name of your new survivor!\n");
-        String name = scanner.next();
+        String name = scanner.nextLine();
         return new Survivor(name, 2, 100, 100, 100, 5, "Outpost");
     }
 
     public void listing() {
         System.out.println("Choose from the listing options\n");
         System.out.println("\t(1) Survivors\n\t(2) Item names\n\t(3) Foods\n\t(4) Medicines\n\t(5) Weapons");
-        String listingOption = scanner.next();
+        String listingOption = scanner.nextLine();
         if (listingOption.equals("1")) {
             List("Survivor");
         } else if (listingOption.equals("2")) {
@@ -450,7 +451,7 @@ public class Outpost {
     public void eating(Survivor survivor) {
         List("Food");
         System.out.println("\n Please choose a food, that you want to eat");
-        String foodString = scanner.next();
+        String foodString = scanner.nextLine();
         Food myFood = findFood(foodString);
         if (myFood != null) {
             survivor.setHungerLevel(myFood.getFoodValue());
@@ -464,7 +465,7 @@ public class Outpost {
     public void healing(Survivor survivor) {
         List("Medicine");
         System.out.println("\n Please choose a medicine, that you want to use");
-        String medicineString = scanner.next();
+        String medicineString = scanner.nextLine();
         Medicine myMedicine = findMedicine(medicineString);
         if (myMedicine != null) {
             survivor.setHealth(myMedicine.getHealingFactor());
@@ -485,7 +486,7 @@ public class Outpost {
         while (true) {
             System.out.println("\nWarning! Your previous save will be lost!\n");
             System.out.println("Do you want to continue? (Y)es or (N)o?");
-            String saveoption = scanner.next();
+            String saveoption = scanner.nextLine();
             if (saveoption.equals("Y")) {
                 writeToSurvivorFile();
                 writeToItemsFile("../data/savedweapons.csv", "Weapon");
@@ -502,7 +503,7 @@ public class Outpost {
 
     public void quit() {
         System.out.println("Do you want to save before quit? (Y)es or (N)o?");
-        String exitoption = scanner.next();
+        String exitoption = scanner.nextLine();
         if (exitoption.equals("Y")) {
             saving();
             System.exit(0);

@@ -13,14 +13,15 @@ public class Fight {
         boolean won;
         int yourStrength = survivor.getStrength();
         Weapon yourWeapon;
+        int enemyHealth = enemy.getHealth();
         while (true) {
             System.out.println("\nDo you want to use a weapon from your inventory? \n(Y)es or (N)o?");
-            String line = scanner.next();
+            String line = scanner.nextLine();
             if (line.equals("Y")) {
                 while (true) {
                     outpost.List("Weapon");
                     System.out.println("\nEnter the name of the weapon, that you want to use");
-                    line = scanner.next();
+                    line = scanner.nextLine();
                     if (line.equals("0")){
                         break;
                     }
@@ -42,8 +43,8 @@ public class Fight {
         }
 
         while (true) {
-            enemy.setHealth(0 - yourStrength);
-            if (enemy.getHealth() < 1) {
+            enemyHealth-=yourStrength;
+            if (enemyHealth < 1) {
                 System.out.println("\nCongratulations, you won the fight");
                 System.out.println("\nyour health: "+ survivor.getHealth() + " your strength: "+survivor.getStrength());
                 won = true;
