@@ -10,14 +10,14 @@ public class School extends Location {
 
     static Items[] createLootableList() {
         Items[] items = new Items[8];
-        items[0] = new Medicine("first aid kit", 80, 50);
-        items[1] = new Medicine("rad-x", 25, 60);
-        items[2] = new Food("apple", 10, -2);
-        items[3] = new Food("corn", 15, -5);
-        items[4] = new Food("langos", 25, -10);
-        items[5] = new Food("chili", 50, -20);
-        items[6] = new Weapon("knife", 10, 3);
-        items[7] = new Weapon("chainsaw", 20, 5);
+        items[0] = new Medicine("First aid kit", 80, 50);
+        items[1] = new Medicine("Rad-x", 25, 60);
+        items[2] = new Food("Apple", 10, -2);
+        items[3] = new Food("Corn", 15, -5);
+        items[4] = new Food("Langos", 25, -10);
+        items[5] = new Food("Chili", 50, -20);
+        items[6] = new Weapon("Knife", 10, 3);
+        items[7] = new Weapon("Chainsaw", 20, 5);
 
         return items;
 
@@ -25,11 +25,11 @@ public class School extends Location {
 
     static public Creatures[] createCreaturesList() {
         Creatures[] creatures = new Creatures[5];
-        creatures[0]= new Creatures("ghoul", 25, 5);
-        creatures[1] = new Creatures("bandit", 25, 7);
-        creatures[2] = new Creatures("scarvanger", 20, 5);
-        creatures[3] = new Creatures("infested hound", 30, 10);
-        creatures[4] = new Creatures("zombie", 20, 7);
+        creatures[0]= new Creatures("Ghoul", 25, 5);
+        creatures[1] = new Creatures("Bandit", 25, 7);
+        creatures[2] = new Creatures("Scarvanger", 20, 5);
+        creatures[3] = new Creatures("Infested hound", 30, 10);
+        creatures[4] = new Creatures("Zombie", 20, 7);
 
         return creatures;
     }

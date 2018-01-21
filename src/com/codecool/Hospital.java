@@ -11,14 +11,14 @@ public class Hospital extends Location {
 
     static Items[] createLootableList() {
         Items[] items = new Items[8];
-        items[0] = new Medicine("radaway", 10, 30);
-        items[1] = new Medicine("painkiller", 30, 0);
-        items[2] = new Medicine("vodka", 20, 35);
-        items[3] = new Medicine("stimpak", 50, 50);
-        items[4] = new Food("nuka cola", 40, -5);
-        items[5] = new Medicine("first aid kit", 80, 0);
-        items[6] = new Food("fresh water", 25, -5);
-        items[7] = new Weapon("handgun", 25, 2);
+        items[0] = new Medicine("Radaway", 10, 30);
+        items[1] = new Medicine("Painkiller", 30, 0);
+        items[2] = new Medicine("Vodka", 20, 35);
+        items[3] = new Medicine("Stimpak", 50, 50);
+        items[4] = new Food("Nuka cola", 40, -5);
+        items[5] = new Medicine("First aid kit", 80, 0);
+        items[6] = new Food("Fresh water", 25, -5);
+        items[7] = new Weapon("Handgun", 25, 2);
 
         return items;
 
@@ -26,12 +26,12 @@ public class Hospital extends Location {
 
     static public Creatures[] createCreaturesList() {
         Creatures[] creatures = new Creatures[6];
-        creatures[0] = new Creatures("scarvanger", 20, 5);
-        creatures[1] = new Creatures("zombie", 20, 7);
-        creatures[2] = new Creatures("ghoul", 25, 5);
-        creatures[3] = new Creatures("bandit", 25, 7);
-        creatures[4] = new Creatures("super human", 50, 5);
-        creatures[5] = new Creatures("infested hound", 30, 10);
+        creatures[0] = new Creatures("Scarvanger", 20, 5);
+        creatures[1] = new Creatures("Zombie", 20, 7);
+        creatures[2] = new Creatures("Ghoul", 25, 5);
+        creatures[3] = new Creatures("Bandit", 25, 7);
+        creatures[4] = new Creatures("Super human", 50, 5);
+        creatures[5] = new Creatures("Infested hound", 30, 10);
 
         return creatures;
     }
