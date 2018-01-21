@@ -29,7 +29,7 @@ public class Fight {
                     }
                     if (outpost.findWeapon(line) != null) {
                         yourWeapon = outpost.findWeapon(line);
-                        outpost.findWeapon(line).setDurabillity(-1);
+                        outpost.findWeapon(line).setDurabillity(-1,outpost);
                         yourStrength += yourWeapon.getStrength();
                         break;
                     } else {
