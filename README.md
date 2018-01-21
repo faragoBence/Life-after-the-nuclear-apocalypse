@@ -1,9 +1,9 @@
 # Readme
 
 ## Description
-`The game will be played in the future after the nuclear apocalypse. I want to make survivors, who are trying to live in this world. They need to scarvange places for food; medicine and weapons, fight with the radiation and creatures.`
+The game will be played in the future after the nuclear apocalypse. I want to make survivors, who are trying to live in this world. They need to scarvange places for food; medicine and weapons, fight with the radiation and creatures.
 
-`The basic game with the basic tasks completed.It's time to improve the game`
+The basic game with the basic tasks completed.It's time to improve the game
 
 ## Story
 
@@ -19,12 +19,12 @@ After 5 year of hiding, you must come out from your bunker, because you consumed
 
 ### Compile:
 
-`cd <repo>`
-`cd src`
-`javac com/codecool/*.java`
+cd <repo>
+cd src
+javac com/codecool/*.java
 
 ### Execution:
 
-`cd <repo>`
-`cd src`
-`java com.codecool.Main`
+cd <repo>
+cd src
+java com.codecool.Main
