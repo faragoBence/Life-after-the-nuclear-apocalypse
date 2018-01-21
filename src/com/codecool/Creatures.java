@@ -27,6 +27,6 @@ public class Creatures {
         return strength;
     }
     public void printAttributes(){
-        System.out.println("name = "+getName()+"\thealth = "+getHealth()+"\tstrength = "+getStrength()+"\n");
+        System.out.println("\thealth = "+getHealth()+"\tstrength = "+getStrength()+"\n");
     }
 }
