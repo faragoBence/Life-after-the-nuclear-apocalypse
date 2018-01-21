@@ -3,11 +3,9 @@ package com.codecool;
 import java.util.Random;
 
 public class GasStation extends Location {
-    protected Items[] scarvangable;
-    protected Creatures[] enemies;
 
-    public GasStation(int radiationLevel, Items[] lootable, Creatures[] enemies, int[] enemyPercent, int[] lootPercent) {
-        super(radiationLevel, lootable, enemies, enemyPercent, lootPercent);
+    public GasStation(int radiationLevel, Items[] lootable, Creatures[] enemies, int[] enemyPercent, int[] lootPercent, String description) {
+        super(radiationLevel, lootable, enemies, enemyPercent, lootPercent, description);
     }
 
     static Items[] createLootableList() {
@@ -44,7 +42,11 @@ public class GasStation extends Location {
         return new int[]{11,21,31,51,66,81,91,96,101};
     }
 
+    static public String createDescription(){
+        return "It looks like the GasStation is almost empty, but the most of the food are leaved here.Also it is occupied by bandit's and scarvangers.";
+    }
+
     static GasStation createGasStation() {
-        return new GasStation(10, createLootableList(), createCreaturesList(), createEnemyPercentList(), createLootPercentList());
+        return new GasStation(10, createLootableList(), createCreaturesList(), createEnemyPercentList(), createLootPercentList(),createDescription());
     }
 }

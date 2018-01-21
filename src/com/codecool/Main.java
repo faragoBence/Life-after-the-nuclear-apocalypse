@@ -61,8 +61,8 @@ public class Main {
                 myOutpost.clearScreen();
                 myOutpost.eating(mySurvivor);
             } else if (menuChoose.equals(":heal")) {
-                myOutpost.clearScreen();
                 myOutpost.healing(mySurvivor);
+                myOutpost.clearScreen();
             } else if (menuChoose.equals(":rest")) {
                 myOutpost.clearScreen();
                 myOutpost.rest(mySurvivor);
@@ -89,11 +89,13 @@ public class Main {
                         break;
                     default:
                         throw new IllegalArgumentException();
-            
                     }
             } else if (menuChoose.equals(":help")) {
                 myOutpost.clearScreen();
                 myOutpost.help();
+            } else if (menuChoose.equals(":look")) {
+                myOutpost.clearScreen();
+                myOutpost.description(mySurvivor,myGasStation, myHospital, myMilitaryBase, mySchool);
             } else if (menuChoose.equals(":save")) {
                 myOutpost.clearScreen();
                 myOutpost.saving();

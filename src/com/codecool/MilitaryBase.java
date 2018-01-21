@@ -2,8 +2,8 @@ package com.codecool;
 
 public class MilitaryBase extends Location {
 
-    public MilitaryBase(int radiationLevel, Items[] lootable, Creatures[] enemies, int[] enemyPercent, int[] lootPercent) {
-        super(radiationLevel, lootable, enemies, enemyPercent, lootPercent);
+    public MilitaryBase(int radiationLevel, Items[] lootable, Creatures[] enemies, int[] enemyPercent, int[] lootPercent, String description) {
+        super(radiationLevel, lootable, enemies, enemyPercent, lootPercent, description);
     }
 
     static Items[] createLootableList() {
@@ -39,8 +39,11 @@ public class MilitaryBase extends Location {
     static public int[] createLootPercentList(){
         return new int[]{6,16,21,36,46,71,96,101};
     }
+    static public String createDescription(){
+        return "The MilitaryBase is the most dangerous location.Very tough enemies looking for you, but the best loots are here, the weapons.";
+    }
 
     static MilitaryBase createMilitaryBase() {
-        return new MilitaryBase(20, createLootableList(), createCreaturesList(), createEnemyPercentList(), createLootPercentList());
+        return new MilitaryBase(20, createLootableList(), createCreaturesList(), createEnemyPercentList(), createLootPercentList(), createDescription());
     }
 }

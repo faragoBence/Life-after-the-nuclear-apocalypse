@@ -5,8 +5,8 @@ import java.util.Random;
 
 public class Hospital extends Location {
 
-    public Hospital(int radiationLevel, Items[] lootable, Creatures[] enemies, int[] enemyPercent, int[] lootPercent) {
-        super(radiationLevel, lootable, enemies, enemyPercent, lootPercent);
+    public Hospital(int radiationLevel, Items[] lootable, Creatures[] enemies, int[] enemyPercent, int[] lootPercent, String description) {
+        super(radiationLevel, lootable, enemies, enemyPercent, lootPercent, description);
     }
 
     static Items[] createLootableList() {
@@ -42,8 +42,10 @@ public class Hospital extends Location {
     static public int[] createLootPercentList(){
         return new int[]{16,31,46,61,71,91,96,101};
     }
-
+    static public String createDescription(){
+        return "The Hospital is abandoned by human's centuries ago.The most of the Medicine can be found here.Some infested creature and scarvangers are protecting the place";
+    }
     static Hospital createHospital() {
-        return new Hospital(15, createLootableList(), createCreaturesList(), createEnemyPercentList(), createLootPercentList());
+        return new Hospital(15, createLootableList(), createCreaturesList(), createEnemyPercentList(), createLootPercentList(), createDescription());
     }
 }

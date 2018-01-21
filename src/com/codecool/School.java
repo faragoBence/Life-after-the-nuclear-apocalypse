@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class School extends Location {
 
-    public School(int radiationLevel, Items[] lootable, Creatures[] enemies, int[] enemyPercent, int[] lootPercent) {
-        super(radiationLevel, lootable, enemies, enemyPercent, lootPercent);
+    public School(int radiationLevel, Items[] lootable, Creatures[] enemies, int[] enemyPercent, int[] lootPercent, String description) {
+        super(radiationLevel, lootable, enemies, enemyPercent, lootPercent, description);
     }
 
     static Items[] createLootableList() {
@@ -40,8 +40,11 @@ public class School extends Location {
     static public int[] createLootPercentList(){
         return new int[]{16,26,41,56,76,86,96,101};
     }
+    static public String createDescription(){
+        return "The School seems very friendly, just some lightweight enemies staying here, protecting a very misc loot";
+    }
 
     static School createSchool() {
-        return new School(5, createLootableList(), createCreaturesList(),createEnemyPercentList(),createLootPercentList());
+        return new School(5, createLootableList(), createCreaturesList(),createEnemyPercentList(),createLootPercentList(),createDescription());
     }
 }

@@ -231,6 +231,7 @@ public class Outpost {
         System.out.println("\t:rest = Action points go to max and you go to the next day");
         System.out.println("\t:travel = Travel to a specific location");
         System.out.println("\t:search = Search for items in your current location");
+        System.out.println("\t:look = Look around and get valuable informations about the place");
         System.out.println("\t:help = Provide some description about the game");
         System.out.println("\t:save = Save the game");
         System.out.println("\t:exit = Quit from the game.");
@@ -413,7 +414,9 @@ public class Outpost {
                 }
 
                 String mystr = sb.toString();
-                mystr = mystr.substring(0, mystr.length() - 1);
+                if (mystr.length() != 0){
+                    mystr = mystr.substring(0, mystr.length() - 1);
+                }
                 bw.write(mystr);
                 bw.close();
             } catch (IOException ioe) {
@@ -461,6 +464,7 @@ public class Outpost {
         if (myFood != null) {
             survivor.setHungerLevel(myFood.getFoodValue());
             survivor.setRadiationLevel(0 - myFood.getRadiation());
+            clearScreen();
             removeItem(myFood.getName());
         } else {
             clearScreen();
@@ -476,6 +480,7 @@ public class Outpost {
         if (myMedicine != null) {
             survivor.setHealth(myMedicine.getHealingFactor());
             survivor.setRadiationLevel(myMedicine.getRadiationHealingFactor());
+            clearScreen();
             removeItem(myMedicine.getName());
         } else {
             clearScreen();
@@ -551,13 +556,39 @@ public class Outpost {
         System.out
                 .println("We are in 2030.The population of the world is almost 0.It seems Paks2 was a huge mistake...");
         System.out.println("The nuclear power plant is built by a famous gas man named 'Meszaros'.");
-        System.out.println("He wanted a to build this factory with low cost, but something happened.");
-        System.out.println("The same problem like with the red mud factory.The cheap 'közbeszerzés' isn't so good.");
+        System.out.println("He wanted to build this factory with low cost, but something happened.");
+        System.out.println("The same problem like with the red mud factory.The cheap 'kozbeszerzes' isn't so good.");
         System.out.println(
                 "But you never trusted in goverment's and the modern world.You started to build an atom bunker.");
         System.out.println("You gathered enough food, and reached your bunker before the catastrophe happened.\n");
         System.out.println(
                 "After 5 year of hiding, you must come out from your bunker, because you consumed all of your foods.");
+        System.out.println("\nPress a button to continue!");
+        scanner.nextLine();
+        clearScreen();
+    }
+
+    public void description(Survivor survivor, GasStation gastatition, Hospital hospital, MilitaryBase militaryBase,
+            School school) {
+        switch (survivor.getCurrentLocation()) {
+        case "Outpost":
+            System.out.println("Your Outpost seems a very warm and comfort place. A perfect location for living.");
+            break;
+        case "GasStation":
+            gastatition.printDescription();
+            break;
+        case "Hospital":
+            hospital.printDescription();
+            break;
+        case "MilitaryBase":
+            militaryBase.printDescription();
+            break;
+        case "School":
+            school.printDescription();
+            break;
+        default:
+            throw new IllegalArgumentException();
+        }
         System.out.println("\nPress a button to continue!");
         scanner.nextLine();
         clearScreen();

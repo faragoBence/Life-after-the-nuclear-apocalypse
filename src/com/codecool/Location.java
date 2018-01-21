@@ -8,13 +8,16 @@ public class Location {
     protected Creatures[] enemies;
     protected int[] enemyPercent;
     protected int[] lootPercent;
+    protected String description;
 
-    public Location(int radiationLevel, Items[] lootable, Creatures[] enemies, int[] enemyPercent, int[] lootPercent) {
+    public Location(int radiationLevel, Items[] lootable, Creatures[] enemies, int[] enemyPercent, int[] lootPercent,
+            String description) {
         this.radiationLevel = radiationLevel;
         this.lootable = lootable;
         this.enemies = enemies;
         this.enemyPercent = enemyPercent;
         this.lootPercent = lootPercent;
+        this.description = description;
     }
 
     public int getRadiationLevel() {
@@ -31,7 +34,7 @@ public class Location {
 
     public int[] getEnemyPercent() {
         return enemyPercent;
-        
+
     }
 
     public int[] getLootPercent() {
@@ -52,12 +55,12 @@ public class Location {
             Items loot = lootable[lootable.length - 1];
             Creatures enemy = enemies[enemies.length - 1];
 
-            for (int i = lootpercents.length-1; i > -1; i--) {
+            for (int i = lootpercents.length - 1; i > -1; i--) {
                 if (lootPercent < lootpercents[i]) {
                     loot = lootable[i];
                 }
             }
-            for (int i = enemypercents.length-1; i > -1; i--) {
+            for (int i = enemypercents.length - 1; i > -1; i--) {
                 if (enemyPercent < enemypercents[i]) {
                     enemy = enemies[i];
                 }
@@ -70,4 +73,23 @@ public class Location {
         }
     }
 
+    public void printEnemyList(){
+        for(Creatures creature:enemies){
+            System.out.println(creature.getName());
+        }
+    }
+
+    public void printLootableList(){
+        for(Items loot:lootable){
+            System.out.println(loot.getName());
+        }
+    }
+
+    public void printDescription() {
+        System.out.println(description);
+        System.out.println("\n\tThese loots can be found here:");
+        printLootableList();
+        System.out.println("\n\tThese enemies can be found here:");
+        printEnemyList();
+    }
 }
