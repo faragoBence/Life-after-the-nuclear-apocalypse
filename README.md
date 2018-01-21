@@ -19,12 +19,12 @@ After 5 year of hiding, you must come out from your bunker, because you consumed
 
 ### Compile:
 
-cd <repo>
-cd src
-javac com/codecool/*.java
+cd <repo> <br/>
+cd src <br/>
+javac com/codecool/*.java <br/>
 
 ### Execution:
 
-cd <repo>
-cd src
-java com.codecool.Main
+cd <repo> <br/>
+cd src <br/>
+java com.codecool.Main <br/>
