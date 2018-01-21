@@ -30,7 +30,7 @@ public class Survivor {
 
     public void setActionPoints(int value) {
         actionPoints += value;
-        if (hungerLevel > 2) {
+        if (actionPoints > 2) {
             actionPoints = 2;
         }
     }
