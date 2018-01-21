@@ -1,13 +1,13 @@
 package com.codecool;
 
 public class Survivor {
-    protected String name;
-    protected int actionPoints;
-    protected int hungerLevel;
-    protected int health;
-    protected int radiationLevel;
-    protected int strength;
-    protected String currentLocation;
+    private String name;
+    private int actionPoints;
+    private int hungerLevel;
+    private int health;
+    private int radiationLevel;
+    private int strength;
+    private String currentLocation;
 
     public Survivor(String name, int actionPoints, int hungerLevel, int health, int radiationLevel, int strength,
             String currentLocation) {
@@ -44,6 +44,9 @@ public class Survivor {
         if (hungerLevel < 1) {
             System.out.println("You are dead");
         }
+        if (hungerLevel > 100) { 
+            hungerLevel = 100;
+        }
     }
 
     public int getHealth() {
@@ -55,6 +58,9 @@ public class Survivor {
         if (health < 1) {
             System.out.println("You are dead");
         }
+        if (health > 100) {
+            health = 100;
+        }
     }
 
     public int getRadiationLevel() {
@@ -65,6 +71,9 @@ public class Survivor {
         radiationLevel += value;
         if (radiationLevel < 1) {
             System.out.println("You are dead");
+        }
+        if (radiationLevel > 100) {
+            radiationLevel = 100;
         }
     }
 
