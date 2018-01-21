@@ -127,7 +127,7 @@ public class Outpost {
         }
         tempArray[tempArray.length - 1] = item;
         inventory = tempArray;
-        System.out.println("\n" + item.getName() + " added to your inventory");
+        System.out.println("\n" + item.getName() + " added to your inventory\n");
     }
 
     public void addTo(Survivor survivor) {
@@ -137,7 +137,7 @@ public class Outpost {
         }
         tempArray[tempArray.length - 1] = survivor;
         survivors = tempArray;
-        System.out.println("\n" + survivor.getName() + " joined to your outpost");
+        System.out.println("\n" + survivor.getName() + " joined to your outpost\n");
     }
 
     public Survivor findSurvivor(String name) {
@@ -177,13 +177,10 @@ public class Outpost {
     }
 
     public void List(String type) {
+        System.out.println("\t" + type);
         if (type.equals("Survivor")) {
             for (int i = 0; i < survivors.length; i++) {
                 System.out.println(survivors[i].getName());
-            }
-        } else if (type.equals("Inventory")) {
-            for (int i = 0; i < inventory.length; i++) {
-                inventory[i].getName();
             }
         } else if (type.equals("Weapon")) {
             for (int i = 0; i < inventory.length; i++) {
@@ -205,7 +202,6 @@ public class Outpost {
             }
         } else {
             System.out.println("\nWrong input, enter something from the list below");
-            System.out.println("\nSurvivor, Inventory, Weapon, Food, Medicine");
         }
     }
 
@@ -229,12 +225,13 @@ public class Outpost {
     public void printMenu() {
         System.out.println("\nWhat's your next move?\n");
         System.out.println("\t:create = create new Survivor");
-        System.out.println("\t:list = List your inventory");
+        System.out.println("\t:list = ist your inventory");
         System.out.println("\t:eat = Consume a food");
         System.out.println("\t:heal = Use a medicine to heal your wounds");
         System.out.println("\t:rest = Action points go to max and you go to the next day");
         System.out.println("\t:travel = Travel to a specific location");
         System.out.println("\t:search = Search for items in your current location");
+        System.out.println("\t:help = Provide some description about the game");
         System.out.println("\t:save = Save the game");
         System.out.println("\t:exit = Quit from the game.");
 
@@ -247,7 +244,8 @@ public class Outpost {
 
     }
 
-    public void travel(Survivor survivor, GasStation myGasStation, Hospital myHospital, School mySchool, MilitaryBase myMilitaryBase) {
+    public void travel(Survivor survivor, GasStation myGasStation, Hospital myHospital, School mySchool,
+            MilitaryBase myMilitaryBase) {
         Places places = Places.OUTPOST;
         while (true) {
             destinationList();
@@ -287,6 +285,7 @@ public class Outpost {
             throw new IllegalArgumentException();
 
         }
+        clearScreen();
 
     }
 
@@ -431,12 +430,15 @@ public class Outpost {
 
     public void listing() {
         System.out.println("Choose from the listing options\n");
-        System.out.println("\t(1) Survivors\n\t(2) Item names\n\t(3) Foods\n\t(4) Medicines\n\t(5) Weapons");
+        System.out.println("\t(1) Survivors\n\t(2) Items\n\t(3) Foods\n\t(4) Medicines\n\t(5) Weapons");
         String listingOption = scanner.nextLine();
+        clearScreen();
         if (listingOption.equals("1")) {
             List("Survivor");
         } else if (listingOption.equals("2")) {
-            List("Inventory");
+            List("Food");
+            List("Medicine");
+            List("Weapon");
         } else if (listingOption.equals("3")) {
             List("Food");
         } else if (listingOption.equals("4")) {
@@ -446,6 +448,9 @@ public class Outpost {
         } else {
             System.out.println("\nYou entered wrong input!\n");
         }
+        System.out.println("\nPress a button to continue!");
+        scanner.nextLine();
+        clearScreen();
     }
 
     public void eating(Survivor survivor) {
@@ -458,6 +463,7 @@ public class Outpost {
             survivor.setRadiationLevel(0 - myFood.getRadiation());
             removeItem(myFood.getName());
         } else {
+            clearScreen();
             System.out.println("\nYou entered wrong food name!\n");
         }
     }
@@ -472,14 +478,19 @@ public class Outpost {
             survivor.setRadiationLevel(myMedicine.getRadiationHealingFactor());
             removeItem(myMedicine.getName());
         } else {
+            clearScreen();
             System.out.println("\nYou entered wrong medicine name!\n");
         }
     }
 
     public void rest(Survivor survivor) {
-        survivor.setActionPoints(2);
-        survivor.setHungerLevel(-35);
-        survivor.setRadiationLevel(-10);
+        if (survivor.getCurrentLocation().equals("Outpost")) {
+            survivor.setActionPoints(2);
+            survivor.setHungerLevel(-35);
+            survivor.setRadiationLevel(-10);
+        } else {
+            System.out.println("\nYou need to travel back to your outpost first!\n");
+        }
     }
 
     public void saving() {
@@ -496,6 +507,7 @@ public class Outpost {
             } else if (saveoption.equals("N")) {
                 break;
             } else {
+                clearScreen();
                 System.out.println("Please enter a valid input!");
             }
         }
@@ -510,8 +522,50 @@ public class Outpost {
         } else if (exitoption.equals("N")) {
             System.exit(0);
         } else {
+            clearScreen();
             System.out.println("Please enter a valid input!");
         }
+    }
+
+    public void help() {
+        System.out.println("You need to stay alive in this game, as long as you can.\n");
+        System.out.println("You can go to specific locations and search there, but warning an enemy will attack you.");
+        System.out.println("In combat, you can use a weapon from your inventory.");
+        System.out.println(
+                "Every location has a specific radiation level, so it will decrease your radiation damage if you search there.");
+        System.out.println("Also your action points will be decreased by 1 and hunger level by 10\n");
+        System.out.println("If your action points are 0, you need to rest in your outpost.");
+        System.out.println(
+                "Every rest will restore you action points, but also decrease your hunger level by 35 and your radiation damage by 10");
+        System.out.println(
+                "Your health,radiation and hunger can be restored with ':eat' and ':heal' command.These doesn't takes action points.");
+        System.out.println("You can also save your progress everytime with ':save' command\n");
+        System.out.println("If your hunger,health and radiation hits 0, you are dead, so be careful!");
+        System.out.println("Good luck Survivor!");
+        System.out.println("\nPress a button to continue!");
+        scanner.nextLine();
+        clearScreen();
+    }
+
+    public void story() {
+        System.out
+                .println("We are in 2030.The population of the world is almost 0.It seems Paks2 was a huge mistake...");
+        System.out.println("The nuclear power plant is built by a famous gas man named 'Meszaros'.");
+        System.out.println("He wanted a to build this factory with low cost, but something happened.");
+        System.out.println("The same problem like with the red mud factory.The cheap 'közbeszerzés' isn't so good.");
+        System.out.println(
+                "But you never trusted in goverment's and the modern world.You started to build an atom bunker.");
+        System.out.println("You gathered enough food, and reached your bunker before the catastrophe happened.\n");
+        System.out.println(
+                "After 5 year of hiding, you must come out from your bunker, because you consumed all of your foods.");
+        System.out.println("\nPress a button to continue!");
+        scanner.nextLine();
+        clearScreen();
+    }
+
+    public void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
 }
