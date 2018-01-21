@@ -9,7 +9,7 @@ The basic game with the basic tasks completed.It's time to improve the game
 
 We are in **2030**.The population of the world is almost 0. It seems **Paks2** was a huge mistake...<br/>
 The nuclear power plant is built by a famous gas man named "*Meszaros*".<br/>
-He wanted a to build this factory with low cost, but something happened.<br/>
+He wanted to build this factory with low cost, but something happened.<br/>
 The same problem like with the red mud factory.The cheap 'közbeszerzés' isn't so good.<br/>
 But you never trusted in the goverments and the modern world.You started to build an atom bunker.<br/>
 You gathered enough food, and reached your bunker before the catastrophe happened.<br/>
