@@ -7,9 +7,10 @@ public class Fight {
     private static Scanner scanner = new Scanner(System.in);
 
     static boolean fighting(Survivor survivor, Creatures enemy, Outpost outpost) {
+        outpost.clearScreen();
         System.out.println("\n"+enemy.getName() + " attacked you");
         enemy.printAttributes();
-        System.out.println("\nyour health: "+ survivor.getHealth() + " your strength: "+survivor.getStrength());
+        System.out.println("\tyour health: "+ survivor.getHealth() + "\t your strength: "+survivor.getStrength());
         boolean won;
         int yourStrength = survivor.getStrength();
         Weapon yourWeapon;
@@ -19,6 +20,7 @@ public class Fight {
             String line = scanner.nextLine();
             if (line.equals("Y")) {
                 while (true) {
+                    outpost.clearScreen();
                     outpost.List("Weapon");
                     System.out.println("\nEnter the name of the weapon, that you want to use");
                     line = scanner.nextLine();
@@ -27,7 +29,7 @@ public class Fight {
                     }
                     if (outpost.findWeapon(line) != null) {
                         yourWeapon = outpost.findWeapon(line);
-                        yourWeapon.setDurabillity(-1);
+                        outpost.findWeapon(line).setDurabillity(-1);
                         yourStrength += yourWeapon.getStrength();
                         break;
                     } else {
@@ -36,6 +38,7 @@ public class Fight {
                 }
                 break;
             } else if (line.equals("N")) {
+                outpost.clearScreen();
                 break;
             } else {
                 System.out.println("\nWrong input enter Y or N");
@@ -45,19 +48,21 @@ public class Fight {
         while (true) {
             enemyHealth-=yourStrength;
             if (enemyHealth < 1) {
+                outpost.clearScreen();
                 System.out.println("\nCongratulations, you won the fight");
-                System.out.println("\nyour health: "+ survivor.getHealth() + " your strength: "+survivor.getStrength());
                 won = true;
                 break;
             }
             survivor.setHealth(0 - enemy.getStrength());
             if (survivor.getHealth() < 1) {
+                outpost.clearScreen();
                 System.out.println("\nYou lost the fight, your Survivor is dead");
                 won = false;
                 break;
             }
         }
         survivor.setActionPoints(-1);
+        survivor.setHungerLevel(-10);
         return won;
     }
 }
