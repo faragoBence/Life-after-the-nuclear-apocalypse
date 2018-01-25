@@ -93,6 +93,8 @@ public class Main {
             } else if (menuChoose.equals(":help")) {
                 myOutpost.clearScreen();
                 myOutpost.help();
+            } else if (menuChoose.equals(":build")){
+                myOutpost.clearScreen();
             } else if (menuChoose.equals(":look")) {
                 myOutpost.clearScreen();
                 myOutpost.description(mySurvivor,myGasStation, myHospital, myMilitaryBase, mySchool);
