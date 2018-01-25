@@ -10,7 +10,7 @@ public class Main {
 
 
     public static void main(String[] args) throws FileNotFoundException {
-        Outpost myOutpost = Outpost.createNewOutpost();
+        Outpost myOutpost = new Outpost(new Survivor[0] , new Items[0]);
         Survivor mySurvivor;
         School mySchool = School.createSchool();
         GasStation myGasStation = GasStation.createGasStation();
@@ -61,8 +61,8 @@ public class Main {
                 myOutpost.clearScreen();
                 myOutpost.eating(mySurvivor);
             } else if (menuChoose.equals(":heal")) {
-                myOutpost.healing(mySurvivor);
                 myOutpost.clearScreen();
+                myOutpost.healing(mySurvivor);
             } else if (menuChoose.equals(":rest")) {
                 myOutpost.clearScreen();
                 myOutpost.rest(mySurvivor);

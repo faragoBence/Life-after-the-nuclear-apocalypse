@@ -10,4 +10,7 @@ public class Items {
     public String getName() {
         return name;
     }
+    public void printName(){
+        System.out.println(getName()); 
+    }
 }

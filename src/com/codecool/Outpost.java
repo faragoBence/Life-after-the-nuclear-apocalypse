@@ -24,15 +24,9 @@ public class Outpost {
         this.inventory = ItemReading(paths);
     }
 
-    static Outpost createNewOutpost() throws FileNotFoundException {
-        String[] paths = new String[] { "../data/foods.csv", "../data/medicines.csv", "../data/weapons.csv" };
-        return new Outpost("../data/survivors.csv", paths);
-
-    }
-
     static Outpost loadOutpost() throws FileNotFoundException {
         String[] paths = new String[] { "../data/savedfoods.csv", "../data/savedmedicines.csv",
-                "../data/savedweapons.csv" };
+                "../data/savedweapons.csv", "../data/savedresources.csv", "../data/savedfurnitures.csv" };
         return new Outpost("../data/savedsurvivors.csv", paths);
     }
 
@@ -65,6 +59,18 @@ public class Outpost {
 
     public Weapon createWeapon(String[] attrib) {
         return new Weapon(attrib[0], Integer.parseInt(attrib[1]), Integer.parseInt(attrib[2]));
+    }
+
+    public Resource createResource(String[] attrib) {
+        return new Resource(attrib[0]);
+    }
+
+    public Furniture createFurniture(String[] attrib) {
+        String[] newAttrib = new String[attrib.length-1];
+        for (int i = 1;i>attrib.length;i++){
+            newAttrib[i-1] = attrib[i];
+        }
+        return new Furniture(attrib[0], newAttrib);
     }
 
     //Reads the datas from file
@@ -104,8 +110,12 @@ public class Outpost {
                         items[lineNumber] = createFood(attributes);
                     } else if (csv.equals(path[1])) {
                         items[lineNumber] = createMedicine(attributes);
-                    } else {
+                    } else if (csv.equals(path[2])) {
                         items[lineNumber] = createWeapon(attributes);
+                    } else if (csv.equals(path[4])) {
+                        items[lineNumber] = createFurniture(attributes);
+                    } else {
+                        items[lineNumber] = createResource(attributes);
                     }
 
                     lineNumber++;
@@ -176,8 +186,27 @@ public class Outpost {
         return null;
     }
 
+    public Resource findResource(String name) {
+        for (int i = 0; i < inventory.length; i++) {
+            if (inventory[i].getName().equals(name) && inventory[i] instanceof Resource) {
+                return (Resource) inventory[i];
+            }
+        }
+        return null;
+    }
+
+    public Furniture findFurniture(String name) {
+        for (int i = 0; i < inventory.length; i++) {
+            if (inventory[i].getName().equals(name) && inventory[i] instanceof Furniture) {
+                return (Furniture) inventory[i];
+            }
+        }
+        return null;
+    }
+
     public void List(String type) {
-        System.out.println("\t" + type);
+        System.out.println("\t" + type+ "\n");
+        int cnt = 0;
         if (type.equals("Survivor")) {
             for (int i = 0; i < survivors.length; i++) {
                 System.out.println(survivors[i].getName());
@@ -186,20 +215,42 @@ public class Outpost {
             for (int i = 0; i < inventory.length; i++) {
                 if (inventory[i] instanceof Weapon) {
                     ((Weapon) inventory[i]).printAttributes();
+                    cnt ++;
                 }
             }
+            handleEmptyListing(cnt,type);
         } else if (type.equals("Food")) {
             for (int i = 0; i < inventory.length; i++) {
                 if (inventory[i] instanceof Food) {
                     ((Food) inventory[i]).printAttributes();
+                    cnt++;
                 }
             }
+            handleEmptyListing(cnt,type);
         } else if (type.equals("Medicine")) {
             for (int i = 0; i < inventory.length; i++) {
                 if (inventory[i] instanceof Medicine) {
                     ((Medicine) inventory[i]).printAttributes();
+                    cnt++;
                 }
             }
+            handleEmptyListing(cnt,type);
+        } else if (type.equals("Resource")) {
+            for (int i = 0; i < inventory.length; i++) {
+                if (inventory[i] instanceof Resource) {
+                    inventory[i].printName();
+                    cnt++;
+                }
+            }
+            handleEmptyListing(cnt,type);
+        } else if (type.equals("Furniture")) {
+            for (int i = 0; i < inventory.length; i++) {
+                if (inventory[i] instanceof Furniture) {
+                    inventory[i].printName();
+                    cnt++;
+                }
+            }
+            handleEmptyListing(cnt,type);
         } else {
             System.out.println("\nWrong input, enter something from the list below");
         }
@@ -225,13 +276,14 @@ public class Outpost {
     public void printMenu() {
         System.out.println("\nWhat's your next move?\n");
         System.out.println("\t:create = create new Survivor");
-        System.out.println("\t:list = ist your inventory");
+        System.out.println("\t:list = list your inventory");
         System.out.println("\t:eat = Consume a food");
         System.out.println("\t:heal = Use a medicine to heal your wounds");
         System.out.println("\t:rest = Action points go to max and you go to the next day");
         System.out.println("\t:travel = Travel to a specific location");
         System.out.println("\t:search = Search for items in your current location");
         System.out.println("\t:look = Look around and get valuable informations about the place");
+        System.out.println("\t:build = Build various furniture from your resources");
         System.out.println("\t:help = Provide some description about the game");
         System.out.println("\t:save = Save the game");
         System.out.println("\t:exit = Quit from the game.");
@@ -326,6 +378,22 @@ public class Outpost {
         return attrib;
     }
 
+    public String[] decompressResource(Resource resource) {
+        String attrib[] = new String[1];
+        attrib[0] = resource.getName();
+        return attrib;
+    }
+
+    public String[] decompressFurniture(Furniture furniture) {
+        String attrib[] = new String[furniture.getMaterialslenght()+1];
+        String[] item = furniture.getMaterials();
+        attrib[0] = furniture.getName();
+        for (int i = 1;i<furniture.getMaterialslenght()+1;i++){
+            attrib[i] = item[i];
+        }
+        return attrib;
+    }
+
     public void writeToSurvivorFile() {
         String[] attributes = null;
         try {
@@ -411,6 +479,35 @@ public class Outpost {
                             sb.append("\n");
                         }
                     }
+                } else if (type.equals("Resource")) {
+                for (int i = 0; i < inventory.length; i++) {
+                    if (inventory[i] instanceof Resource) {
+                        Resource resource = (Resource) inventory[i];
+                        attributes = decompressResource(resource);
+                        for (String att : attributes) {
+                            sb.append(att);
+
+                        }
+                        sb.append("\n");
+                    }
+                }
+                }else if (type.equals("Furniture")) {
+                    for (int i = 0; i < inventory.length; i++) {
+                        if (inventory[i] instanceof Furniture) {
+                            Furniture furniture = (Furniture) inventory[i];
+                            int collCnt = 0;
+                            attributes = decompressFurniture(furniture);
+                            for (String att : attributes) {
+                                sb.append(att);
+                                collCnt++;
+                                if (collCnt != furniture.getMaterialslenght()+1) {
+                                    sb.append(",");
+                                }
+
+                            }
+                            sb.append("\n");
+                        }
+                    }
                 }
 
                 String mystr = sb.toString();
@@ -433,7 +530,8 @@ public class Outpost {
 
     public void listing() {
         System.out.println("Choose from the listing options\n");
-        System.out.println("\t(1) Survivors\n\t(2) Items\n\t(3) Foods\n\t(4) Medicines\n\t(5) Weapons");
+        System.out
+                .println("\t(1) Survivors\n\t(2) Items\n\t(3) Foods\n\t(4) Medicines\n\t(5) Weapons\n\t(6) Resources\n\t(7) Furnitures");
         String listingOption = scanner.nextLine();
         clearScreen();
         if (listingOption.equals("1")) {
@@ -442,12 +540,17 @@ public class Outpost {
             List("Food");
             List("Medicine");
             List("Weapon");
+            List("Resource");
         } else if (listingOption.equals("3")) {
             List("Food");
         } else if (listingOption.equals("4")) {
             List("Medicine");
         } else if (listingOption.equals("5")) {
             List("Weapon");
+        } else if (listingOption.equals("6")) {
+            List("Resource");
+        } else if (listingOption.equals("7")) {
+            List("Furniture");
         } else {
             System.out.println("\nYou entered wrong input!\n");
         }
@@ -508,6 +611,8 @@ public class Outpost {
                 writeToItemsFile("../data/savedweapons.csv", "Weapon");
                 writeToItemsFile("../data/savedfoods.csv", "Food");
                 writeToItemsFile("../data/savedmedicines.csv", "Medicine");
+                writeToItemsFile("../data/savedresources.csv", "Resource");
+                writeToItemsFile("../data/savedfurnitures.csv", "Furniture");
                 break;
             } else if (saveoption.equals("N")) {
                 break;
@@ -597,6 +702,11 @@ public class Outpost {
     public void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+    public void handleEmptyListing(int cnt, String type){
+        if (cnt == 0){
+            System.out.println("\nNo " + type + " is in your inventory");
+        }
     }
 
 }
