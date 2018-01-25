@@ -52,8 +52,10 @@ public class Location {
             Creatures[] enemies = getEnemies();
             int lootPercent = random.nextInt(100) + 1;
             int enemyPercent = random.nextInt(100) + 1;
+            int resourcePercent = random.nextInt(4);
             Items loot = lootable[lootable.length - 1];
             Creatures enemy = enemies[enemies.length - 1];
+            Resource[] resources = Resource.createResourceList();
 
             for (int i = lootpercents.length - 1; i > -1; i--) {
                 if (lootPercent < lootpercents[i]) {
@@ -66,6 +68,7 @@ public class Location {
                 }
             }
             if (Fight.fighting(survivor, enemy, outpost)) {
+                outpost.addTo(resources[resourcePercent]);
                 outpost.addTo(loot);
             }
         } else {
