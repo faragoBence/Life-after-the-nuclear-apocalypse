@@ -14,6 +14,7 @@ public class Fight {
         boolean won;
         int yourStrength = survivor.getStrength();
         Weapon yourWeapon;
+        Weapon tempWeapon;
         int enemyHealth = enemy.getHealth();
         while (true) {
             System.out.println("\nDo you want to use a weapon from your inventory? \n(Y)es or (N)o?");
@@ -28,9 +29,13 @@ public class Fight {
                         break;
                     }
                     if (outpost.findWeapon(line) != null) {
-                        yourWeapon = outpost.findWeapon(line);
-                        outpost.findWeapon(line).setDurabillity(-1,outpost);
+                        tempWeapon = outpost.findWeapon(line);
+                        yourWeapon = new Weapon(tempWeapon.getName(), tempWeapon.getStrength(), tempWeapon.getDurabillity());
+                        yourWeapon.setDurabillity(-1,outpost);
+                        outpost.removeItem(tempWeapon.getName());
+                        outpost.addTo(yourWeapon);
                         yourStrength += yourWeapon.getStrength();
+                        outpost.clearScreen();
                         break;
                     } else {
                         System.out.println("\nEnter a weapon name from the list or enter 0 to go back");
