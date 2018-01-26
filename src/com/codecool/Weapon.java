@@ -21,7 +21,7 @@ public class Weapon extends Items {
     public void setDurabillity(int value,Outpost outpost) {
         durability += value;
         if (durability < 1){
-            outpost.removeItem(getName());
+            outpost.removeItem(new String[]{getName()});
         }
     }
 

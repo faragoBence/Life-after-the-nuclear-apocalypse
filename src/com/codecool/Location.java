@@ -52,7 +52,7 @@ public class Location {
             Creatures[] enemies = getEnemies();
             int lootPercent = random.nextInt(100) + 1;
             int enemyPercent = random.nextInt(100) + 1;
-            int resourcePercent = random.nextInt(4);
+            int resourcePercent = random.nextInt(5);
             Items loot = lootable[lootable.length - 1];
             Creatures enemy = enemies[enemies.length - 1];
             Resource[] resources = Resource.createResourceList();
@@ -68,8 +68,10 @@ public class Location {
                 }
             }
             if (Fight.fighting(survivor, enemy, outpost)) {
-                outpost.addTo(resources[resourcePercent]);
                 outpost.addTo(loot);
+                outpost.addTo(resources[resourcePercent]);
+                resourcePercent = random.nextInt(5);
+                outpost.addTo(resources[resourcePercent]);
             }
         } else {
             System.out.println("\nYou don't have enough action points! You should rest at the outpost");

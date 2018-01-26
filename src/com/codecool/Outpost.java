@@ -16,20 +16,39 @@ public class Outpost {
     Furniture[] furnituresList;
 
     public Outpost(Survivor[] survivors, Items[] inventory) {
-        createFurnitureList();
+        this.furnituresList = createFurnitureList();
         this.survivors = survivors;
         this.inventory = inventory;
     }
 
     public Outpost(String survivorsPath, String[] paths) throws FileNotFoundException {
-        createFurnitureList();
+        this.furnituresList = createFurnitureList();
         this.survivors = SurvivorReading(survivorsPath);
         this.inventory = ItemReading(paths);
     }
 
-    public void createFurnitureList() {
-        //addTo(furniture);
-        //addTo(furniture);
+    public Furniture[] createFurnitureList() {
+        Furniture[] furnitures = new Furniture[10];
+        furnitures[0] =new Furniture("Workbench", "You can craft better furniture here",
+                new String[] { "Wood", "Wood", "Scrap metal", "Scrap metal", "Wool" });
+                furnitures[1]=new Furniture("Bed", "+1 action points", new String[] { "Wood", "Wood", "Wool", "Wool" });
+                furnitures[2]=new Furniture("Refrigerator", "+1 konserv after ':rest'",
+                new String[] { "Scrap metal", "Scrap metal", "Scrap metal", "Scrap metal", "Scrap metal" });
+                furnitures[3]=new Furniture("Weaponmaker set", "You can craft weapons here", new String[] { "Scrap metal",
+                "Scrap metal", "Scrap metal", "Scrap metal", "Scrap metal", "Scrap metal" });
+                furnitures[4]=new Furniture("Oven", "You can craft foods here",
+                new String[] { "Scrap metal", "Scrap metal", "Scrap metal", "Scrap metal" });
+                furnitures[5]=new Furniture("Chemical Set", "You can craft foods here",
+                new String[] { "Scrap metal", "Scrap metal", "Scrap metal", "Chemical", "Chemical" });
+                furnitures[6]=new Furniture("Pottery", "+1 apple after ':rest'", new String[] { "Wood", "Wood", "Chemical" });
+                furnitures[7]=new Furniture("Gym", "+2 basic attack power",
+                new String[] { "Wood", "Wood", "Wood", "Scrap metal", "Scrap metal", "Scrap metal" });
+                furnitures[8]=new Furniture("Insulation", "After ':rest' the radiation damage is decreased by 15",
+                new String[] { "Wood", "Wood", "Wool", "Wool", "Scrap metal", "Scrap metal" });
+                furnitures[9]=new Furniture("Water Purifier", "+1 Fresh water after ':rest'",
+                new String[] { "Scrap metal", "Scrap metal", "Wood", "Wood", "Chemical", "Chemical" });
+                return furnitures;
+
     }
 
     static Outpost loadOutpost() throws FileNotFoundException {
@@ -69,16 +88,16 @@ public class Outpost {
         return new Weapon(attrib[0], Integer.parseInt(attrib[1]), Integer.parseInt(attrib[2]));
     }
 
-    public Resource createResource(String[] attrib) {
-        return new Resource(attrib[0], Integer.parseInt(attrib[1]));
+    public Resource createResource(String attrib) {
+        return new Resource(attrib);
     }
 
     public Furniture createFurniture(String[] attrib) {
-        String[] newAttrib = new String[attrib.length - 1];
-        for (int i = 1; i > attrib.length; i++) {
+        String[] newAttrib = new String[attrib.length-2];
+        for (int i = 2; i > attrib.length; i++) {
             newAttrib[i - 1] = attrib[i];
         }
-        return new Furniture(attrib[0], newAttrib);
+        return new Furniture(attrib[0], attrib[1], newAttrib);
     }
 
     //Reads the datas from file
@@ -113,17 +132,20 @@ public class Outpost {
             line = "";
             try (BufferedReader reader = new BufferedReader(new FileReader(csv))) {
                 while ((line = reader.readLine()) != null) {
-                    String[] attributes = line.split(",");
                     if (csv.equals(path[0])) {
+                        String[] attributes = line.split(",");
                         items[lineNumber] = createFood(attributes);
                     } else if (csv.equals(path[1])) {
+                        String[] attributes = line.split(",");
                         items[lineNumber] = createMedicine(attributes);
                     } else if (csv.equals(path[2])) {
+                        String[] attributes = line.split(",");
                         items[lineNumber] = createWeapon(attributes);
                     } else if (csv.equals(path[4])) {
+                        String[] attributes = line.split(",");
                         items[lineNumber] = createFurniture(attributes);
                     } else {
-                        items[lineNumber] = createResource(attributes);
+                        items[lineNumber] = createResource(line);
                     }
 
                     lineNumber++;
@@ -262,7 +284,7 @@ public class Outpost {
             }
         } else if (type.equals("Buildables")) {
             for (Furniture furniture : furnituresList) {
-                System.out.println("\t" + furniture);
+                furniture.printAttributes();
             }
             handleEmptyListing(cnt, type);
         } else if (type.equals("Furniture")) {
@@ -278,16 +300,19 @@ public class Outpost {
         }
     }
 
-    public void removeItem(String name) {
+    public void removeItem(String[] names) {
         int cnt = 0;
-        for (int i = 0; i < inventory.length; i++) {
-            if (inventory[i].getName().equals(name)) {
-                Items[] copy = new Items[inventory.length - 1];
-                System.arraycopy(inventory, 0, copy, 0, i);
-                System.arraycopy(inventory, i + 1, copy, i, inventory.length - i - 1);
-                inventory = copy;
-                cnt++;
-                System.out.println("\n" + name + "removed from your inventory");
+        for (String name : names) {
+
+            for (int i = 0; i < inventory.length; i++) {
+                if (inventory[i].getName().equals(name)) {
+                    Items[] copy = new Items[inventory.length - 1];
+                    System.arraycopy(inventory, 0, copy, 0, i);
+                    System.arraycopy(inventory, i + 1, copy, i, inventory.length - i - 1);
+                    inventory = copy;
+                    cnt++;
+                    System.out.println("\n" + name + "removed from your inventory");
+                }
             }
         }
         if (cnt == 0) {
@@ -401,17 +426,17 @@ public class Outpost {
     }
 
     public String[] decompressResource(Resource resource) {
-        String attrib[] = new String[2];
+        String attrib[] = new String[1];
         attrib[0] = resource.getName();
-        attrib[1] = Integer.toString(resource.getValue());
         return attrib;
     }
 
     public String[] decompressFurniture(Furniture furniture) {
-        String attrib[] = new String[furniture.getMaterialslenght() + 1];
+        String attrib[] = new String[furniture.getMaterialslenght() + 2];
         String[] item = furniture.getMaterials();
         attrib[0] = furniture.getName();
-        for (int i = 1; i < furniture.getMaterialslenght() + 1; i++) {
+        attrib[1] = furniture.getEffect();
+        for (int i = 2; i < furniture.getMaterialslenght() + 2; i++) {
             attrib[i] = item[i];
         }
         return attrib;
@@ -506,14 +531,9 @@ public class Outpost {
                     for (int i = 0; i < inventory.length; i++) {
                         if (inventory[i] instanceof Resource) {
                             Resource resource = (Resource) inventory[i];
-                            int collCnt = 0;
                             attributes = decompressResource(resource);
                             for (String att : attributes) {
                                 sb.append(att);
-                                collCnt++;
-                                if (collCnt != 3) {
-                                    sb.append(",");
-                                }
                             }
                             sb.append("\n");
                         }
@@ -527,7 +547,7 @@ public class Outpost {
                             for (String att : attributes) {
                                 sb.append(att);
                                 collCnt++;
-                                if (collCnt != furniture.getMaterialslenght() + 1) {
+                                if (collCnt != furniture.getMaterialslenght() + 2) {
                                     sb.append(",");
                                 }
 
@@ -597,7 +617,7 @@ public class Outpost {
             survivor.setHungerLevel(myFood.getFoodValue());
             survivor.setRadiationLevel(0 - myFood.getRadiation());
             clearScreen();
-            removeItem(myFood.getName());
+            removeItem(new String[] { myFood.getName() });
         } else {
             clearScreen();
             System.out.println("\nYou entered wrong food name!\n");
@@ -613,7 +633,7 @@ public class Outpost {
             survivor.setHealth(myMedicine.getHealingFactor());
             survivor.setRadiationLevel(myMedicine.getRadiationHealingFactor());
             clearScreen();
-            removeItem(myMedicine.getName());
+            removeItem(new String[] { myMedicine.getName() });
         } else {
             clearScreen();
             System.out.println("\nYou entered wrong medicine name!\n");
@@ -653,7 +673,7 @@ public class Outpost {
     }
 
     public void build() {
-
+        clearScreen();
     }
 
     public void quit() {
@@ -676,7 +696,7 @@ public class Outpost {
         System.out.println("In combat, you can use a weapon from your inventory.");
         System.out.println(
                 "Every location has a specific radiation level, so it will decrease your radiation damage if you search there.");
-        System.out.println("With every search you can find an item and a resource material for crafting");
+        System.out.println("With every search you can find an item and two resource material for crafting");
         System.out.println("Your action points will be decreased by 1 and hunger level by 10\n");
         System.out.println("If your action points are 0, you need to rest in your outpost.");
         System.out.println(

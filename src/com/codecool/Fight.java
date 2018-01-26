@@ -21,7 +21,6 @@ public class Fight {
             String line = scanner.nextLine();
             if (line.equals("Y")) {
                 while (true) {
-                    outpost.clearScreen();
                     outpost.List("Weapon");
                     System.out.println("\nEnter the name of the weapon, that you want to use");
                     line = scanner.nextLine();
@@ -32,12 +31,13 @@ public class Fight {
                         tempWeapon = outpost.findWeapon(line);
                         yourWeapon = new Weapon(tempWeapon.getName(), tempWeapon.getStrength(), tempWeapon.getDurabillity());
                         yourWeapon.setDurabillity(-1,outpost);
-                        outpost.removeItem(tempWeapon.getName());
+                        outpost.removeItem(new String[]{tempWeapon.getName()});
                         outpost.addTo(yourWeapon);
                         yourStrength += yourWeapon.getStrength();
                         outpost.clearScreen();
                         break;
                     } else {
+                        outpost.clearScreen();
                         System.out.println("\nEnter a weapon name from the list or enter 0 to go back");
                     }
                 }
