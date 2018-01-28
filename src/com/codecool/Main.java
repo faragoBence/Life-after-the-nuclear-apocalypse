@@ -66,6 +66,7 @@ public class Main {
             } else if (menuChoose.equals(":rest")) {
                 myOutpost.clearScreen();
                 myOutpost.rest(mySurvivor);
+                myOutpost.bonuses(mySurvivor);
             } else if (menuChoose.equals(":travel")) {
                 myOutpost.clearScreen();
                 myOutpost.travel(mySurvivor,myGasStation,myHospital,mySchool,myMilitaryBase);
@@ -95,6 +96,7 @@ public class Main {
                 myOutpost.help();
             } else if (menuChoose.equals(":build")){
                 myOutpost.clearScreen();
+                myOutpost.build();
             } else if (menuChoose.equals(":look")) {
                 myOutpost.clearScreen();
                 myOutpost.description(mySurvivor,myGasStation, myHospital, myMilitaryBase, mySchool);

@@ -30,9 +30,6 @@ public class Survivor {
 
     public void setActionPoints(int value) {
         actionPoints += value;
-        if (actionPoints > 2) {
-            actionPoints = 2;
-        }
     }
 
     public int getHungerLevel() {
@@ -43,6 +40,7 @@ public class Survivor {
         hungerLevel += value;
         if (hungerLevel < 1) {
             System.out.println("You are dead");
+            System.exit(0);
         }
         if (hungerLevel > 100) { 
             hungerLevel = 100;
@@ -57,6 +55,7 @@ public class Survivor {
         health += value;
         if (health < 1) {
             System.out.println("You are dead");
+            System.exit(0);
         }
         if (health > 100) {
             health = 100;
@@ -71,6 +70,7 @@ public class Survivor {
         radiationLevel += value;
         if (radiationLevel < 1) {
             System.out.println("You are dead");
+            System.exit(0);
         }
         if (radiationLevel > 100) {
             radiationLevel = 100;
@@ -87,6 +87,9 @@ public class Survivor {
 
     public int getStrength() {
         return strength;
+    }
+    public void setStrength(int value) {
+        strength = value;
     }
 
     public void printAttributes() {

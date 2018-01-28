@@ -28,26 +28,24 @@ public class Outpost {
     }
 
     public Furniture[] createFurnitureList() {
-        Furniture[] furnitures = new Furniture[10];
-        furnitures[0] =new Furniture("Workbench", "You can craft better furniture here",
-                new String[] { "Wood", "Wood", "Scrap metal", "Scrap metal", "Wool" });
-                furnitures[1]=new Furniture("Bed", "+1 action points", new String[] { "Wood", "Wood", "Wool", "Wool" });
-                furnitures[2]=new Furniture("Refrigerator", "+1 konserv after ':rest'",
+        Furniture[] furnitures = new Furniture[9];
+        furnitures[0] = new Furniture("Bed", "+1 action points", new String[] { "Wood", "Wood", "Wool", "Wool" });
+        furnitures[1] = new Furniture("Refrigerator", "+1 konserv after ':rest'",
                 new String[] { "Scrap metal", "Scrap metal", "Scrap metal", "Scrap metal", "Scrap metal" });
-                furnitures[3]=new Furniture("Weaponmaker set", "You can craft weapons here", new String[] { "Scrap metal",
+        furnitures[2] = new Furniture("Weaponmaker set", "You can craft weapons here", new String[] { "Scrap metal",
                 "Scrap metal", "Scrap metal", "Scrap metal", "Scrap metal", "Scrap metal" });
-                furnitures[4]=new Furniture("Oven", "You can craft foods here",
+        furnitures[3] = new Furniture("Oven", "You can craft foods here",
                 new String[] { "Scrap metal", "Scrap metal", "Scrap metal", "Scrap metal" });
-                furnitures[5]=new Furniture("Chemical Set", "You can craft foods here",
+        furnitures[4] = new Furniture("Chemical Set", "You can craft foods here",
                 new String[] { "Scrap metal", "Scrap metal", "Scrap metal", "Chemical", "Chemical" });
-                furnitures[6]=new Furniture("Pottery", "+1 apple after ':rest'", new String[] { "Wood", "Wood", "Chemical" });
-                furnitures[7]=new Furniture("Gym", "+2 basic attack power",
+        furnitures[5] = new Furniture("Pottery", "+1 apple after ':rest'", new String[] { "Wood", "Wood", "Chemical" });
+        furnitures[6] = new Furniture("Gym", "+2 basic attack power",
                 new String[] { "Wood", "Wood", "Wood", "Scrap metal", "Scrap metal", "Scrap metal" });
-                furnitures[8]=new Furniture("Insulation", "After ':rest' the radiation damage is decreased by 15",
+        furnitures[7] = new Furniture("Insulation", "After ':rest' the radiation damage is decreased by 15",
                 new String[] { "Wood", "Wood", "Wool", "Wool", "Scrap metal", "Scrap metal" });
-                furnitures[9]=new Furniture("Water Purifier", "+1 Fresh water after ':rest'",
+        furnitures[8] = new Furniture("Water Purifier", "+1 Fresh water after ':rest'",
                 new String[] { "Scrap metal", "Scrap metal", "Wood", "Wood", "Chemical", "Chemical" });
-                return furnitures;
+        return furnitures;
 
     }
 
@@ -93,7 +91,7 @@ public class Outpost {
     }
 
     public Furniture createFurniture(String[] attrib) {
-        String[] newAttrib = new String[attrib.length-2];
+        String[] newAttrib = new String[attrib.length - 2];
         for (int i = 2; i > attrib.length; i++) {
             newAttrib[i - 1] = attrib[i];
         }
@@ -170,16 +168,6 @@ public class Outpost {
         System.out.println("\n" + item.getName() + " added to your inventory");
     }
 
-    public void addTo(Furniture furniture) {
-        Furniture[] tempArray = new Furniture[furnituresList.length + 1];
-        for (int i = 0; i < furnituresList.length; i++) {
-            tempArray[i] = furnituresList[i];
-        }
-        tempArray[tempArray.length - 1] = furniture;
-        furnituresList = tempArray;
-        System.out.println("\n" + furniture.getName() + " added to your inventory\n");
-    }
-
     public void addTo(Survivor survivor) {
         Survivor[] tempArray = new Survivor[survivors.length + 1];
         for (int i = 0; i < survivors.length; i++) {
@@ -239,6 +227,15 @@ public class Outpost {
         for (int i = 0; i < inventory.length; i++) {
             if (inventory[i].getName().equals(name) && inventory[i] instanceof Furniture) {
                 return (Furniture) inventory[i];
+            }
+        }
+        return null;
+    }
+
+    public Furniture findBuildable(String name) {
+        for (int i = 0; i < furnituresList.length; i++) {
+            if (furnituresList[i].getName().equals(name)) {
+                return furnituresList[i];
             }
         }
         return null;
@@ -311,7 +308,8 @@ public class Outpost {
                     System.arraycopy(inventory, i + 1, copy, i, inventory.length - i - 1);
                     inventory = copy;
                     cnt++;
-                    System.out.println("\n" + name + "removed from your inventory");
+                    System.out.println("\n" + name + " removed from your inventory");
+                    break;
                 }
             }
         }
@@ -436,8 +434,8 @@ public class Outpost {
         String[] item = furniture.getMaterials();
         attrib[0] = furniture.getName();
         attrib[1] = furniture.getEffect();
-        for (int i = 2; i < furniture.getMaterialslenght() + 2; i++) {
-            attrib[i] = item[i];
+        for (int i = 2; i < furniture.getMaterialslenght()+2; i++) {
+            attrib[i] = item[i-2];
         }
         return attrib;
     }
@@ -642,7 +640,7 @@ public class Outpost {
 
     public void rest(Survivor survivor) {
         if (survivor.getCurrentLocation().equals("Outpost")) {
-            survivor.setActionPoints(2);
+            survivor.setActionPoints(-survivor.getActionPoints()+2);
             survivor.setHungerLevel(-35);
             survivor.setRadiationLevel(-10);
         } else {
@@ -673,7 +671,26 @@ public class Outpost {
     }
 
     public void build() {
+        List("Buildables");
+        System.out.println("\nPlease enter a the name of the furniture, that you want to build!\n");
+        String furnitureName = scanner.nextLine();
         clearScreen();
+        Furniture furniture = findBuildable(furnitureName);
+        if (furniture != null) {
+            if (containsResource(furniture.getMaterials())) {
+                if (findFurniture(furniture.getName()) == null) {
+                    removeItem(furniture.getMaterials());
+                    addTo(furniture);
+                    System.out.println("You successfully built a(n) " + furniture.getName() + "\n");
+                } else {
+                    System.out.println("You already built a(n) " + furniture.getName() + "\n");
+                }
+            } else {
+                System.out.println("You don't have the specific materials to build a(n) " + furniture.getName() + "\n");
+            }
+        } else {
+            System.out.println("You entered wrong furniture name");
+        }
     }
 
     public void quit() {
@@ -697,6 +714,7 @@ public class Outpost {
         System.out.println(
                 "Every location has a specific radiation level, so it will decrease your radiation damage if you search there.");
         System.out.println("With every search you can find an item and two resource material for crafting");
+        System.out.println("With materials you can build several useful furniture and craft items");
         System.out.println("Your action points will be decreased by 1 and hunger level by 10\n");
         System.out.println("If your action points are 0, you need to rest in your outpost.");
         System.out.println(
@@ -764,13 +782,59 @@ public class Outpost {
         }
     }
 
-    public boolean contains(String str) {
+    public boolean containsResource(String[] strings) {
+        Items[] tempInv = new Items[inventory.length];
+        int cnt = 0;
+        for (int i = 0; i < inventory.length; i++) {
+            tempInv[i] = inventory[i];
+        }
+        for (String str : strings) {
+            for (int i = 0; i < tempInv.length; i++) {
+                if (tempInv[i].getName().equals(str)) {
+                    cnt++;
+                    Items[] copy = new Items[tempInv.length - 1];
+                    System.arraycopy(tempInv, 0, copy, 0, i);
+                    System.arraycopy(tempInv, i + 1, copy, i, tempInv.length - i - 1);
+                    tempInv = copy;
+                    break;
+                }
+            }
+        }
+        if (cnt == strings.length) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean containsFurnitures(String str) {
         for (int i = 0; i < inventory.length; i++) {
             if (inventory[i].getName().equals(str)) {
                 return true;
             }
         }
         return false;
+    }
+
+    public void bonuses(Survivor survivor) {
+        if (containsFurnitures("Bed")) {
+            survivor.setActionPoints(-survivor.getActionPoints()+3);
+        }
+        if (containsFurnitures("Refrigerator")) {
+            addTo(new Food("Canned food", 35, 0));
+        }
+        if (containsFurnitures("Pottery")) {
+            addTo(new Food("Apple", 10, -2));
+        }
+        if (containsFurnitures("Gym")) {
+            survivor.setStrength(7);
+        }
+        if (containsFurnitures("Insulation")) {
+            survivor.setRadiationLevel(10);
+        }
+        if (containsFurnitures("Water Purifier")) {
+            addTo(new Food("Fresh water", 25, -5));
+        }
+
     }
 
 }
