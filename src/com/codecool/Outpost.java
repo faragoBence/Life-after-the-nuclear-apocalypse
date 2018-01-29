@@ -28,7 +28,7 @@ public class Outpost {
     }
 
     public Furniture[] createFurnitureList() {
-        Furniture[] furnitures = new Furniture[9];
+        Furniture[] furnitures = new Furniture[10];
         furnitures[0] = new Furniture("Bed", "+1 action points", new String[] { "Wood", "Wood", "Wool", "Wool" });
         furnitures[1] = new Furniture("Refrigerator", "+1 konserv after ':rest'",
                 new String[] { "Scrap metal", "Scrap metal", "Scrap metal", "Scrap metal", "Scrap metal" });
@@ -45,6 +45,7 @@ public class Outpost {
                 new String[] { "Wood", "Wood", "Wool", "Wool", "Scrap metal", "Scrap metal" });
         furnitures[8] = new Furniture("Water Purifier", "+1 Fresh water after ':rest'",
                 new String[] { "Scrap metal", "Scrap metal", "Wood", "Wood", "Chemical", "Chemical" });
+        furnitures[9] = new Furniture("Radio Tower" , "The end of the game", new String[] { "Wood", "Wood", "Wood","Wood","Wood","Scrap metal", "Scrap metal", "Scrap metal","Scrap metal", "Scrap metal", "Scrap metal"});
         return furnitures;
 
     }
@@ -723,6 +724,7 @@ public class Outpost {
                 "Your health,radiation and hunger can be restored with ':eat' and ':heal' command.These doesn't takes action points.");
         System.out.println("You can also save your progress everytime with ':save' command\n");
         System.out.println("If your hunger,health and radiation hits 0, you are dead, so be careful!");
+        System.out.println("You win the game if you build the radio tower (5 Wood, 6 Scrap metal)");
         System.out.println("Good luck Survivor!");
         System.out.println("\nPress a button to continue!");
         scanner.nextLine();

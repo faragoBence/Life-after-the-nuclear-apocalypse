@@ -7,10 +7,8 @@ import java.util.Scanner;
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
 
-
-
     public static void main(String[] args) throws FileNotFoundException {
-        Outpost myOutpost = new Outpost(new Survivor[0] , new Items[0]);
+        Outpost myOutpost = new Outpost(new Survivor[0], new Items[0]);
         Survivor mySurvivor;
         School mySchool = School.createSchool();
         GasStation myGasStation = GasStation.createGasStation();
@@ -36,9 +34,9 @@ public class Main {
                 myOutpost.clearScreen();
                 mySurvivor = myOutpost.findSurvivor(name);
                 break;
-            }else if (line.equals("3")) {
+            } else if (line.equals("3")) {
                 myOutpost.story();
-            }else if (line.equals("4")) {
+            } else if (line.equals("4")) {
                 myOutpost.help();
             } else if (line.equals("0")) {
                 System.exit(0);
@@ -47,6 +45,16 @@ public class Main {
             }
         }
         while (true) {
+            try{
+                if (myOutpost.containsFurnitures("Radio Tower")) {
+                    myOutpost.clearScreen();
+                    throw new GamesWonException(
+                            "Congratulation, u won the game\n Your survivor found the others. Thanks for playing!");
+                }
+            }catch(GamesWonException e){
+                System.out.println(e.getMessage());
+                System.exit(0);
+            }
             mySurvivor.printAttributes();
             myOutpost.printMenu();
             String menuChoose = scanner.nextLine();
@@ -56,6 +64,7 @@ public class Main {
                 myOutpost.addTo(mySurvivor);
             } else if (menuChoose.equals(":list")) {
                 myOutpost.clearScreen();
+                myOutpost.addTo(new Furniture("Radio Tower", "yep", new String[]{}) );
                 myOutpost.listing();
             } else if (menuChoose.equals(":eat")) {
                 myOutpost.clearScreen();
@@ -69,37 +78,37 @@ public class Main {
                 myOutpost.bonuses(mySurvivor);
             } else if (menuChoose.equals(":travel")) {
                 myOutpost.clearScreen();
-                myOutpost.travel(mySurvivor,myGasStation,myHospital,mySchool,myMilitaryBase);
+                myOutpost.travel(mySurvivor, myGasStation, myHospital, mySchool, myMilitaryBase);
             } else if (menuChoose.equals(":search")) {
                 myOutpost.clearScreen();
                 switch (mySurvivor.getCurrentLocation()) {
-                    case "Outpost":
-                        System.out.println("You can't scarvange your outpost!");
-                        break;
-                    case "GasStation":
-                        myGasStation.search(mySurvivor, myOutpost);
-                        break;
-                    case "Hospital":
-                        myHospital.search(mySurvivor, myOutpost);
-                        break;
-                    case "MilitaryBase":
-                        myMilitaryBase.search(mySurvivor, myOutpost);
-                        break;
-                    case "School":
-                        mySchool.search(mySurvivor, myOutpost);
-                        break;
-                    default:
-                        throw new IllegalArgumentException();
-                    }
+                case "Outpost":
+                    System.out.println("You can't scarvange your outpost!");
+                    break;
+                case "GasStation":
+                    myGasStation.search(mySurvivor, myOutpost);
+                    break;
+                case "Hospital":
+                    myHospital.search(mySurvivor, myOutpost);
+                    break;
+                case "MilitaryBase":
+                    myMilitaryBase.search(mySurvivor, myOutpost);
+                    break;
+                case "School":
+                    mySchool.search(mySurvivor, myOutpost);
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+                }
             } else if (menuChoose.equals(":help")) {
                 myOutpost.clearScreen();
                 myOutpost.help();
-            } else if (menuChoose.equals(":build")){
+            } else if (menuChoose.equals(":build")) {
                 myOutpost.clearScreen();
                 myOutpost.build();
             } else if (menuChoose.equals(":look")) {
                 myOutpost.clearScreen();
-                myOutpost.description(mySurvivor,myGasStation, myHospital, myMilitaryBase, mySchool);
+                myOutpost.description(mySurvivor, myGasStation, myHospital, myMilitaryBase, mySchool);
             } else if (menuChoose.equals(":save")) {
                 myOutpost.clearScreen();
                 myOutpost.saving();
@@ -107,8 +116,7 @@ public class Main {
                 myOutpost.clearScreen();
                 myOutpost.quit();
 
-            }
-            else{
+            } else {
                 myOutpost.clearScreen();
                 System.out.println("You entered an unknown command!\n");
             }
