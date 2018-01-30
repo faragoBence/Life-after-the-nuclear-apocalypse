@@ -14,20 +14,26 @@ public class Outpost {
     Items[] inventory;
     private static Scanner scanner = new Scanner(System.in);
     Furniture[] furnituresList;
+    Items[] craftables;
+    String[][] recipes;
 
     public Outpost(Survivor[] survivors, Items[] inventory) {
         this.furnituresList = createFurnitureList();
+        this.craftables = createCraftables();
+        this.recipes = createRecipes();
         this.survivors = survivors;
         this.inventory = inventory;
     }
 
     public Outpost(String survivorsPath, String[] paths) throws FileNotFoundException {
         this.furnituresList = createFurnitureList();
+        this.craftables = createCraftables();
+        this.recipes = createRecipes();
         this.survivors = SurvivorReading(survivorsPath);
         this.inventory = ItemReading(paths);
     }
 
-    public Furniture[] createFurnitureList() {
+    private Furniture[] createFurnitureList() {
         Furniture[] furnitures = new Furniture[10];
         furnitures[0] = new Furniture("Bed", "+1 action points", new String[] { "Wood", "Wood", "Wool", "Wool" });
         furnitures[1] = new Furniture("Refrigerator", "+1 konserv after ':rest'",
@@ -45,9 +51,38 @@ public class Outpost {
                 new String[] { "Wood", "Wood", "Wool", "Wool", "Scrap metal", "Scrap metal" });
         furnitures[8] = new Furniture("Water Purifier", "+1 Fresh water after ':rest'",
                 new String[] { "Scrap metal", "Scrap metal", "Wood", "Wood", "Chemical", "Chemical" });
-        furnitures[9] = new Furniture("Radio Tower" , "The end of the game", new String[] { "Wood", "Wood", "Wood","Wood","Wood","Scrap metal", "Scrap metal", "Scrap metal","Scrap metal", "Scrap metal", "Scrap metal"});
+        furnitures[9] = new Furniture("Radio Tower", "The end of the game",
+                new String[] { "Wood", "Wood", "Wood", "Wood", "Wood", "Scrap metal", "Scrap metal", "Scrap metal",
+                        "Scrap metal", "Scrap metal", "Scrap metal" });
         return furnitures;
 
+    }
+
+    private Items[] createCraftables() {
+        Items[] craftables = new Items[11];
+        craftables[0] = new Weapon("Baseball bat", 15, 3);
+        craftables[1] = new Weapon("Knife", 10, 3);
+        craftables[2] = new Weapon("Handgun", 25, 2);
+        craftables[3] = new Weapon("Shotgun", 30, 2);
+        craftables[4] = new Food("Chili", 50, -20);
+        craftables[5] = new Food("Langos", 25, -10);
+        craftables[6] = new Food("Canned food", 35, 0);
+        craftables[7] = new Medicine("First aid kit", 80, 0);
+        craftables[8] = new Medicine("Rad-x", 25, 60);
+        craftables[9] = new Medicine("Stimpak", 50, 50);
+        craftables[10] = new Medicine("Painkiller", 30, 0);
+        return craftables;
+    }
+
+    private String[][] createRecipes() {
+        String[][] recipes = new String[][] { new String[] { "Wood", "Wood" }, new String[] { "Wood", "Scrap metal" },
+                new String[] { "Scrap metal", "Scrap metal", "Scrap metal" },
+                new String[] { "Scrap metal", "Scrap metal", "Scrap metal", "Scrap metal" },
+                new String[] { "Food", "Food", "Food", "Food" }, new String[] { "Food", "Food" },
+                new String[] { "Food", "Food", "Food" }, new String[] { "Wool", "Wool", "Chemical" },
+                new String[] { "Chemical", "Chemical" }, new String[] { "Wool", "Wool", "Chemical", "Chemical" },
+                new String[] { "Wool", "Chemical" } };
+        return recipes;
     }
 
     static Outpost loadOutpost() throws FileNotFoundException {
@@ -224,6 +259,42 @@ public class Outpost {
         return null;
     }
 
+    public Weapon findCraftableWeapon(String name) {
+        for (int i = 0; i < craftables.length; i++) {
+            if (craftables[i].getName().equals(name) && craftables[i] instanceof Weapon) {
+                if (containsResource(recipes[i])) {
+                    removeItem(recipes[i]);
+                    return (Weapon) craftables[i];
+                }
+            }
+        }
+        return null;
+    }
+
+    public Food findCraftableFood(String name) {
+        for (int i = 0; i < craftables.length; i++) {
+            if (craftables[i].getName().equals(name) && craftables[i] instanceof Food) {
+                if (containsResource(recipes[i])) {
+                    removeItem(recipes[i]);
+                    return (Food) craftables[i];
+                }
+            }
+        }
+        return null;
+    }
+
+    public Medicine findCraftableMedicine(String name) {
+        for (int i = 0; i < craftables.length; i++) {
+            if (craftables[i].getName().equals(name) && craftables[i] instanceof Medicine) {
+                if (containsResource(recipes[i])) {
+                    removeItem(recipes[i]);
+                    return (Medicine) craftables[i];
+                }
+            }
+        }
+        return null;
+    }
+
     public Furniture findFurniture(String name) {
         for (int i = 0; i < inventory.length; i++) {
             if (inventory[i].getName().equals(name) && inventory[i] instanceof Furniture) {
@@ -284,7 +355,6 @@ public class Outpost {
             for (Furniture furniture : furnituresList) {
                 furniture.printAttributes();
             }
-            handleEmptyListing(cnt, type);
         } else if (type.equals("Furniture")) {
             for (int i = 0; i < inventory.length; i++) {
                 if (inventory[i] instanceof Furniture) {
@@ -293,6 +363,24 @@ public class Outpost {
                 }
             }
             handleEmptyListing(cnt, type);
+        } else if (type.equals("Craftables")) {
+            for (int i = 0; i < craftables.length; i++) {
+                if (craftables[i] instanceof Weapon) {
+                    System.out.println("Weapon maker set:");
+                    ((Weapon) craftables[i]).printAttributes();
+                } else if (craftables[i] instanceof Food) {
+                    System.out.println("Oven:");
+                    ((Food) craftables[i]).printAttributes();
+                } else if (craftables[i] instanceof Medicine) {
+                    System.out.println("Chemical set:");
+                    ((Medicine) craftables[i]).printAttributes();
+                }
+                System.out.println("Recipe:\n");
+                for (String str : recipes[i]) {
+                    System.out.println(str);
+                }
+                System.out.println("========\n");
+            }
         } else {
             System.out.println("\nWrong input, enter something from the list below");
         }
@@ -330,6 +418,7 @@ public class Outpost {
         System.out.println("\t:search = Search for items in your current location");
         System.out.println("\t:look = Look around and get valuable informations about the place");
         System.out.println("\t:build = Build various furniture from your resources");
+        System.out.println("\t:craft = Craft various items from your resources");
         System.out.println("\t:help = Provide some description about the game");
         System.out.println("\t:save = Save the game");
         System.out.println("\t:exit = Quit from the game.");
@@ -435,8 +524,8 @@ public class Outpost {
         String[] item = furniture.getMaterials();
         attrib[0] = furniture.getName();
         attrib[1] = furniture.getEffect();
-        for (int i = 2; i < furniture.getMaterialslenght()+2; i++) {
-            attrib[i] = item[i-2];
+        for (int i = 2; i < furniture.getMaterialslenght() + 2; i++) {
+            attrib[i] = item[i - 2];
         }
         return attrib;
     }
@@ -577,7 +666,7 @@ public class Outpost {
     public void listing() {
         System.out.println("Choose from the listing options\n");
         System.out.println(
-                "\t(1) Survivors\n\t(2) Items\n\t(3) Foods\n\t(4) Medicines\n\t(5) Weapons\n\t(6) Resources\n\t(7) Furnitures\n\t(8) Buildables");
+                "\t(1) Survivors\n\t(2) Items\n\t(3) Foods\n\t(4) Medicines\n\t(5) Weapons\n\t(6) Resources\n\t(7) Furnitures\n\t(8) Buildables\n\t(9) Craftables");
         String listingOption = scanner.nextLine();
         clearScreen();
         if (listingOption.equals("1")) {
@@ -599,6 +688,8 @@ public class Outpost {
             List("Furniture");
         } else if (listingOption.equals("8")) {
             List("Buildables");
+        } else if (listingOption.equals("9")) {
+            List("Craftables");
         } else {
             System.out.println("\nYou entered wrong input!\n");
         }
@@ -641,7 +732,7 @@ public class Outpost {
 
     public void rest(Survivor survivor) {
         if (survivor.getCurrentLocation().equals("Outpost")) {
-            survivor.setActionPoints(-survivor.getActionPoints()+2);
+            survivor.setActionPoints(-survivor.getActionPoints() + 2);
             survivor.setHungerLevel(-35);
             survivor.setRadiationLevel(-10);
         } else {
@@ -819,7 +910,7 @@ public class Outpost {
 
     public void bonuses(Survivor survivor) {
         if (containsFurnitures("Bed")) {
-            survivor.setActionPoints(-survivor.getActionPoints()+3);
+            survivor.setActionPoints(-survivor.getActionPoints() + 3);
         }
         if (containsFurnitures("Refrigerator")) {
             addTo(new Food("Canned food", 35, 0));
@@ -837,6 +928,38 @@ public class Outpost {
             addTo(new Food("Fresh water", 25, -5));
         }
 
+    }
+
+    public void crafting() {
+        List("Craftables");
+        System.out.println("\nPlease enter the name of the item, that you want to craft!\n");
+        String craft = scanner.nextLine();
+        System.out.println("\nPlease enter the type of the item: (Food,Medicine,Weapon)");
+        String type = scanner.nextLine();
+        int cnt = 0;
+        if (type.equals("Weapon")) {
+            Weapon item = findCraftableWeapon(craft);
+            if (item != null) {
+                addTo(item);
+                cnt++;
+            }
+        } else if (type.equals("Food")) {
+            Food food = findCraftableFood(craft);
+            if (food != null) {
+                addTo(food);
+                cnt++;
+            }
+        } else {
+            Medicine med = findCraftableMedicine(craft);
+            if (med != null) {
+                addTo(med);
+                cnt++;
+            }
+        }
+        if (cnt == 0) {
+            System.out.println("You entered wrong name or type or you don't have the specific materials, to craft");
+
+        }
     }
 
 }

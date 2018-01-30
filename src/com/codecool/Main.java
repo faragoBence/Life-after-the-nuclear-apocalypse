@@ -64,7 +64,6 @@ public class Main {
                 myOutpost.addTo(mySurvivor);
             } else if (menuChoose.equals(":list")) {
                 myOutpost.clearScreen();
-                myOutpost.addTo(new Furniture("Radio Tower", "yep", new String[]{}) );
                 myOutpost.listing();
             } else if (menuChoose.equals(":eat")) {
                 myOutpost.clearScreen();
@@ -106,6 +105,9 @@ public class Main {
             } else if (menuChoose.equals(":build")) {
                 myOutpost.clearScreen();
                 myOutpost.build();
+            } else if (menuChoose.equals(":craft")) {
+                myOutpost.clearScreen();
+                myOutpost.crafting();
             } else if (menuChoose.equals(":look")) {
                 myOutpost.clearScreen();
                 myOutpost.description(mySurvivor, myGasStation, myHospital, myMilitaryBase, mySchool);
