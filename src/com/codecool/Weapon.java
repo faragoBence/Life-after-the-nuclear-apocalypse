@@ -18,11 +18,8 @@ public class Weapon extends Items {
         return durability;
     }
 
-    public void setDurabillity(int value,Outpost outpost) {
+    public void setDurabillity(int value) {
         durability += value;
-        if (durability < 1){
-            outpost.removeItem(new String[]{getName()});
-        }
     }
 
     public void printAttributes(){

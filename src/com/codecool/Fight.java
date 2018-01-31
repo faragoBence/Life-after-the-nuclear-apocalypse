@@ -30,9 +30,11 @@ public class Fight {
                     if (outpost.findWeapon(line) != null) {
                         tempWeapon = outpost.findWeapon(line);
                         yourWeapon = new Weapon(tempWeapon.getName(), tempWeapon.getStrength(), tempWeapon.getDurabillity());
-                        yourWeapon.setDurabillity(-1,outpost);
+                        yourWeapon.setDurabillity(-1);
                         outpost.removeItem(new String[]{tempWeapon.getName()});
-                        outpost.addTo(yourWeapon);
+                        if(yourWeapon.getDurabillity()>0){
+                            outpost.addTo(yourWeapon);
+                        }
                         yourStrength += yourWeapon.getStrength();
                         outpost.clearScreen();
                         break;
