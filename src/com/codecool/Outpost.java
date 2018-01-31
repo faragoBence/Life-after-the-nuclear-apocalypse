@@ -277,6 +277,8 @@ public class Outpost {
                 if (containsResource(recipes[i])) {
                     removeItem(recipes[i]);
                     return (Food) craftables[i];
+                } else {
+                    System.out.println("You don't have the specific materials, for crafting");
                 }
             }
         }
@@ -289,6 +291,8 @@ public class Outpost {
                 if (containsResource(recipes[i])) {
                     removeItem(recipes[i]);
                     return (Medicine) craftables[i];
+                } else {
+                    System.out.println("You don't have the specific materials, for crafting");
                 }
             }
         }
@@ -752,8 +756,10 @@ public class Outpost {
                 writeToItemsFile("../data/savedmedicines.csv", "Medicine");
                 writeToItemsFile("../data/savedresources.csv", "Resource");
                 writeToItemsFile("../data/savedfurnitures.csv", "Furniture");
+                clearScreen();
                 break;
             } else if (saveoption.equals("N")) {
+                clearScreen();
                 break;
             } else {
                 clearScreen();
@@ -762,26 +768,39 @@ public class Outpost {
         }
     }
 
-    public void build() {
-        List("Buildables");
-        System.out.println("\nPlease enter a the name of the furniture, that you want to build!\n");
-        String furnitureName = scanner.nextLine();
-        clearScreen();
-        Furniture furniture = findBuildable(furnitureName);
-        if (furniture != null) {
-            if (containsResource(furniture.getMaterials())) {
-                if (findFurniture(furniture.getName()) == null) {
-                    removeItem(furniture.getMaterials());
-                    addTo(furniture);
-                    System.out.println("You successfully built a(n) " + furniture.getName() + "\n");
+    public void build(Survivor survivor) {
+        if (survivor.getCurrentLocation().equals("Outpost")) {
+            if (survivor.getActionPoints() > 0) {
+                List("Buildables");
+                System.out.println("\nYour materials: \n");
+                List("Resource");
+                System.out.println("\nPlease enter a the name of the furniture, that you want to build!\n");
+                String furnitureName = scanner.nextLine();
+                clearScreen();
+                Furniture furniture = findBuildable(furnitureName);
+                if (furniture != null) {
+                    if (containsResource(furniture.getMaterials())) {
+                        if (findFurniture(furniture.getName()) == null) {
+                            removeItem(furniture.getMaterials());
+                            addTo(furniture);
+                            survivor.setActionPoints(-1);
+                            clearScreen();
+                            System.out.println("You successfully built a(n) " + furniture.getName() + "\n");
+                        } else {
+                            System.out.println("You already built a(n) " + furniture.getName() + "\n");
+                        }
+                    } else {
+                        System.out.println(
+                                "You don't have the specific materials to build a(n) " + furniture.getName() + "\n");
+                    }
                 } else {
-                    System.out.println("You already built a(n) " + furniture.getName() + "\n");
+                    System.out.println("You entered wrong furniture name");
                 }
             } else {
-                System.out.println("You don't have the specific materials to build a(n) " + furniture.getName() + "\n");
+                System.out.println("Yout need to rest first!");
             }
         } else {
-            System.out.println("You entered wrong furniture name");
+            System.out.println("\nYou need to travel back to your outpost first!\n");
         }
     }
 
@@ -806,8 +825,8 @@ public class Outpost {
         System.out.println(
                 "Every location has a specific radiation level, so it will decrease your radiation damage if you search there.");
         System.out.println("With every search you can find an item and two resource material for crafting");
-        System.out.println("With materials you can build several useful furniture and craft items");
         System.out.println("Your action points will be decreased by 1 and hunger level by 10\n");
+        System.out.println("With materials you can build several useful furnitures (-1 action points) and craft items");
         System.out.println("If your action points are 0, you need to rest in your outpost.");
         System.out.println(
                 "Every rest will restore you action points, but also decrease your hunger level by 35 and your radiation damage by 10");
@@ -865,13 +884,12 @@ public class Outpost {
     }
 
     public void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     }
 
     public void handleEmptyListing(int cnt, String type) {
         if (cnt == 0) {
-            System.out.println("\nNo " + type + " is in your inventory");
+            System.out.println("No " + type + " is in your inventory\n");
         }
     }
 
@@ -930,36 +948,60 @@ public class Outpost {
 
     }
 
-    public void crafting() {
-        List("Craftables");
-        System.out.println("\nPlease enter the name of the item, that you want to craft!\n");
-        String craft = scanner.nextLine();
-        System.out.println("\nPlease enter the type of the item: (Food,Medicine,Weapon)");
-        String type = scanner.nextLine();
-        int cnt = 0;
-        if (type.equals("Weapon")) {
-            Weapon item = findCraftableWeapon(craft);
-            if (item != null) {
-                addTo(item);
-                cnt++;
-            }
-        } else if (type.equals("Food")) {
-            Food food = findCraftableFood(craft);
-            if (food != null) {
-                addTo(food);
-                cnt++;
+    public void crafting(Survivor survivor) {
+        if (survivor.getCurrentLocation().equals("Outpost")) {
+            List("Craftables");
+            System.out.println("\nYour materials: \n");
+            List("Resource");
+            System.out.println("\nPlease enter the name of the item, that you want to craft!\n");
+            String craft = scanner.nextLine();
+            System.out.println("\nPlease enter the type of the item: (Food,Medicine,Weapon)");
+            String type = scanner.nextLine();
+            clearScreen();
+            if (type.equals("Weapon")) {
+                if (containsFurnitures("Weaponmaker set")) {
+                    Weapon item = findCraftableWeapon(craft);
+                    if (item != null) {
+                        addTo(item);
+                    } else {
+                        System.out.println("You entered wrong name or type!");
+                    }
+                } else {
+                    clearScreen();
+                    System.out.println("Build a Weapon maker set first!");
+                }
+
+            } else if (type.equals("Food")) {
+                if (containsFurnitures("Oven")) {
+                    Food food = findCraftableFood(craft);
+                    if (food != null) {
+                        addTo(food);
+                    } else {
+                        System.out.println("You entered wrong name or type!");
+                    }
+
+                } else {
+                    clearScreen();
+                    System.out.println("Build an Oven first!");
+                }
+            } else if (type.equals("Medicine")) {
+                Medicine med = findCraftableMedicine(craft);
+                if (containsFurnitures("Chemical set")) {
+                    if (med != null) {
+                        addTo(med);
+                    } else {
+                        System.out.println("You entered wrong name or type!");
+                    }
+
+                } else {
+                    clearScreen();
+                    System.out.println("Build a Chemical set first!");
+                }
             }
         } else {
-            Medicine med = findCraftableMedicine(craft);
-            if (med != null) {
-                addTo(med);
-                cnt++;
-            }
+            System.out.println("\nYou need to travel back to your outpost first!\n");
         }
-        if (cnt == 0) {
-            System.out.println("You entered wrong name or type or you don't have the specific materials, to craft");
 
-        }
     }
 
 }

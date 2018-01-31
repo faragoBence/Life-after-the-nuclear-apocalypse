@@ -33,6 +33,10 @@ public class Main {
                 String name = scanner.nextLine();
                 myOutpost.clearScreen();
                 mySurvivor = myOutpost.findSurvivor(name);
+                if (mySurvivor == null){
+                    myOutpost.clearScreen();
+                    System.out.println("You entered wrong Survivor name!");
+                }
                 break;
             } else if (line.equals("3")) {
                 myOutpost.story();
@@ -104,10 +108,10 @@ public class Main {
                 myOutpost.help();
             } else if (menuChoose.equals(":build")) {
                 myOutpost.clearScreen();
-                myOutpost.build();
+                myOutpost.build(mySurvivor);
             } else if (menuChoose.equals(":craft")) {
                 myOutpost.clearScreen();
-                myOutpost.crafting();
+                myOutpost.crafting(mySurvivor);
             } else if (menuChoose.equals(":look")) {
                 myOutpost.clearScreen();
                 myOutpost.description(mySurvivor, myGasStation, myHospital, myMilitaryBase, mySchool);
