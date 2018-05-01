@@ -1,20 +1,30 @@
-package com.codecool.web.model;
+package com.codecool.web.model.survivors;
 
 import com.codecool.web.exception.PlayerIsDeadException;
+import com.codecool.web.model.Entity;
 
 public class Survivor extends Entity {
     private int actionPoints;
+    private int maxActionPoints;
     private int hungerLevel;
+    private int maxHungerLevel;
     private int radiationLevel;
+    private int maxRadiationLevel;
     private String currentLocation;
+    private int id;
+    private String type;
 
-    public Survivor(String name, int actionPoints, int hungerLevel, int health, int radiationLevel, int strength,int agility,
-            String currentLocation) {
+    public Survivor(String name, int actionPoints, int maxActionPoints, int hungerLevel, int maxHungerLevel, int health, int radiationLevel, int maxRadiationLevel, int strength,int agility,
+            String currentLocation,String type) {
         super(name,health,strength,agility);
         this.actionPoints = actionPoints;
+        this.maxActionPoints = maxActionPoints;
         this.hungerLevel = hungerLevel;
+        this.maxHungerLevel = maxHungerLevel;
         this.radiationLevel = radiationLevel;
+        this.maxRadiationLevel = maxRadiationLevel;
         this.currentLocation = currentLocation;
+        this.type = type;
     }
 
     public int getActionPoints() {
@@ -23,6 +33,9 @@ public class Survivor extends Entity {
 
     public void setActionPoints(int value) {
         actionPoints += value;
+        if (actionPoints > maxActionPoints) {
+            actionPoints = maxActionPoints;
+        }
     }
 
     public int getHungerLevel() {
@@ -34,8 +47,8 @@ public class Survivor extends Entity {
         if (hungerLevel < 1) {
             throw new PlayerIsDeadException();
         }
-        if (hungerLevel > 100) { 
-            hungerLevel = 100;
+        if (hungerLevel > maxHungerLevel) {
+            hungerLevel = maxHungerLevel;
         }
     }
 
@@ -48,8 +61,8 @@ public class Survivor extends Entity {
         if (radiationLevel < 1) {
             throw new PlayerIsDeadException();
         }
-        if (radiationLevel > 100) {
-            radiationLevel = 100;
+        if (radiationLevel > maxRadiationLevel) {
+            radiationLevel = maxRadiationLevel;
         }
     }
 
@@ -65,13 +78,38 @@ public class Survivor extends Entity {
     public String toString() {
         String str = "";
         str+="\nname = " + getName();
-        str+="\naction points = " + getActionPoints();
-        str+="\nhunger = " + getHungerLevel();
+        str+="\nclass = "+ getType();
+        str+="\naction points = " + getActionPoints()+"/"+maxActionPoints;
+        str+="\nhunger = " + getHungerLevel()+"/"+maxHungerLevel;
         str+="\nhealth = " + getHealth();
-        str+="\nradiation level = " + getRadiationLevel();
+        str+="\nradiation level = " + getRadiationLevel()+"/"+maxRadiationLevel;
         str+="\nstrength = " + getStrength();
         str+="\nagility = " + getAgility();
         str+="\ncurrent location = " + getCurrentLocation();
         return str;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getMaxActionPoints() {
+        return maxActionPoints;
+    }
+
+    public int getMaxHungerLevel() {
+        return maxHungerLevel;
+    }
+
+    public int getMaxRadiationLevel() {
+        return maxRadiationLevel;
+    }
+
+    public String getType() {
+        return type;
     }
 }

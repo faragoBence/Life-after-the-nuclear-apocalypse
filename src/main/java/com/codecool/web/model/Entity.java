@@ -1,6 +1,7 @@
 package com.codecool.web.model;
 
 import com.codecool.web.exception.PlayerIsDeadException;
+import com.codecool.web.model.survivors.Survivor;
 
 public abstract class Entity {
     private final String name;
