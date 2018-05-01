@@ -1,15 +1,36 @@
 package com.codecool.web.service.implementations;
 
+import com.codecool.web.dao.implementations.SurvivorDatabaseDao;
 import com.codecool.web.model.locations.Outpost;
 import com.codecool.web.model.survivors.Survivor;
-import com.codecool.web.service.SurvivalService;
+import com.codecool.web.model.survivors.SurvivorFactory;
+import com.codecool.web.model.survivors.SurvivorFactoryImpl;
+import com.codecool.web.service.SurvivorService;
 
-public class SurvivalServiceImpl implements SurvivalService {
+import java.sql.SQLException;
+
+public class SurvivorServiceImpl implements SurvivorService {
+
+    private final SurvivorDatabaseDao dao;
+
+    public SurvivorServiceImpl(SurvivorDatabaseDao dao) {
+        this.dao = dao;
+    }
+
+
+    @Override
+    public Survivor createSurvivor(String name, String type, int userId) throws SQLException {
+        SurvivorFactory survivorFactory = new SurvivorFactoryImpl();
+        Survivor survivor = survivorFactory.createSurvivor(name,type);
+        dao.insertSurvivor(userId,survivor);
+        return dao.findSurvivorbyUserId(userId);
+    }
+
     public void eating(Survivor survivor) {
 
     }
 
-    public Survivor findSurvivor(String name, Outpost outpostt) {
+    public Survivor findSurvivor(String name, Outpost outpost) {
         return null;
     }
 

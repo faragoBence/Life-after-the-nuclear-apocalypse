@@ -3,7 +3,11 @@ package com.codecool.web.service;
 import com.codecool.web.model.locations.Outpost;
 import com.codecool.web.model.survivors.Survivor;
 
-public interface SurvivalService {
+import java.sql.SQLException;
+
+public interface SurvivorService {
+
+    Survivor createSurvivor(String name,String type,int userId) throws SQLException;
 
     void eating(Survivor survivor);
 
