@@ -9,10 +9,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDaoImpl extends AbstractDao implements UserDao {
+public class UserDatabaseDao extends AbstractDao implements UserDao {
 
 
-    public UserDaoImpl(Connection connection) {
+    public UserDatabaseDao(Connection connection) {
         super(connection);
     }
 
@@ -52,29 +52,15 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public void updateName(int userId,String newName) throws SQLException {
         boolean autoCommit = connection.getAutoCommit();
         connection.setAutoCommit(false);
-        String sql = "UPDATE users SET \"name\" = ? WHERE \"id\" = ?;";
+        String sql = "UPDATE users SET name = ? WHERE id = ?;";
         update(userId, newName, autoCommit, sql);
-    }
-
-    private void update(int userId, String updateAble, boolean autoCommit, String sql) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, updateAble);
-            statement.setInt(2, userId);
-            statement.executeUpdate();
-            connection.commit();
-        } catch (SQLException e) {
-            connection.rollback();
-            throw e;
-        } finally {
-            connection.setAutoCommit(autoCommit);
-        }
     }
 
     @Override
     public void updatePassword(int userId,String newPassword) throws SQLException {
         boolean autoCommit = connection.getAutoCommit();
         connection.setAutoCommit(false);
-        String sql = "UPDATE users SET \"password\" = ? WHERE \"id\" = ?;";
+        String sql = "UPDATE users SET password = ? WHERE id = ?;";
         update(userId, newPassword, autoCommit, sql);
     }
 
