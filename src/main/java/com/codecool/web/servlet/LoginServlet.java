@@ -1,7 +1,7 @@
 package com.codecool.web.servlet;
 
 
-import com.codecool.web.dao.implementations.UserDaoImpl;
+import com.codecool.web.dao.implementations.UserDatabaseDao;
 import com.codecool.web.exception.UserNotFoundException;
 import com.codecool.web.exception.WrongPasswordException;
 import com.codecool.web.model.User;
@@ -27,7 +27,7 @@ public class LoginServlet extends AbstractServlet {
         String password = req.getParameter("password");
 
         try (Connection connection = getConnection(req.getServletContext())) {
-            UserDaoImpl userDao = new UserDaoImpl(connection);
+            UserDatabaseDao userDao = new UserDatabaseDao(connection);
             UserServiceImpl userServiceDao = new UserServiceImpl(userDao);
             User currentUser = userServiceDao.login(email, password);
             req.getSession().setAttribute("user", currentUser);

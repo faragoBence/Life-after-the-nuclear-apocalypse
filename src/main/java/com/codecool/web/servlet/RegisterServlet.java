@@ -1,6 +1,6 @@
 package com.codecool.web.servlet;
 
-import com.codecool.web.dao.implementations.UserDaoImpl;
+import com.codecool.web.dao.implementations.UserDatabaseDao;
 import com.codecool.web.exception.UserAlreadyRegisteredException;
 import com.codecool.web.service.implementations.UserServiceImpl;
 
@@ -24,7 +24,7 @@ public class RegisterServlet extends AbstractServlet {
         String password = req.getParameter("password");
 
         try (Connection connection = getConnection(req.getServletContext())) {
-            UserDaoImpl userDao = new UserDaoImpl(connection);
+            UserDatabaseDao userDao = new UserDatabaseDao(connection);
             UserServiceImpl userServiceDao = new UserServiceImpl(userDao);
             userServiceDao.register(name, email, password);
             sendMessage(resp, HttpServletResponse.SC_OK, "Registration is successful you can log in now!");
