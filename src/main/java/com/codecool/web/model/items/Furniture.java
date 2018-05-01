@@ -1,10 +1,8 @@
-package com.codecool;
+package com.codecool.web.model.items;
 
-import javafx.print.PrinterAttributes;
-
-public class Furniture extends Items {
-    protected String[] materials;
-    protected String effect;
+public class Furniture extends Item {
+    private String[] materials;
+    private String effect;
 
     public Furniture(String name, String effect, String[] materials) {
         super(name);
@@ -16,18 +14,20 @@ public class Furniture extends Items {
         return materials;
     }
 
-    public int getMaterialslenght() {
+    public int getNumberOfMaterials() {
         return materials.length;
     }
+
     public String getEffect(){
         return effect;
     }
 
-    public void printAttributes() {
-        System.out.println(getName()+"\t"+getEffect());
+    @Override
+    public String toString() {
+        String str = getName()+"\t"+effect;
         for (String material : materials) {
-            System.out.println("\t " + material);
+            str+= "\t " + material;
         }
-        System.out.println("=========\n");
+        return str;
     }
 }

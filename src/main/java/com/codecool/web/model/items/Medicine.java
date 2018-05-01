@@ -1,8 +1,8 @@
-package com.codecool;
+package com.codecool.web.model.items;
 
-public class Medicine extends Items {
-    protected int healingFactor;
-    protected int radiationHealingFactor;
+public class Medicine extends Item {
+    private final int healingFactor;
+    private final int radiationHealingFactor;
 
     public Medicine(String name, int healingFactor, int radiationHealingFactor) {
         super(name);
@@ -18,8 +18,8 @@ public class Medicine extends Items {
         return radiationHealingFactor;
     }
 
-    public void printAttributes(){
-        System.out.println("name = "+getName()+"\thealing factor = "+getHealingFactor()+"\tradiation healing factor = "+getRadiationHealingFactor());
+    @Override
+    public String toString() {
+        return "name = "+getName()+"\thealing factor = "+healingFactor+"\tradiation healing factor = "+radiationHealingFactor;
     }
-
 }

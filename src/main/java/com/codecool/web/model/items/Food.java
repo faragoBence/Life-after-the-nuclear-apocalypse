@@ -1,8 +1,8 @@
-package com.codecool;
+package com.codecool.web.model.items;
 
-public class Food extends Items {
-    protected int foodValue;
-    protected int radiation;
+public class Food extends Item {
+    private final int foodValue;
+    private final int radiation;
 
     public Food(String name, int foodValue, int radiation) {
         super(name);
@@ -13,11 +13,11 @@ public class Food extends Items {
     public int getFoodValue() {
         return foodValue;
     }
-
     public int getRadiation() {
         return radiation;
     }
-    public void printAttributes(){
-        System.out.println("name = "+getName()+"\tfood value = "+getFoodValue()+"\tradiation = "+getRadiation());
+    @Override
+    public String toString() {
+        return "name = "+getName()+"\tfood value = "+foodValue+"\tradiation = "+radiation;
     }
 }
