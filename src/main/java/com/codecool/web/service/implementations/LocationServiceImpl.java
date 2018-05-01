@@ -1,11 +1,11 @@
 package com.codecool.web.service.implementations;
 
 import com.codecool.web.exception.WrongDestinationException;
-import com.codecool.web.model.Survivor;
 import com.codecool.web.model.locations.Location;
 import com.codecool.web.model.locations.LocationFactory;
 import com.codecool.web.model.locations.LocationFactoryImpl;
 import com.codecool.web.model.locations.Place;
+import com.codecool.web.model.survivors.Survivor;
 import com.codecool.web.service.LocationService;
 
 public class LocationServiceImpl implements LocationService {

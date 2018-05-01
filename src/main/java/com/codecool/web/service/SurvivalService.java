@@ -1,11 +1,9 @@
 package com.codecool.web.service;
 
-import com.codecool.web.model.Survivor;
 import com.codecool.web.model.locations.Outpost;
+import com.codecool.web.model.survivors.Survivor;
 
 public interface SurvivalService {
-
-    Survivor createSurvivor(String name);
 
     void eating(Survivor survivor);
 

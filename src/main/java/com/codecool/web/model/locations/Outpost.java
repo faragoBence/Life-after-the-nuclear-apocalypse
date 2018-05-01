@@ -1,7 +1,7 @@
 package com.codecool.web.model.locations;
 
-import com.codecool.web.model.Survivor;
 import com.codecool.web.model.items.*;
+import com.codecool.web.model.survivors.Survivor;
 
 import java.util.ArrayList;
 import java.util.Arrays;

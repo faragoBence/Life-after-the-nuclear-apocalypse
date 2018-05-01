@@ -1,15 +1,10 @@
 package com.codecool.web.service.implementations;
 
-import com.codecool.web.model.Survivor;
 import com.codecool.web.model.locations.Outpost;
+import com.codecool.web.model.survivors.Survivor;
 import com.codecool.web.service.SurvivalService;
 
 public class SurvivalServiceImpl implements SurvivalService {
-
-    public Survivor createSurvivor(String name) {
-        return new Survivor(name, 2, 100, 100, 100, 5, 3,"Outpost");
-    }
-
     public void eating(Survivor survivor) {
 
     }
