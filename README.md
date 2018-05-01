@@ -1,7 +1,7 @@
 # Readme
 
 ## Description
-The game will be played in the future after the nuclear apocalypse. I want to make survivors, who are trying to live in this world. They need to scarvange places for food; medicine and weapons, fight with the radiation and creatures.
+The game will be played in the future after the nuclear apocalypse. I want to make survivors, who are trying to live in this world. They need to scarvange place for food; medicine and weapons, fight with the radiation and creatures.
 
 The basic game with the basic tasks completed.It's time to improve the game
 
