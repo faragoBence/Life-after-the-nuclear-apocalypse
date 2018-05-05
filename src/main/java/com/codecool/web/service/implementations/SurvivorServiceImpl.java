@@ -1,7 +1,9 @@
 package com.codecool.web.service.implementations;
 
-import com.codecool.web.dao.implementations.SurvivorDatabaseDao;
-import com.codecool.web.model.locations.Outpost;
+import com.codecool.web.dao.SurvivorDao;
+import com.codecool.web.exception.PlayerIsDeadException;
+import com.codecool.web.model.User;
+import com.codecool.web.model.items.Food;
 import com.codecool.web.model.survivors.Survivor;
 import com.codecool.web.model.survivors.SurvivorFactory;
 import com.codecool.web.model.survivors.SurvivorFactoryImpl;
@@ -11,9 +13,9 @@ import java.sql.SQLException;
 
 public class SurvivorServiceImpl implements SurvivorService {
 
-    private final SurvivorDatabaseDao dao;
+    private final SurvivorDao dao;
 
-    public SurvivorServiceImpl(SurvivorDatabaseDao dao) {
+    public SurvivorServiceImpl(SurvivorDao dao) {
         this.dao = dao;
     }
 
@@ -26,20 +28,23 @@ public class SurvivorServiceImpl implements SurvivorService {
         return dao.findSurvivorbyUserId(userId);
     }
 
-    public void eating(Survivor survivor) {
-
+    public void eating(Survivor survivor, Food food) {
     }
 
-    public Survivor findSurvivor(String name, Outpost outpost) {
-        return null;
+    public Survivor findSurvivor(User user) throws SQLException {
+        return dao.findSurvivorbyUserId(user.getId());
     }
 
     public void healing(Survivor survivor) {
 
     }
 
-    public void rest(Survivor survivor) {
-
+    public void rest(Survivor survivor) throws SQLException, PlayerIsDeadException {
+        dao.updateActionPoints(survivor.getId(),survivor.getMaxActionPoints());
+        survivor.setHungerLevel(-35);
+        dao.updateHungerLevel(survivor.getId(),survivor.getHungerLevel());
+        survivor.setRadiationLevel(-10);
+        dao.updateRadiationLevel(survivor.getId(),survivor.getRadiationLevel());
     }
 
     public void build(Survivor survivor) {
