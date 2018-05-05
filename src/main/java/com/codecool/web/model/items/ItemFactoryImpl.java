@@ -1,9 +1,12 @@
 package com.codecool.web.model.items;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ItemFactoryImpl implements ItemFactory {
     @Override
     public Item getItem(String name) {
-        switch (name){
+        switch (name) {
             case "Stimpak":
                 return new Medicine("Stimpak", 50, 50);
             case "Vodka":
@@ -42,10 +45,30 @@ public class ItemFactoryImpl implements ItemFactory {
                 return new Weapon("Rocket launcher", 50, 1);
             case "Chainsaw":
                 return new Weapon("Chainsaw", 20, 5);
+            case "Scrap metal":
+                return new Resource("Scrap metal");
+            case "Wood":
+                return new Resource("Wood");
+            case "Chemical":
+                new Resource("Chemical");
+            case "Food":
+                new Resource("Food");
+            case "Wool":
+                new Resource("Wool");
             default:
                 return null;
         }
     }
 
+    @Override
+    public List<Resource> createResourceList() {
+        List<Resource> resourceList = new ArrayList<>();
+        resourceList.add((Resource) getItem("Scrap metal"));
+        resourceList.add((Resource) getItem("Wood"));
+        resourceList.add((Resource) getItem("Chemical"));
+        resourceList.add((Resource) getItem("Food"));
+        resourceList.add((Resource) getItem("Wool"));
+        return resourceList;
+    }
 
 }
