@@ -78,7 +78,6 @@ public class UserDatabaseDao extends AbstractDao implements UserDao {
         throw new WrongPasswordException();
     }
 
-    @Override
     public User fetchUser(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
         String name = resultSet.getString("name");

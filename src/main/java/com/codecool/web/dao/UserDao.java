@@ -3,7 +3,6 @@ package com.codecool.web.dao;
 import com.codecool.web.exception.WrongPasswordException;
 import com.codecool.web.model.User;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface UserDao  {
@@ -17,6 +16,4 @@ public interface UserDao  {
     void updatePassword(int userId,String newPassword) throws SQLException;
 
     User findUserbyEmailAndPassword(String email,String password) throws WrongPasswordException, SQLException;
-
-    User fetchUser(ResultSet resultSet) throws SQLException;
 }
