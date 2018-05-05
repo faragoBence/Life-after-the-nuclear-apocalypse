@@ -6,28 +6,35 @@ function onRegisterButtonClicked(){
     const survivorInputEl = registerFormEl.querySelector('input[name="survivor"]');
     const passwordInputEl = registerFormEl.querySelector('input[name="password"]');
     const passwordAgainInputEl = registerFormEl.querySelector('input[name="password-again"]');
+    const radios = document.getElementsByName('type');
 
     const name = nameInputEl.value;
     const email = emailInputEl.value;
     const password = passwordInputEl.value;
     const survivorName = survivorInputEl.value;
     const passwordAgain = passwordAgainInputEl.value;
+    let type;
+    for (var i = 0, length = radios.length; i < length; i++) {
+        if (radios[i].checked) {
+            type = radios[i].value;
+        }
+    }
 
     if (name == null || name == "") {
         newError(registerFormEl,"Enter a name!");
-        document.getElementById("passwordReg").value = "";
-        document.getElementById("password-againReg").value = "";
+        passwordInputEl.value = "";
+        passwordAgainInputEl.value = "";
         return false;
     }
     if (email == null || email == "") {
         newError(registerFormEl,"Enter an e-mail address!");
-        document.getElementById("passwordReg").value = "";
-        document.getElementById("password-againReg").value = "";
+        passwordInputEl.value = "";
+        passwordAgainInputEl.value = "";
         return false;
     }
     if (password == null || password == "") {
         newError(registerFormEl,"Enter a password!");
-        document.getElementById("password-againReg").value = "";
+        passwordAgainInputEl.value = "";
         return false;
     }
     if (password.length < 8) {
@@ -36,7 +43,7 @@ function onRegisterButtonClicked(){
     }
     if (passwordAgain == null || passwordAgain == "") {
         newError(registerFormEl,"Please enter the password again!");
-        document.getElementById("passwordReg").value = "";
+        passwordInputEl.value = "";
         return false;
     }
     if (password !== passwordAgain) {
@@ -45,8 +52,8 @@ function onRegisterButtonClicked(){
     }
     if (survivorName == null || survivorName == "") {
         newError(registerFormEl,"Enter a Survivor name!");
-        document.getElementById("passwordReg").value = "";
-        document.getElementById("password-againReg").value = "";
+        passwordInputEl.value = "";
+        passwordAgainInputEl.value = "";
         return false;
     }
 
@@ -55,7 +62,7 @@ function onRegisterButtonClicked(){
     params.append('email', email);
     params.append('password', password);
     params.append('survivorName',survivorName);
-
+    params.append('type',type);
     const xhr = new XMLHttpRequest();
     xhr.addEventListener('load', onRegisterResponse);
     xhr.addEventListener('error', onNetworkError);
@@ -65,8 +72,9 @@ function onRegisterButtonClicked(){
 function onRegisterResponse() {
     if (this.status === OK) {
         clearMessages();
-        showContents(['login-content'])
-    } else {
+        showContents(['login-content']);
+        onOtherResponse(loginContentDivEl,this);
+    }else {
         onOtherResponse(registerContentDivEl, this);
     }
 }

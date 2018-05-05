@@ -1,8 +1,8 @@
 function onLoginResponse() {
     if (this.status === OK) {
-        const user = JSON.parse(this.responseText);
-        setAuthorization(user);
-        onProfileLoad(user);
+        const dto = JSON.parse(this.responseText);
+        setAuthorization(dto);
+        onProfileLoad(dto);
     } else {
         onOtherResponse(loginContentDivEl, this);
     }
@@ -20,7 +20,7 @@ function onLoginButtonClicked() {
     const password = passwordInputEl.value;
     if (email == null || email == "") {
         newError(loginFormEl,"Enter an e-mail address!");
-        document.getElementById("loginPassword").value = "";
+        passwordInputEl.value = "";
         return false;
     }
     if (password == null || password == "") {

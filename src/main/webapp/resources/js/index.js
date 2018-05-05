@@ -7,6 +7,7 @@ const INTERNAL_SERVER_ERROR = 500;
 let loginContentDivEl;
 let registerContentDivEl;
 let logoutContentDivEl;
+let profileContentDivEl;
 
 function newInfo(targetEl, message) {
     newMessage(targetEl, 'info', message);
@@ -23,8 +24,8 @@ function newMessage(targetEl, cssClass, message) {
     pEl.classList.add('message');
     pEl.classList.add(cssClass);
     pEl.textContent = message;
-
-    targetEl.appendChild(pEl);
+    const firstChild = targetEl.firstElementChild;
+    targetEl.insertBefore(pEl,firstChild);
 }
 
 function clearMessages() {
@@ -70,6 +71,8 @@ function onOtherResponse(targetEl, xhr) {
             newError(targetEl, `Server error: ${json.message}`);
         } else if (xhr.status === UNAUTHORIZED || xhr.status === BAD_REQUEST) {
             newError(targetEl, json.message);
+        } else if (xhr.status === OK) {
+            newInfo(targetEl,json.message);
         } else {
             newError(targetEl, `Unknown error: ${json.message}`);
         }
@@ -96,12 +99,13 @@ function onLoad() {
     loginContentDivEl = document.getElementById('login-content');
     registerContentDivEl = document.getElementById('register-content');
     logoutContentDivEl = document.getElementById('logout-content');
+    profileContentDivEl = document.getElementById('profile-content');
 
     const loginButtonEl = document.getElementById('login-button');
     loginButtonEl.addEventListener('click', onLoginButtonClicked);
 
     const registerButtonEl = document.getElementById('register-button');
-    registerButtonEl.addEventListener('click',onRegisterButtonClicked)
+    registerButtonEl.addEventListener('click', onRegisterButtonClicked);
 
     const logoutButtonEl = document.getElementById('logout-button');
     logoutButtonEl.addEventListener('click', onLogoutButtonClicked);

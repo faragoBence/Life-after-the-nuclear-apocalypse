@@ -1,7 +1,6 @@
-html,
 body {
     margin-top: 0;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 1)), url(img/hero.jpeg);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 1)), url(img/abandoned-airplane-apocalypse-6709-min.jpg);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -84,5 +83,31 @@ body {
 }
 .hidden {
     display: none;
+}
+
+.attr-icon{
+    width: 48px;
+    height: 48px;
+}
+.attr-table{
+    position: fixed;
+    top:30px;
+    left: 50px;
+    border-radius: 20px;
+    background-color: #ffffff;
+    border: 3px ridge #8b0000;
+    width: 13%;
+    vertical-align: center;
+    text-align: center;
+    color: black;
+}
+.attr-table-div{
+    text-align: left;
+}
+.error {
+    color: red;
+}
+.info{
+    color: greenyellow;
 }
 

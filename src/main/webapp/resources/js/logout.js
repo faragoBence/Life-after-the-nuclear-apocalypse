@@ -3,7 +3,7 @@ function onLogoutResponse() {
         setUnauthorized();
         clearMessages();
         showContents(['login-content']);
-        newInfo(loginContentDivEl, this);
+        onOtherResponse(loginContentDivEl, this);
     } else {
         onOtherResponse(logoutContentDivEl, this);
     }
