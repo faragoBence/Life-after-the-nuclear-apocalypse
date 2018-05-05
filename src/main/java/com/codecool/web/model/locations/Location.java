@@ -6,6 +6,7 @@ import com.codecool.web.model.creatures.CreatureFactoryImpl;
 import com.codecool.web.model.items.Item;
 import com.codecool.web.model.items.ItemFactory;
 import com.codecool.web.model.items.ItemFactoryImpl;
+import com.codecool.web.model.items.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +21,11 @@ public abstract class Location {
     private List<Integer> enemyPercent;
     private List<Integer> lootPercent;
     private String description;
+    private List<Resource> resources;
+
 
     public Location() {
+        resources=itemFactory.createResourceList();
     }
 
     public int getRadiationLevel() {
@@ -121,5 +125,8 @@ public abstract class Location {
             items.add(itemFactory.getItem(name));
         }
         return items;
+    }
+    List<Resource> getResources() {
+        return resources;
     }
 }
