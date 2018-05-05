@@ -14,9 +14,9 @@ public class Survivor extends Entity {
     private int id;
     private String type;
 
-    public Survivor(String name, int actionPoints, int maxActionPoints, int hungerLevel, int maxHungerLevel, int health, int radiationLevel, int maxRadiationLevel, int strength,int agility,
-            String currentLocation,String type) {
-        super(name,health,strength,agility);
+    public Survivor(String name, int actionPoints, int maxActionPoints, int hungerLevel, int maxHungerLevel, int health, int radiationLevel, int maxRadiationLevel, int strength, int agility,
+                    String currentLocation, String type) {
+        super(name, health, strength, agility);
         this.actionPoints = actionPoints;
         this.maxActionPoints = maxActionPoints;
         this.hungerLevel = hungerLevel;
@@ -74,21 +74,6 @@ public class Survivor extends Entity {
         currentLocation = loc;
     }
 
-    @Override
-    public String toString() {
-        String str = "";
-        str+="\nname = " + getName();
-        str+="\nclass = "+ getType();
-        str+="\naction points = " + getActionPoints()+"/"+maxActionPoints;
-        str+="\nhunger = " + getHungerLevel()+"/"+maxHungerLevel;
-        str+="\nhealth = " + getHealth();
-        str+="\nradiation level = " + getRadiationLevel()+"/"+maxRadiationLevel;
-        str+="\nstrength = " + getStrength();
-        str+="\nagility = " + getAgility();
-        str+="\ncurrent location = " + getCurrentLocation();
-        return str;
-    }
-
     public int getId() {
         return id;
     }
@@ -112,4 +97,6 @@ public class Survivor extends Entity {
     public String getType() {
         return type;
     }
+
+
 }
