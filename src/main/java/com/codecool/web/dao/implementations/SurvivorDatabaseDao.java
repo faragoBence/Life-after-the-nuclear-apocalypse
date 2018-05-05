@@ -96,7 +96,6 @@ public class SurvivorDatabaseDao extends AbstractDao implements SurvivorDao {
         update(survivorId, location, autoCommit, sql);
     }
 
-    @Override
     public Survivor fetchSurvivor(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
         String name = resultSet.getString("name");

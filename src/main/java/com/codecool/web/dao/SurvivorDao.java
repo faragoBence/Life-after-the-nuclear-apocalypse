@@ -2,7 +2,6 @@ package com.codecool.web.dao;
 
 import com.codecool.web.model.survivors.Survivor;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface SurvivorDao {
@@ -19,6 +18,4 @@ public interface SurvivorDao {
     void updateHungerLevel(int survivorId, int hungerLevel) throws SQLException;
 
     void updateLocation(int survivorId, String location) throws SQLException;
-
-    Survivor fetchSurvivor(ResultSet resultSet) throws SQLException;
 }
