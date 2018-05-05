@@ -8,19 +8,20 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Outpost {
-
+    private final int id;
+    private final String name;
     private List<Item> inventory;
     private List<Furniture> furnituresList;
     private List<Item> craftables;
     private List<List<String>> recipes;
     private List<Survivor> survivors;
 
-    public Outpost(List<Survivor> survivors, List<Item> inventory) {
+    public Outpost(int id,String name) {
+        this.id = id;
+        this.name = name;
         this.furnituresList = createFurnitureList();
         this.craftables = createCraftables();
         this.recipes = createRecipes();
-        this.survivors = survivors;
-        this.inventory = inventory;
     }
 
     private List<Furniture> createFurnitureList() {
