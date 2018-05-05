@@ -25,7 +25,7 @@ function onProfileLoad(dto) {
     radiationLevelSpanEl.textContent = dto.survivor.radiationLevel + " / " + dto.survivor.maxRadiationLevel;
     locationSpanEl.textContent = dto.survivor.currentLocation;
 
-    document.body.style.background = "url(/img/abandoned-arches-architecture-220506-min.jpg)";
+    document.body.style.background = "url(/img/hospitalBackground.jpg)";
 
 
 }
