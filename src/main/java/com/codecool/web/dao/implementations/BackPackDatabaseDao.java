@@ -11,9 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BackPackDatabaseDao extends AbstractDao implements BackPackDao {
+class BackPackDatabaseDao extends AbstractDaoFactory implements BackPackDao {
 
-    public BackPackDatabaseDao(Connection connection) {
+    protected BackPackDatabaseDao(Connection connection) {
         super(connection);
     }
 

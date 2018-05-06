@@ -1,7 +1,5 @@
 package com.codecool.web.servlet;
 
-import com.codecool.web.dao.SurvivorDao;
-import com.codecool.web.dao.implementations.SurvivorDatabaseDao;
 import com.codecool.web.dto.SurvivorDto;
 import com.codecool.web.exception.PlayerIsDeadException;
 import com.codecool.web.model.User;
@@ -23,8 +21,7 @@ public class RestServlet extends AbstractServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try (Connection connection = getConnection(req.getServletContext())) {
-            SurvivorDao survivorDao = new SurvivorDatabaseDao(connection);
-            SurvivorService survivorService = new SurvivorServiceImpl(survivorDao);
+            SurvivorService survivorService = new SurvivorServiceImpl(connection);
             Survivor survivor = (Survivor) req.getSession().getAttribute("survivor");
             User user = (User) req.getSession().getAttribute("user");
             Outpost outpost = (Outpost) req.getSession().getAttribute("outpost");

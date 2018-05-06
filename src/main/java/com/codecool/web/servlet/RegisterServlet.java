@@ -1,11 +1,5 @@
 package com.codecool.web.servlet;
 
-import com.codecool.web.dao.OutpostDao;
-import com.codecool.web.dao.SurvivorDao;
-import com.codecool.web.dao.UserDao;
-import com.codecool.web.dao.implementations.OutpostDatabaseDao;
-import com.codecool.web.dao.implementations.SurvivorDatabaseDao;
-import com.codecool.web.dao.implementations.UserDatabaseDao;
 import com.codecool.web.exception.NoSuchOutpostException;
 import com.codecool.web.exception.UserAlreadyRegisteredException;
 import com.codecool.web.exception.UserNotFoundException;
@@ -41,12 +35,9 @@ public class RegisterServlet extends AbstractServlet {
         String fraction = req.getParameter("fraction");
 
         try (Connection connection = getConnection(req.getServletContext())) {
-            OutpostDao outpostDao = new OutpostDatabaseDao(connection);
-            UserDao userDao = new UserDatabaseDao(connection);
-            SurvivorDao survivorDao = new SurvivorDatabaseDao(connection);
-            UserService userService = new UserServiceImpl(userDao);
-            SurvivorService survivorService = new SurvivorServiceImpl(survivorDao);
-            OutpostService outpostService = new OutpostServiceImpl(outpostDao);
+            UserService userService = new UserServiceImpl(connection);
+            SurvivorService survivorService = new SurvivorServiceImpl(connection);
+            OutpostService outpostService = new OutpostServiceImpl(connection);
             int outpostId = outpostService.findOutpostbyFractionName(fraction).getId();
             userService.register(name, email, password);
             User user = userService.login(email, password);

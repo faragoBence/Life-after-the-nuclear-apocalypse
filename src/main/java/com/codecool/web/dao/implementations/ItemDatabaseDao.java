@@ -4,9 +4,15 @@ import com.codecool.web.dao.ItemDao;
 import com.codecool.web.model.items.Item;
 import com.codecool.web.model.items.Weapon;
 
+import java.sql.Connection;
 import java.util.List;
 
-public class ItemDatabaseDao implements ItemDao {
+class ItemDatabaseDao extends AbstractDaoFactory implements ItemDao {
+
+    protected ItemDatabaseDao(Connection connection) {
+        super(connection);
+    }
+
     @Override
     public void InsertItemToBackPack(String name, int BackPackid) {
 

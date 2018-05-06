@@ -1,12 +1,14 @@
 package com.codecool.web.service.implementations;
 
 import com.codecool.web.dao.OutpostDao;
+import com.codecool.web.dao.implementations.AbstractDaoFactory;
 import com.codecool.web.exception.ItemNotFoundException;
 import com.codecool.web.exception.NoSuchOutpostException;
 import com.codecool.web.model.items.*;
 import com.codecool.web.model.locations.Outpost;
 import com.codecool.web.service.OutpostService;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -14,8 +16,8 @@ public class OutpostServiceImpl implements OutpostService {
 
     OutpostDao dao;
 
-    public OutpostServiceImpl(OutpostDao dao) {
-        this.dao = dao;
+    public OutpostServiceImpl(Connection connection) {
+        dao = (OutpostDao) AbstractDaoFactory.getDao("outpost",connection);
     }
 
     @Override

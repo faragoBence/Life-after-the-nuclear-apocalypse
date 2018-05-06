@@ -10,9 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SurvivorDatabaseDao extends AbstractDao implements SurvivorDao {
+class SurvivorDatabaseDao extends AbstractDaoFactory implements SurvivorDao {
 
-    public SurvivorDatabaseDao(Connection connection) {
+    protected SurvivorDatabaseDao(Connection connection) {
         super(connection);
     }
 

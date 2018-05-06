@@ -1,12 +1,6 @@
 package com.codecool.web.servlet;
 
 
-import com.codecool.web.dao.OutpostDao;
-import com.codecool.web.dao.SurvivorDao;
-import com.codecool.web.dao.UserDao;
-import com.codecool.web.dao.implementations.OutpostDatabaseDao;
-import com.codecool.web.dao.implementations.SurvivorDatabaseDao;
-import com.codecool.web.dao.implementations.UserDatabaseDao;
 import com.codecool.web.dto.SurvivorDto;
 import com.codecool.web.exception.NoSuchOutpostException;
 import com.codecool.web.exception.UserNotFoundException;
@@ -40,12 +34,9 @@ public class LoginServlet extends AbstractServlet {
         String password = req.getParameter("password");
 
         try (Connection connection = getConnection(req.getServletContext())) {
-            UserDao userDao = new UserDatabaseDao(connection);
-            OutpostDao outpostDao = new OutpostDatabaseDao(connection);
-            SurvivorDao survivorDao = new SurvivorDatabaseDao(connection);
-            UserServiceImpl userServiceDao = new UserServiceImpl(userDao);
-            SurvivorService survivorService = new SurvivorServiceImpl(survivorDao);
-            OutpostService outpostService = new OutpostServiceImpl(outpostDao);
+            UserServiceImpl userServiceDao = new UserServiceImpl(connection);
+            SurvivorService survivorService = new SurvivorServiceImpl(connection);
+            OutpostService outpostService = new OutpostServiceImpl(connection);
             User currentUser = userServiceDao.login(email, password);
             Survivor survivor = survivorService.findSurvivor(currentUser);
             Outpost outpost = outpostService.findOutpostbyFractionName(survivor.getFraction());

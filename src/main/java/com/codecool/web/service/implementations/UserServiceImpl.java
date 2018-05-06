@@ -1,20 +1,22 @@
 package com.codecool.web.service.implementations;
 
 import com.codecool.web.dao.UserDao;
+import com.codecool.web.dao.implementations.AbstractDaoFactory;
 import com.codecool.web.exception.UserAlreadyRegisteredException;
 import com.codecool.web.exception.UserNotFoundException;
 import com.codecool.web.exception.WrongPasswordException;
 import com.codecool.web.model.User;
 import com.codecool.web.service.UserService;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 public class UserServiceImpl implements UserService {
 
     private final UserDao dao;
 
-    public UserServiceImpl(UserDao dao) {
-        this.dao = dao;
+    public UserServiceImpl(Connection connection) {
+        dao = (UserDao) AbstractDaoFactory.getDao("user",connection);
     }
 
 

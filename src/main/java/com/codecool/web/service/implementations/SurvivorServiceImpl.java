@@ -1,6 +1,7 @@
 package com.codecool.web.service.implementations;
 
 import com.codecool.web.dao.SurvivorDao;
+import com.codecool.web.dao.implementations.AbstractDaoFactory;
 import com.codecool.web.exception.PlayerIsDeadException;
 import com.codecool.web.model.User;
 import com.codecool.web.model.items.Food;
@@ -9,14 +10,15 @@ import com.codecool.web.model.survivors.SurvivorFactory;
 import com.codecool.web.model.survivors.SurvivorFactoryImpl;
 import com.codecool.web.service.SurvivorService;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 public class SurvivorServiceImpl implements SurvivorService {
 
     private final SurvivorDao dao;
 
-    public SurvivorServiceImpl(SurvivorDao dao) {
-        this.dao = dao;
+    public SurvivorServiceImpl(Connection connection) {
+        dao = (SurvivorDao) AbstractDaoFactory.getDao("survivor",connection);
     }
 
 

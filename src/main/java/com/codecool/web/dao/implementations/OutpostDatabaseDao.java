@@ -10,9 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OutpostDatabaseDao extends AbstractDao implements OutpostDao {
+class OutpostDatabaseDao extends AbstractDaoFactory implements OutpostDao {
 
-    public OutpostDatabaseDao(Connection connection) {
+    protected OutpostDatabaseDao(Connection connection) {
         super(connection);
     }
 

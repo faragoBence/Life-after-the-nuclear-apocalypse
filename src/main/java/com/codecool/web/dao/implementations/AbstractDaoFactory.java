@@ -5,12 +5,56 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-abstract class AbstractDao {
+public abstract class AbstractDaoFactory {
+    private static BackPackDatabaseDao backPackDatabaseDao;
+    private static AbstractDaoFactory itemDatabaseDao;
+    private static AbstractDaoFactory outpostDatabaseDao;
+    private static AbstractDaoFactory survivorDatabaseDao;
+    private static AbstractDaoFactory userDatabaseDao;
 
-    final Connection connection;
+    Connection connection;
 
-    AbstractDao(Connection connection) {
+    AbstractDaoFactory(Connection connection) {
         this.connection = connection;
+    }
+
+    public static AbstractDaoFactory getDao(String daoType, Connection connection) {
+        AbstractDaoFactory dao;
+        switch (daoType){
+            case "backpack":
+                if(backPackDatabaseDao == null) {
+                    backPackDatabaseDao = new BackPackDatabaseDao(connection);
+                }
+                dao =backPackDatabaseDao;
+                break;
+            case "item":
+                if(itemDatabaseDao == null) {
+                    itemDatabaseDao = new ItemDatabaseDao(connection);
+                }
+                dao =itemDatabaseDao;
+                break;
+            case "outpost":
+                if(outpostDatabaseDao == null) {
+                    outpostDatabaseDao = new OutpostDatabaseDao(connection);
+                }
+                dao =outpostDatabaseDao;
+                break;
+            case "survivor":
+                if(survivorDatabaseDao == null) {
+                    survivorDatabaseDao = new SurvivorDatabaseDao(connection);
+                }
+                dao =survivorDatabaseDao;
+                break;
+            case "user":
+                if(userDatabaseDao == null) {
+                    userDatabaseDao = new UserDatabaseDao(connection);
+                }
+                dao = userDatabaseDao;
+                break;
+            default:
+                return null;
+        }
+        return dao;
     }
 
     void executeInsert(PreparedStatement statement) throws SQLException {

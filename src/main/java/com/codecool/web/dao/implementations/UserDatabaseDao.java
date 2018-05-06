@@ -9,10 +9,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDatabaseDao extends AbstractDao implements UserDao {
+class UserDatabaseDao extends AbstractDaoFactory implements UserDao {
 
 
-    public UserDatabaseDao(Connection connection) {
+    protected UserDatabaseDao(Connection connection) {
         super(connection);
     }
 
