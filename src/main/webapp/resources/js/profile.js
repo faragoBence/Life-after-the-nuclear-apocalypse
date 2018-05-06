@@ -13,6 +13,8 @@ function onProfileLoad(dto) {
     const hungerLevelSpanEl = document.getElementById('hunger-level');
     const radiationLevelSpanEl = document.getElementById('radiation-resistance');
     const locationSpanEl = document.getElementById('location');
+    const fractionSpanEl = document.getElementById('fraction');
+    const outpostNameSpanEl = document.getElementById('outpost-name');
 
     userNameSpanEl.textContent = dto.user.name;
     survivorNameSpanEl.textContent = dto.survivor.name;
@@ -24,8 +26,9 @@ function onProfileLoad(dto) {
     hungerLevelSpanEl.textContent = dto.survivor.hungerLevel + " / " + dto.survivor.maxHungerLevel;
     radiationLevelSpanEl.textContent = dto.survivor.radiationLevel + " / " + dto.survivor.maxRadiationLevel;
     locationSpanEl.textContent = dto.survivor.currentLocation;
+    fractionSpanEl.textContent = dto.survivor.fraction;
+    outpostNameSpanEl.textContent = dto.outpost.name;
 
-    document.body.style.background = "url(/img/hospitalBackground.jpg)";
 
 
 }

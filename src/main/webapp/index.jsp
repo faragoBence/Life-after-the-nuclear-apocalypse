@@ -55,6 +55,10 @@
                 <input type="password" name="password-again" class="form-el"><br>Survivor
                 Name:<br>
                 <input type="text" name="survivor" class="form-el"><br>
+                <input type="radio" name="fraction" value="Brotherhood of Steel" checked>Brotherhood of Steel<br>
+                <input type="radio" name="fraction" value="Minuteman">Minuteman<br>
+                <input type="radio" name="fraction" value="Institute" class="hunter-el">Institute<br>
+
                 <input type="radio" name="type" value="Bruiser" checked>Bruiser<br>
                 <input type="radio" name="type" value="Gunslinger">Gunslinger<br>
                 <input type="radio" name="type" value="Soldier" class="hunter-el">Soldier<br>
@@ -72,6 +76,10 @@
     <p>Location: <span id="location"></span></p>
     <p>Survivor name: <span id="survivor-name"></span></p>
     <p>Survivor type: <span id="survivor-type"></span></p>
+    <p>Fraction: <span id="fraction"></span></p>
+    <p>Outpost: <span id="outpost-name"></span></p>
+
+
     <div class="attr-table-div">
         <table class="attr-table">
             <tr>

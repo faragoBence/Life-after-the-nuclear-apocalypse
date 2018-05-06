@@ -6,6 +6,7 @@ function onRegisterButtonClicked(){
     const survivorInputEl = registerFormEl.querySelector('input[name="survivor"]');
     const passwordInputEl = registerFormEl.querySelector('input[name="password"]');
     const passwordAgainInputEl = registerFormEl.querySelector('input[name="password-again"]');
+    const fractions = document.getElementsByName('fraction');
     const radios = document.getElementsByName('type');
 
     const name = nameInputEl.value;
@@ -13,12 +14,9 @@ function onRegisterButtonClicked(){
     const password = passwordInputEl.value;
     const survivorName = survivorInputEl.value;
     const passwordAgain = passwordAgainInputEl.value;
-    let type;
-    for (var i = 0, length = radios.length; i < length; i++) {
-        if (radios[i].checked) {
-            type = radios[i].value;
-        }
-    }
+    const fraction = getCheckedValue(fractions);
+    const type = getCheckedValue(radios);
+
 
     if (name == null || name == "") {
         newError(registerFormEl,"Enter a name!");
@@ -63,6 +61,7 @@ function onRegisterButtonClicked(){
     params.append('password', password);
     params.append('survivorName',survivorName);
     params.append('type',type);
+    params.append('fraction',fraction);
     const xhr = new XMLHttpRequest();
     xhr.addEventListener('load', onRegisterResponse);
     xhr.addEventListener('error', onNetworkError);

@@ -17,6 +17,14 @@ function newError(targetEl, message) {
     newMessage(targetEl, 'error', message);
 }
 
+function getCheckedValue(elements){
+    for (var i = 0, length = elements.length; i < length; i++) {
+        if (elements[i].checked) {
+            return elements[i].value;
+        }
+    }
+}
+
 function newMessage(targetEl, cssClass, message) {
     clearMessages();
 
