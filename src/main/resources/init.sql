@@ -8,7 +8,7 @@ CREATE TABLE users (
     "id"  SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL,
+    password TEXT NOT NULL
 );
 
 CREATE TABLE outposts (
@@ -32,6 +32,7 @@ CREATE TABLE survivors (
 	agility INTEGER NOT NULL,
 	location TEXT NOT NULL,
 	type TEXT NOT NULL,
+	fraction TEXT NOT NULL,
 	FOREIGN KEY (user_id) REFERENCES users("id"),
 	FOREIGN KEY (outpost_id) REFERENCES outposts("id")
 
@@ -40,8 +41,8 @@ CREATE TABLE survivors (
 CREATE TABLE backpacks (
 	id SERIAL PRIMARY KEY,
   survivor_id INTEGER NOT NULL,
-  max_slots INTEGER NOT NULL
-  	FOREIGN KEY (survivor_id) REFERENCES survivors("id")
+  max_slots INTEGER NOT NULL,
+  FOREIGN KEY (survivor_id) REFERENCES survivors("id")
 );
 
 CREATE TABLE items (
@@ -53,6 +54,11 @@ CREATE TABLE items (
   FOREIGN KEY (backpack_id) REFERENCES backpacks("id"),
 	FOREIGN KEY (outpost_id) REFERENCES outposts("id")
 	);
+
+INSERT INTO outposts ("name") VALUES
+	('Lost Hills'),
+	('Sniper''s hideout'),
+	('The Institute');
 
 
 
