@@ -2,6 +2,7 @@ const OK = 200;
 const BAD_REQUEST = 400;
 const UNAUTHORIZED = 401;
 const NOT_FOUND = 404;
+const CONFLICT = 409;
 const INTERNAL_SERVER_ERROR = 500;
 
 let loginContentDivEl;
@@ -77,7 +78,7 @@ function onOtherResponse(targetEl, xhr) {
         const json = JSON.parse(xhr.responseText);
         if (xhr.status === INTERNAL_SERVER_ERROR) {
             newError(targetEl, `Server error: ${json.message}`);
-        } else if (xhr.status === UNAUTHORIZED || xhr.status === BAD_REQUEST) {
+        } else if (xhr.status === UNAUTHORIZED || xhr.status === BAD_REQUEST || xhr.status === CONFLICT) {
             newError(targetEl, json.message);
         } else if (xhr.status === OK) {
             newInfo(targetEl,json.message);
