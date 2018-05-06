@@ -12,10 +12,11 @@ public class Survivor extends Entity {
     private int maxRadiationLevel;
     private String currentLocation;
     private int id;
-    private String type;
+    private final String type;
+    private final String fraction;
 
     public Survivor(String name, int actionPoints, int maxActionPoints, int hungerLevel, int maxHungerLevel, int health, int radiationLevel, int maxRadiationLevel, int strength, int agility,
-                    String currentLocation, String type) {
+                    String currentLocation, String type, String fraction) {
         super(name, health, strength, agility);
         this.actionPoints = actionPoints;
         this.maxActionPoints = maxActionPoints;
@@ -25,6 +26,7 @@ public class Survivor extends Entity {
         this.maxRadiationLevel = maxRadiationLevel;
         this.currentLocation = currentLocation;
         this.type = type;
+        this.fraction = fraction;
     }
 
     public int getActionPoints() {
@@ -92,6 +94,10 @@ public class Survivor extends Entity {
 
     public int getMaxRadiationLevel() {
         return maxRadiationLevel;
+    }
+
+    public String getFraction() {
+        return fraction;
     }
 
     public String getType() {
