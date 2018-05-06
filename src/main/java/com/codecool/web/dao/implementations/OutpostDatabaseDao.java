@@ -12,7 +12,7 @@ import java.util.List;
 
 public class OutpostDatabaseDao extends AbstractDao implements OutpostDao {
 
-    OutpostDatabaseDao(Connection connection) {
+    public OutpostDatabaseDao(Connection connection) {
         super(connection);
     }
 
@@ -38,6 +38,19 @@ public class OutpostDatabaseDao extends AbstractDao implements OutpostDao {
         String sql = "SELECT * FROM outposts WHERE id = ?;";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return fetchOutpost(resultSet);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Outpost findOutpost(String name) throws SQLException {
+        String sql = "SELECT * FROM outposts WHERE name = ?;";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return fetchOutpost(resultSet);

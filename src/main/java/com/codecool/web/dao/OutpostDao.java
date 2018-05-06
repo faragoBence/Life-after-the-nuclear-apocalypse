@@ -11,6 +11,8 @@ public interface OutpostDao {
 
     Outpost findOutpost(int id) throws SQLException;
 
+    Outpost findOutpost(String name) throws SQLException;
+
     List<Outpost> findAll() throws SQLException;
 
 
