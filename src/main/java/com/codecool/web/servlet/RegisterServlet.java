@@ -1,15 +1,20 @@
 package com.codecool.web.servlet;
 
+import com.codecool.web.dao.OutpostDao;
 import com.codecool.web.dao.SurvivorDao;
 import com.codecool.web.dao.UserDao;
+import com.codecool.web.dao.implementations.OutpostDatabaseDao;
 import com.codecool.web.dao.implementations.SurvivorDatabaseDao;
 import com.codecool.web.dao.implementations.UserDatabaseDao;
+import com.codecool.web.exception.NoSuchOutpostException;
 import com.codecool.web.exception.UserAlreadyRegisteredException;
 import com.codecool.web.exception.UserNotFoundException;
 import com.codecool.web.exception.WrongPasswordException;
 import com.codecool.web.model.User;
+import com.codecool.web.service.OutpostService;
 import com.codecool.web.service.SurvivorService;
 import com.codecool.web.service.UserService;
+import com.codecool.web.service.implementations.OutpostServiceImpl;
 import com.codecool.web.service.implementations.SurvivorServiceImpl;
 import com.codecool.web.service.implementations.UserServiceImpl;
 
@@ -33,24 +38,31 @@ public class RegisterServlet extends AbstractServlet {
         String password = req.getParameter("password");
         String survivorName = req.getParameter("survivorName");
         String type = req.getParameter("type");
+        String fraction = req.getParameter("fraction");
 
         try (Connection connection = getConnection(req.getServletContext())) {
+            OutpostDao outpostDao = new OutpostDatabaseDao(connection);
             UserDao userDao = new UserDatabaseDao(connection);
             SurvivorDao survivorDao = new SurvivorDatabaseDao(connection);
             UserService userService = new UserServiceImpl(userDao);
             SurvivorService survivorService = new SurvivorServiceImpl(survivorDao);
+            OutpostService outpostService = new OutpostServiceImpl(outpostDao);
+            int outpostId = outpostService.findOutpostbyFractionName(fraction).getId();
             userService.register(name, email, password);
             User user = userService.login(email, password);
-            survivorService.createSurvivor(survivorName, type.toUpperCase(), user.getId());
+
+            survivorService.createSurvivor(survivorName, type.toUpperCase(), fraction, user.getId(),outpostId);
             sendMessage(resp, HttpServletResponse.SC_OK, "Registration is successful you can log in now!");
         } catch (SQLException e) {
             handleSqlError(resp, e);
         } catch (UserAlreadyRegisteredException e) {
-            sendMessage(resp, HttpServletResponse.SC_BAD_REQUEST, "You are already registered!");
+            sendMessage(resp, HttpServletResponse.SC_CONFLICT, "You are already registered!");
         } catch (UserNotFoundException e) {
-            sendMessage(resp, HttpServletResponse.SC_BAD_REQUEST, "User not found! Please register first!");
+            sendMessage(resp, HttpServletResponse.SC_NOT_FOUND, "User not found! Please register first!");
         } catch (WrongPasswordException e) {
             sendMessage(resp, HttpServletResponse.SC_BAD_REQUEST, "Wrong password entered!");
+        } catch (NoSuchOutpostException e) {
+            sendMessage(resp,HttpServletResponse.SC_NOT_FOUND, "Outpost not found!");
         }
     }
 }
