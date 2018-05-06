@@ -1,8 +1,10 @@
 package com.codecool.web.service.implementations;
 
+import com.codecool.web.dao.BackPackDao;
 import com.codecool.web.dao.SurvivorDao;
 import com.codecool.web.dao.implementations.AbstractDaoFactory;
 import com.codecool.web.exception.PlayerIsDeadException;
+import com.codecool.web.model.Backpack;
 import com.codecool.web.model.User;
 import com.codecool.web.model.items.Food;
 import com.codecool.web.model.survivors.Survivor;
@@ -15,10 +17,13 @@ import java.sql.SQLException;
 
 public class SurvivorServiceImpl implements SurvivorService {
 
-    private final SurvivorDao dao;
+    private final SurvivorDao survivorDao;
+    private final BackPackDao backpackDao;
 
     public SurvivorServiceImpl(Connection connection) {
-        dao = (SurvivorDao) AbstractDaoFactory.getDao("survivor",connection);
+        survivorDao = (SurvivorDao) AbstractDaoFactory.getDao("survivor",connection);
+        backpackDao = (BackPackDao) AbstractDaoFactory.getDao("backpack",connection);
+
     }
 
 
@@ -26,15 +31,21 @@ public class SurvivorServiceImpl implements SurvivorService {
     public Survivor createSurvivor(String name, String type,String fraction, int userId, int outpostId) throws SQLException {
         SurvivorFactory survivorFactory = new SurvivorFactoryImpl();
         Survivor survivor = survivorFactory.createSurvivor(name,type,fraction);
-        dao.insertSurvivor(userId,survivor,outpostId);
-        return dao.findSurvivorbyUserId(userId);
+        survivorDao.insertSurvivor(userId,survivor,outpostId);
+        backpackDao.insertBackPack(survivor.getId(),8);
+        return survivorDao.findSurvivorbyUserId(userId);
+    }
+
+    @Override
+    public Backpack findSurvivorBackPack(int survivorId) throws SQLException {
+        return backpackDao.findBySurvivorId(survivorId);
     }
 
     public void eating(Survivor survivor, Food food) {
     }
 
     public Survivor findSurvivor(User user) throws SQLException {
-        return dao.findSurvivorbyUserId(user.getId());
+        return survivorDao.findSurvivorbyUserId(user.getId());
     }
 
     public void healing(Survivor survivor) {
@@ -42,11 +53,11 @@ public class SurvivorServiceImpl implements SurvivorService {
     }
 
     public void rest(Survivor survivor) throws SQLException, PlayerIsDeadException {
-        dao.updateActionPoints(survivor.getId(),survivor.getMaxActionPoints());
+        survivorDao.updateActionPoints(survivor.getId(),survivor.getMaxActionPoints());
         survivor.setHungerLevel(-35);
-        dao.updateHungerLevel(survivor.getId(),survivor.getHungerLevel());
+        survivorDao.updateHungerLevel(survivor.getId(),survivor.getHungerLevel());
         survivor.setRadiationLevel(-10);
-        dao.updateRadiationLevel(survivor.getId(),survivor.getRadiationLevel());
+        survivorDao.updateRadiationLevel(survivor.getId(),survivor.getRadiationLevel());
     }
 
     public void build(Survivor survivor) {

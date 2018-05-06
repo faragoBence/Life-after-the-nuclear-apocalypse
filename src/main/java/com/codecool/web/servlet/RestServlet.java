@@ -2,6 +2,7 @@ package com.codecool.web.servlet;
 
 import com.codecool.web.dto.SurvivorDto;
 import com.codecool.web.exception.PlayerIsDeadException;
+import com.codecool.web.model.Backpack;
 import com.codecool.web.model.User;
 import com.codecool.web.model.locations.Outpost;
 import com.codecool.web.model.survivors.Survivor;
@@ -25,10 +26,11 @@ public class RestServlet extends AbstractServlet {
             Survivor survivor = (Survivor) req.getSession().getAttribute("survivor");
             User user = (User) req.getSession().getAttribute("user");
             Outpost outpost = (Outpost) req.getSession().getAttribute("outpost");
+            Backpack backpack = (Backpack) req.getSession().getAttribute("backpack");
             survivorService.rest(survivor);
             survivor = survivorService.findSurvivor(user);
             req.getSession().setAttribute("survivor",survivor);
-            sendMessage(resp, HttpServletResponse.SC_OK, new SurvivorDto(user,survivor,outpost));
+            sendMessage(resp, HttpServletResponse.SC_OK, new SurvivorDto(user,survivor,outpost,backpack));
         } catch (SQLException e) {
             handleSqlError(resp,e);
         } catch (PlayerIsDeadException e) {

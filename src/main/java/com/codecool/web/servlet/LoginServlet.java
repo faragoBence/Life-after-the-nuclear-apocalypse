@@ -5,6 +5,7 @@ import com.codecool.web.dto.SurvivorDto;
 import com.codecool.web.exception.NoSuchOutpostException;
 import com.codecool.web.exception.UserNotFoundException;
 import com.codecool.web.exception.WrongPasswordException;
+import com.codecool.web.model.Backpack;
 import com.codecool.web.model.User;
 import com.codecool.web.model.locations.Outpost;
 import com.codecool.web.model.survivors.Survivor;
@@ -40,10 +41,12 @@ public class LoginServlet extends AbstractServlet {
             User currentUser = userServiceDao.login(email, password);
             Survivor survivor = survivorService.findSurvivor(currentUser);
             Outpost outpost = outpostService.findOutpostbyFractionName(survivor.getFraction());
+            Backpack backpack = survivorService.findSurvivorBackPack(survivor.getId());
             req.getSession().setAttribute("user", currentUser);
             req.getSession().setAttribute("survivor", survivor);
             req.getSession().setAttribute("outpost", outpost);
-            sendMessage(resp, HttpServletResponse.SC_OK, new SurvivorDto(currentUser,survivor,outpost));
+            req.getSession().setAttribute("backpack",backpack);
+            sendMessage(resp, HttpServletResponse.SC_OK, new SurvivorDto(currentUser,survivor,outpost,backpack));
         } catch (SQLException e) {
             handleSqlError(resp,e);
         } catch (UserNotFoundException e) {

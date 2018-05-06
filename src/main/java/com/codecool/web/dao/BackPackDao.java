@@ -10,7 +10,7 @@ public interface BackPackDao {
 
     Backpack findById(int id) throws SQLException;
 
-    Backpack findByUserId(int userId) throws SQLException;
+    Backpack findBySurvivorId(int survivorId) throws SQLException;
 
     void updateMaxSlots(int id, int maxSlots) throws SQLException;
 }
