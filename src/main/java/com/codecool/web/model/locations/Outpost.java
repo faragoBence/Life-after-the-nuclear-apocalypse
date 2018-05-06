@@ -16,7 +16,7 @@ public class Outpost {
     private List<List<String>> recipes;
     private List<Survivor> survivors;
 
-    public Outpost(int id,String name) {
+    public Outpost(int id, String name) {
         this.id = id;
         this.name = name;
         this.furnituresList = createFurnitureList();
@@ -85,5 +85,15 @@ public class Outpost {
 
     public List<Item> getInventory() {
         return inventory;
+    }
+
+
+    public int getId() {
+        return id;
+    }
+
+
+    public String getName() {
+        return name;
     }
 }
