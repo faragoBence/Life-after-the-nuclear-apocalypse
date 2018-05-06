@@ -6,15 +6,13 @@ import com.codecool.web.model.items.Item;
 import java.util.List;
 
 public class Backpack {
-    private final int survivorId;
-    int maxSlots;
     private int id;
+    int maxSlots;
     private List<Item> slot;
 
 
-    public Backpack(int id, int survivorId, List<Item> slot, int maxSlots) {
+    public Backpack(int id, List<Item> slot, int maxSlots) {
         this.id = id;
-        this.survivorId = survivorId;
         this.slot = slot;
         this.maxSlots = maxSlots;
     }
