@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public interface SurvivorService {
 
-    Survivor createSurvivor(String name,String type,int userId) throws SQLException;
+    Survivor createSurvivor(String name,String type,String fraction, int userId, int outpostId) throws SQLException;
 
     void eating(Survivor survivor,Food food);
 

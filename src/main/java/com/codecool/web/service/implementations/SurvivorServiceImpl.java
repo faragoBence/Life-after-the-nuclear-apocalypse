@@ -21,10 +21,10 @@ public class SurvivorServiceImpl implements SurvivorService {
 
 
     @Override
-    public Survivor createSurvivor(String name, String type, int userId) throws SQLException {
+    public Survivor createSurvivor(String name, String type,String fraction, int userId, int outpostId) throws SQLException {
         SurvivorFactory survivorFactory = new SurvivorFactoryImpl();
-        Survivor survivor = survivorFactory.createSurvivor(name,type);
-        dao.insertSurvivor(userId,survivor);
+        Survivor survivor = survivorFactory.createSurvivor(name,type,fraction);
+        dao.insertSurvivor(userId,survivor,outpostId);
         return dao.findSurvivorbyUserId(userId);
     }
 
