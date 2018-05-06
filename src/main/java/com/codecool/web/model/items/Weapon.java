@@ -22,6 +22,11 @@ public class Weapon extends Item {
         durability--;
     }
 
+
+    public void setDurability(int durability) {
+        this.durability = durability;
+    }
+
     @Override
     public String toString() {
         return "name = "+getName()+"\tstrength modifier = "+strength+"\tdurability = "+durability;

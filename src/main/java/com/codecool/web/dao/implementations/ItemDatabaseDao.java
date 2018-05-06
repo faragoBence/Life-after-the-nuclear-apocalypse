@@ -2,24 +2,29 @@ package com.codecool.web.dao.implementations;
 
 import com.codecool.web.dao.ItemDao;
 import com.codecool.web.model.items.Item;
+import com.codecool.web.model.items.ItemFactory;
+import com.codecool.web.model.items.ItemFactoryImpl;
 import com.codecool.web.model.items.Weapon;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 class ItemDatabaseDao extends AbstractDaoFactory implements ItemDao {
+    ItemFactory itemFactory = new ItemFactoryImpl();
 
     protected ItemDatabaseDao(Connection connection) {
         super(connection);
     }
 
     @Override
-    public void InsertItemToBackPack(String name, int BackPackid) {
+    public void InsertItemToBackPack(String name, int BackPackId) {
 
     }
 
     @Override
-    public void InsertItemToOustpost(String name, int OutpostId) {
+    public void InsertItemToOutpost(String name, int OutpostId) {
 
     }
 
@@ -66,5 +71,20 @@ class ItemDatabaseDao extends AbstractDaoFactory implements ItemDao {
     @Override
     public void deleteItem(int id) {
 
+    }
+
+    private Item fetchItem(ResultSet resultSet) throws SQLException {
+        int id = resultSet.getInt("id");
+        String name = resultSet.getString("name");
+        Item item = itemFactory.getItem(name);
+        item.setId(id);
+        return item;
+    }
+
+    private Weapon fetchWeapon(ResultSet resultSet) throws SQLException {
+        Weapon weapon = (Weapon) fetchItem(resultSet);
+        int durability = resultSet.getInt("durability");
+        weapon.setDurability(durability);
+        return weapon;
     }
 }

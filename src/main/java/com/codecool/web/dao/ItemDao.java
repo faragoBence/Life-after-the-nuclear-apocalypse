@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface ItemDao {
 
-    void InsertItemToBackPack(String name,int BackPackid);
+    void InsertItemToBackPack(String name,int BackPackId);
 
-    void InsertItemToOustpost(String name,int OutpostId);
+    void InsertItemToOutpost(String name,int OutpostId);
 
     void InsertWeaponToBackpack(String name, int durability,int BackPackId);
 
