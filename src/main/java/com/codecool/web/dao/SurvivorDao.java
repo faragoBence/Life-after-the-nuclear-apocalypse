@@ -3,11 +3,14 @@ package com.codecool.web.dao;
 import com.codecool.web.model.survivors.Survivor;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public interface SurvivorDao {
-    void insertSurvivor(int userId, Survivor survivor) throws SQLException;
+    void insertSurvivor(int userId, Survivor survivor,int outpostId) throws SQLException;
 
     Survivor findSurvivorbyUserId(int userId) throws SQLException;
+
+    List<Survivor> findSurvivorsByOutpostId(int outpostId) throws SQLException;
 
     void updateHealth(int survivorId, int health) throws SQLException;
 

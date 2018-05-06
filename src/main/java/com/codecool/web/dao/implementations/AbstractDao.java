@@ -35,7 +35,9 @@ abstract class AbstractDao {
         return id;
     }
 
-    void update(int id, String updateAble, boolean autoCommit, String sql) throws SQLException {
+    void update(int id, String updateAble, String sql) throws SQLException {
+        boolean autoCommit = connection.getAutoCommit();
+        connection.setAutoCommit(false);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, updateAble);
             statement.setInt(2, id);
@@ -48,7 +50,9 @@ abstract class AbstractDao {
             connection.setAutoCommit(autoCommit);
         }
     }
-    void update(int id, int updateAble, boolean autoCommit, String sql) throws SQLException {
+    void update(int id, int updateAble , String sql) throws SQLException {
+        boolean autoCommit = connection.getAutoCommit();
+        connection.setAutoCommit(false);
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, updateAble);
             statement.setInt(2, id);

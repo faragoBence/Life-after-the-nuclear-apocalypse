@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SurvivorDatabaseDao extends AbstractDao implements SurvivorDao {
 
@@ -15,24 +17,26 @@ public class SurvivorDatabaseDao extends AbstractDao implements SurvivorDao {
     }
 
     @Override
-    public void insertSurvivor(int userId, Survivor survivor) throws SQLException {
+    public void insertSurvivor(int userId, Survivor survivor, int outpostId) throws SQLException {
         boolean autoCommit = connection.getAutoCommit();
         connection.setAutoCommit(false);
-        String sql = "INSERT INTO survivors (name, user_id, action_points, max_action_points, hunger, max_hunger, health, radiation, max_radiation, strength, agility, location, type ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO survivors (name, user_id, outpost_id, action_points, max_action_points, hunger, max_hunger, health, radiation, max_radiation, strength, agility, location, type, fraction ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, survivor.getName());
             statement.setInt(2, userId);
-            statement.setInt(3, survivor.getActionPoints());
-            statement.setInt(4, survivor.getMaxActionPoints());
-            statement.setInt(5, survivor.getHungerLevel());
-            statement.setInt(6, survivor.getMaxHungerLevel());
-            statement.setInt(7, survivor.getHealth());
-            statement.setInt(8, survivor.getRadiationLevel());
-            statement.setInt(9, survivor.getMaxRadiationLevel());
-            statement.setInt(10, survivor.getStrength());
-            statement.setInt(11, survivor.getAgility());
-            statement.setString(12, survivor.getCurrentLocation());
-            statement.setString(13, survivor.getType());
+            statement.setInt(3, outpostId);
+            statement.setInt(4, survivor.getActionPoints());
+            statement.setInt(5, survivor.getMaxActionPoints());
+            statement.setInt(6, survivor.getHungerLevel());
+            statement.setInt(7, survivor.getMaxHungerLevel());
+            statement.setInt(8, survivor.getHealth());
+            statement.setInt(9, survivor.getRadiationLevel());
+            statement.setInt(10, survivor.getMaxRadiationLevel());
+            statement.setInt(11, survivor.getStrength());
+            statement.setInt(12, survivor.getAgility());
+            statement.setString(13, survivor.getCurrentLocation());
+            statement.setString(14, survivor.getType());
+            statement.setString(15, survivor.getFraction());
             executeInsert(statement);
             connection.commit();
         } catch (SQLException e) {
@@ -57,43 +61,47 @@ public class SurvivorDatabaseDao extends AbstractDao implements SurvivorDao {
     }
 
     @Override
+    public List<Survivor> findSurvivorsByOutpostId(int outpostId) throws SQLException {
+        List<Survivor> survivors = new ArrayList<>();
+        String sql = "SELECT * FROM survivors WHERE outpost_id = ?;";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, outpostId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                survivors.add(fetchSurvivor(resultSet));
+            }
+        }
+        return survivors;
+    }
+
+    @Override
     public void updateHealth(int survivorId, int health) throws SQLException {
-        boolean autoCommit = connection.getAutoCommit();
-        connection.setAutoCommit(false);
         String sql = "UPDATE survivors SET health = ? WHERE id = ?;";
-        update(survivorId, health, autoCommit, sql);
+        update(survivorId, health, sql);
     }
 
     @Override
     public void updateRadiationLevel(int survivorId, int radiationLevel) throws SQLException {
-        boolean autoCommit = connection.getAutoCommit();
-        connection.setAutoCommit(false);
         String sql = "UPDATE survivors SET radiation = ? WHERE id = ?;";
-        update(survivorId, radiationLevel, autoCommit, sql);
+        update(survivorId, radiationLevel, sql);
     }
 
     @Override
     public void updateActionPoints(int survivorId, int actionPoints) throws SQLException {
-        boolean autoCommit = connection.getAutoCommit();
-        connection.setAutoCommit(false);
         String sql = "UPDATE survivors SET action_points = ? WHERE id = ?;";
-        update(survivorId, actionPoints, autoCommit, sql);
+        update(survivorId, actionPoints, sql);
     }
 
     @Override
     public void updateHungerLevel(int survivorId, int hungerLevel) throws SQLException {
-        boolean autoCommit = connection.getAutoCommit();
-        connection.setAutoCommit(false);
         String sql = "UPDATE survivors SET hunger = ? WHERE id = ?;";
-        update(survivorId, hungerLevel, autoCommit, sql);
+        update(survivorId, hungerLevel, sql);
     }
 
     @Override
     public void updateLocation(int survivorId, String location) throws SQLException {
-        boolean autoCommit = connection.getAutoCommit();
-        connection.setAutoCommit(false);
         String sql = "UPDATE survivors SET location = ? WHERE id = ?;";
-        update(survivorId, location, autoCommit, sql);
+        update(survivorId, location, sql);
     }
 
     public Survivor fetchSurvivor(ResultSet resultSet) throws SQLException {
@@ -110,7 +118,8 @@ public class SurvivorDatabaseDao extends AbstractDao implements SurvivorDao {
         int maxRadiationLevel = resultSet.getInt("max_radiation");
         String currentLocation = resultSet.getString("location");
         String type = resultSet.getString("type");
-        Survivor survivor = new Survivor(name, actionPoints, maxActionPoints, hungerLevel, maxHungerLevel, health, radiationLevel, maxRadiationLevel, strength, agility, currentLocation, type);
+        String fraction = resultSet.getString("fraction");
+        Survivor survivor = new Survivor(name, actionPoints, maxActionPoints, hungerLevel, maxHungerLevel, health, radiationLevel, maxRadiationLevel, strength, agility, currentLocation, type, fraction);
         survivor.setId(id);
         return survivor;
     }
