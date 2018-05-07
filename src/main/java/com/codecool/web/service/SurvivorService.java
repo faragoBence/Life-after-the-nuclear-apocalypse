@@ -14,7 +14,7 @@ public interface SurvivorService {
 
     Backpack findSurvivorBackPack(int survivorId) throws SQLException;
 
-    void eating(Survivor survivor,Food food);
+    void eating(Survivor survivor,Food food) throws PlayerIsDeadException, SQLException;
 
     Survivor findSurvivor(User user) throws SQLException;
 
