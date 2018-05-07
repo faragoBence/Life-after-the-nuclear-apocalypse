@@ -38,7 +38,7 @@ public class RegisterServlet extends AbstractServlet {
             UserService userService = new UserServiceImpl(connection);
             SurvivorService survivorService = new SurvivorServiceImpl(connection);
             OutpostService outpostService = new OutpostServiceImpl(connection);
-            int outpostId = outpostService.findOutpostbyFractionName(fraction).getId();
+            int outpostId = outpostService.findOutpostByFractionName(fraction).getId();
             userService.register(name, email, password);
             User user = userService.login(email, password);
 

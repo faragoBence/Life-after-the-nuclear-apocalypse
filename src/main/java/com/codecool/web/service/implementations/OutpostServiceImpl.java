@@ -26,7 +26,7 @@ public class OutpostServiceImpl implements OutpostService {
     }
 
     @Override
-    public Outpost findOutpostbyFractionName(String name) throws SQLException, NoSuchOutpostException {
+    public Outpost findOutpostByFractionName(String name) throws SQLException, NoSuchOutpostException {
         switch (name){
             case "Brotherhood of Steel":
                 return dao.findOutpost("Lost Hills");

@@ -40,7 +40,7 @@ public class LoginServlet extends AbstractServlet {
             OutpostService outpostService = new OutpostServiceImpl(connection);
             User currentUser = userServiceDao.login(email, password);
             Survivor survivor = survivorService.findSurvivor(currentUser);
-            Outpost outpost = outpostService.findOutpostbyFractionName(survivor.getFraction());
+            Outpost outpost = outpostService.findOutpostByFractionName(survivor.getFraction());
             Backpack backpack = survivorService.findSurvivorBackPack(survivor.getId());
             req.getSession().setAttribute("user", currentUser);
             req.getSession().setAttribute("survivor", survivor);

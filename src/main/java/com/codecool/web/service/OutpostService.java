@@ -12,7 +12,7 @@ public interface OutpostService {
 
     Food findFood(String name) throws ItemNotFoundException;
 
-    Outpost findOutpostbyFractionName(String name) throws SQLException, NoSuchOutpostException;
+    Outpost findOutpostByFractionName(String name) throws SQLException, NoSuchOutpostException;
 
     Weapon findWeapon(String name) throws ItemNotFoundException;
 
