@@ -8,8 +8,7 @@ import java.util.List;
 public class Backpack {
     private final int id;
     private final int maxSlots;
-    private final List<Item> slot;
-
+    private  List<Item> slot;
 
     public Backpack(int id, List<Item> slot, int maxSlots) {
         this.id = id;
@@ -51,5 +50,9 @@ public class Backpack {
         slot.remove(item);
     }
 
+
+    public void setSlot(List<Item> slot) {
+        this.slot = slot;
+    }
 
 }
