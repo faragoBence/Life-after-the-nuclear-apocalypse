@@ -6,15 +6,9 @@ import com.codecool.web.model.survivors.Survivor;
 
 public interface LocationService {
 
-    Location getSchool();
+    Location getLocation(String destination);
 
-    Location getGasStation();
-
-    Location getHospital();
-
-    Location getMilitaryBase();
-
-    void travel(Survivor survivor, String destination) throws WrongDestinationException;
+    Survivor travel(Survivor survivor, String destination) throws WrongDestinationException;
 
     String description(Location location);
 }

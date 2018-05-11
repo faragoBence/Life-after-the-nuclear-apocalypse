@@ -17,23 +17,12 @@ public class LocationServiceImpl implements LocationService {
         locationFactory = new LocationFactoryImpl();
     }
 
-    public Location getSchool() {
-        return locationFactory.getLocation("SCHOOL");
+    @Override
+    public Location getLocation(String destination) {
+        return  locationFactory.getLocation(destination.toUpperCase());
     }
 
-    public Location getGasStation() {
-        return locationFactory.getLocation("GASSTATION");
-    }
-
-    public Location getHospital() {
-        return locationFactory.getLocation("HOSPITAL");
-    }
-
-    public Location getMilitaryBase() {
-        return locationFactory.getLocation("MILITARYBASE");
-    }
-
-    public void travel(Survivor survivor, String destination) throws WrongDestinationException {
+    public Survivor travel(Survivor survivor, String destination) throws WrongDestinationException {
         destination = destination.toUpperCase();
         if (destination.equals(survivor.getCurrentLocation().toUpperCase())) {
             throw new WrongDestinationException();
@@ -59,6 +48,7 @@ public class LocationServiceImpl implements LocationService {
                 throw new WrongDestinationException();
 
         }
+        return survivor;
     }
 
     public String description(Location location) {
