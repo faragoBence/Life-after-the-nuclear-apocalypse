@@ -54,6 +54,7 @@ public abstract class AbstractDaoFactory {
             default:
                 return null;
         }
+        dao.setConnection(connection);
         return dao;
     }
 
@@ -108,5 +109,9 @@ public abstract class AbstractDaoFactory {
         } finally {
             connection.setAutoCommit(autoCommit);
         }
+    }
+
+    private void setConnection(Connection connection) {
+        this.connection = connection;
     }
 }
