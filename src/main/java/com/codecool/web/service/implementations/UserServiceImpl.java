@@ -76,11 +76,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(String email) {
-        return null;
-    }
-
-    @Override
     public User changeName(String newName, String Password) {
         return null;
     }

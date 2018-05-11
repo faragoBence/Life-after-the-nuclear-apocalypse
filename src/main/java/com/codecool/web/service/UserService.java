@@ -19,8 +19,6 @@ public interface UserService {
 
     User login(String email, String password) throws WrongPasswordException, SQLException, UserNotFoundException;
 
-    User login(String email);
-
     User changeName(String newName,String Password);
 
     User changePassword(String newPassword,String oldPassword);
