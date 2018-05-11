@@ -43,7 +43,7 @@ class BackPackDatabaseDao extends AbstractDaoFactory implements BackPackDao {
 
     @Override
     public Backpack findBySurvivorId(int survivorId) throws SQLException {
-        String sql = "SELECT * FROM backpacks WHERE user_id = ?;";
+        String sql = "SELECT * FROM backpacks WHERE survivor_id = ?;";
         return find(survivorId, sql);
     }
 

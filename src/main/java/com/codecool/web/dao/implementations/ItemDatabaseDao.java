@@ -110,7 +110,7 @@ class ItemDatabaseDao extends AbstractDaoFactory implements ItemDao {
     @Override
     public List<Weapon> findWeaponsByBackPackId(int backPackId) throws SQLException {
         List<Weapon> weapons = new ArrayList<>();
-        String sql = "SELECT * FROM items WHERE backpack_id = ? AND durability NOT NULL;";
+        String sql = "SELECT * FROM items WHERE backpack_id = ? AND durability <> NULL;";
         findWeapons(backPackId, weapons, sql);
         return weapons;
     }
@@ -118,7 +118,7 @@ class ItemDatabaseDao extends AbstractDaoFactory implements ItemDao {
     @Override
     public List<Weapon> findWeaponsByOutpostId(int outpostId) throws SQLException {
         List<Weapon> weapons = new ArrayList<>();
-        String sql = "SELECT * FROM items WHERE outpost_id = ? AND durability NOT NULL;";
+        String sql = "SELECT * FROM items WHERE outpost_id = ? AND durability <> NULL;";
         findWeapons(outpostId, weapons, sql);
         return weapons;
     }
