@@ -36,8 +36,9 @@ public class SurvivorServiceImpl implements SurvivorService {
         SurvivorFactory survivorFactory = new SurvivorFactoryImpl();
         Survivor survivor = survivorFactory.createSurvivor(name, type, fraction);
         survivorDao.insertSurvivor(userId, survivor, outpostId);
+        survivor = survivorDao.findSurvivorbyUserId(userId);
         backpackDao.insertBackPack(survivor.getId(), 8);
-        return survivorDao.findSurvivorbyUserId(userId);
+        return survivor;
     }
 
     @Override
