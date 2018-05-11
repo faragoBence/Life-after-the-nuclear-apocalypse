@@ -11,6 +11,7 @@ import com.codecool.web.model.locations.Outpost;
 import com.codecool.web.model.survivors.Survivor;
 import com.codecool.web.service.OutpostService;
 import com.codecool.web.service.SurvivorService;
+import com.codecool.web.service.UserService;
 import com.codecool.web.service.implementations.OutpostServiceImpl;
 import com.codecool.web.service.implementations.SurvivorServiceImpl;
 import com.codecool.web.service.implementations.UserServiceImpl;
@@ -35,10 +36,10 @@ public class LoginServlet extends AbstractServlet {
         String password = req.getParameter("password");
 
         try (Connection connection = getConnection(req.getServletContext())) {
-            UserServiceImpl userServiceDao = new UserServiceImpl(connection);
+            UserService userService = new UserServiceImpl(connection);
             SurvivorService survivorService = new SurvivorServiceImpl(connection);
             OutpostService outpostService = new OutpostServiceImpl(connection);
-            User currentUser = userServiceDao.login(email, password);
+            User currentUser = userService.login(email, password);
             Survivor survivor = survivorService.findSurvivor(currentUser);
             Outpost outpost = outpostService.findOutpostByFractionName(survivor.getFraction());
             Backpack backpack = survivorService.findSurvivorBackPack(survivor.getId());

@@ -21,12 +21,13 @@ public class RestServlet extends AbstractServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Survivor survivor = getSurvivor(req);
+        User user = getUser(req);
+        Outpost outpost = getOutpost(req);
+        Backpack backpack = getBackpack(req);
         try (Connection connection = getConnection(req.getServletContext())) {
             SurvivorService survivorService = new SurvivorServiceImpl(connection);
-            Survivor survivor = (Survivor) req.getSession().getAttribute("survivor");
-            User user = (User) req.getSession().getAttribute("user");
-            Outpost outpost = (Outpost) req.getSession().getAttribute("outpost");
-            Backpack backpack = (Backpack) req.getSession().getAttribute("backpack");
+
             survivorService.rest(survivor);
             survivor = survivorService.findSurvivor(user);
             req.getSession().setAttribute("survivor",survivor);
